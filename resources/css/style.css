@@ -1,0 +1,102 @@
+.btn {
+    padding: .4rem 1.2rem;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: normal;
+    border-radius: 0.375rem;
+    display: inline-block;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    display: inline-flex;
+}
+.btn__primary {
+    background: #3873ed;
+    background: linear-gradient(
+90deg,#3873ed,#38b3ed,#3873ed,#38b3ed);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$left",endColorstr="$right",GradientType=1);
+    background-size: 300% 100%;
+    padding: 0.5rem 1.2rem;
+}
+
+.btn__bordered {
+    background: #ffffff;
+    float: right;
+    position: relative;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    border-radius: 0.375rem;
+}
+.btn__bordered:before {
+    background: #3873ed;
+    background: linear-gradient(
+90deg,#3873ed,#38b3ed,#3873ed,#38b3ed);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$left",endColorstr="$right",GradientType=1);
+    transition: all .4s ease-in-out;
+    background-size: 300% 100%;
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -2px;
+    border-radius: 0.375rem;
+}
+
+
+.gradient__text {
+    background: #3873ed;
+    background: linear-gradient(
+    90deg,#3873ed,#38b3ed,#3873ed,#38b3ed);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$left",endColorstr="$right",GradientType=1);
+    transition: all .4s ease-in-out;
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.title {
+    /* color: #3873ed; */
+    color: rgba(31, 41, 55, 1);
+}
+
+.btn__danger {
+    background: #b12425;
+    background: linear-gradient(
+90deg,#b12425,#f5080a,#b12425,#f5080a);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$left",endColorstr="$right",GradientType=1);
+    background-size: 300% 100%;
+    padding: 0.5rem 1.2rem;
+}
+.z-1 {
+    z-index: 0;
+}
+.gradient__icon {
+    background: #3873ed;
+    background: linear-gradient(
+90deg,#3873ed,#38b3ed,#3873ed,#38b3ed);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$left",endColorstr="$right",GradientType=1);
+    background-size: 300% 100%;
+}
+.h-50vh {
+    height: 50vh;
+}
+
+.notes ul,ol{
+    list-style: auto;
+    margin: auto;
+    margin-left:15px;
+}
+
+.p-multiselect .p-multiselect-label {
+    --tw-text-opacity: 1;
+    color: rgba(107, 114, 128, var(--tw-text-opacity));
+}
+
+.p-component {
+    font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+.p-inputtext {
+    font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
