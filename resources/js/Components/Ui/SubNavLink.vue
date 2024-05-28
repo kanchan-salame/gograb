@@ -1,13 +1,14 @@
 <template>
-    <inertia-link :href="url" :class="type == 'secondaryButton' ? classesSecondary : classes">
+    <Link :href="url" :class="type == 'secondaryButton' ? classesSecondary : classes">
         <component :is="iconName" :class="type == 'secondaryButton' ? gradientIcon : iconClasses" v-if="icon"></component>
         <slot></slot>
-    </inertia-link>
+    </Link>
 </template>
 
 <script>
     import { PlusIcon, ArrowLeftIcon } from '@heroicons/vue/outline'
     import { computed } from 'vue'
+    import { Link } from '@inertiajs/vue3';
 
     export default {
         props: {
@@ -31,6 +32,7 @@
         components: {
             PlusIcon,
             ArrowLeftIcon,
+            Link,
         },
 
         setup(props) {

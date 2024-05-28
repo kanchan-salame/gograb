@@ -11,7 +11,7 @@
                     <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
                     Dashboard
                 </jet-nav-link>
-                <jet-nav-link>
+                <jet-nav-link :href="route('users.index')" :active="route().current('users.index')">
                     <OfficeBuildingIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
                     Users
                 </jet-nav-link>

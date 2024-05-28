@@ -139,12 +139,13 @@
 
 <script>
 import { ref, onMounted, reactive } from "vue";
-import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/vue3";
+// import * as Inertia from '@inertiajs/inertia';
 import { XCircleIcon, SearchIcon } from "@heroicons/vue/outline";
 export default {
     components: {
         XCircleIcon,
-        SearchIcon
+        SearchIcon,
     },
     props: {
         filterLinks: {
@@ -179,7 +180,7 @@ export default {
             filters = Object.assign(filters, {status: status});
             filters[props.searchFilterKey ] = searchTerm.value;
             filterStatus.value = status;
-            Inertia.visit(route(route().current()), {
+            Link.visit(route(route().current()), {
                 method: "get",
                 preserveState: true,
                 data: {

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
-        v-show="meta.from"
+        v-show="from"
     >
         <div class="flex-1 flex justify-end sm:hidden">
             <a :href="links.prev" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
@@ -18,11 +18,11 @@
             <div>
                 <p class="text-sm text-gray-700">
                 Showing
-                <span class="font-medium">{{ meta.from }}</span>
+                <span class="font-medium">{{ from }}</span>
                 to
-                <span class="font-medium">{{ meta.to }}</span>
+                <span class="font-medium">{{ to }}</span>
                 of
-                <span class="font-medium">{{ meta.total }}</span>
+                <span class="font-medium">{{ total }}</span>
                 results
                 </p>
             </div>
@@ -31,10 +31,10 @@
                     <a :href="link.url" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                         :class="{
                             'rounded-l-md': index === 0,
-                            'rounded-r-md': index === meta.links.length - 1,
+                            'rounded-r-md': index === links.length - 1,
                             'bg-light-blue text-primary': link.active,
                         }"
-                        v-for="(link, index) in meta.links"
+                        v-for="(link, index) in links"
                         :key="index"
                         @click.prevent="visit(link.url)"
                     >
@@ -57,7 +57,9 @@ export default {
 
     props: [
         'links',
-        'meta'
+        'from',
+        'to',
+        'total',
     ],
 
     methods: {
