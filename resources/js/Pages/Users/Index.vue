@@ -2,16 +2,71 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import SubNavLink from "@/Components/Ui/SubNavLink.vue";
 import SearchFilter from "@/Components/Ui/SearchFilter.vue";
-import Pagination from '@/Components/Ui/Pagination.vue';
+import Pagination from "@/Components/Ui/Pagination.vue";
+import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/vue/outline";
+import JetConfirmationModal from "@/Components/Jetstream/ConfirmationModal.vue";
+import JetDangerButton from "@/Jetstream/DangerButton.vue";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
+import JetButton from '@/Jetstream/Button.vue';
 
 export default {
   components: {
     AppLayout,
     SubNavLink,
     SearchFilter,
-    Pagination
+    Pagination,
+    PlusIcon,
+    PencilAltIcon,
+    TrashIcon,
+    JetConfirmationModal,
+    JetDangerButton,
+    JetSecondaryButton,
+    JetButton,
+
   },
   props: ["users"],
+  data() {
+    return {
+      userBeingDeleted: null,
+      userBeingToggled: null,
+      filterStatus: "",
+      toggleUserForm: this.$inertia.form({}),
+      searchTerm: "",
+      filters: [
+        {
+          title: "All",
+          value: "",
+        },
+        {
+          title: "Active",
+          value: "active",
+        },
+        {
+          title: "In-Active",
+          value: "inactive",
+        },
+      ],
+    };
+  },
+  methods: {
+    confirmUserDelete(client) {
+      this.userBeingDeleted = client;
+    },
+    deleteUser() {
+      this.toggleUserForm.delete(
+        route("users.destroy", this.userBeingDeleted.id),
+        {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: () => (this.userBeingDeleted = null),
+          onError: (errors) => {
+            const toast = useToast();
+            toast.error(errors.id);
+          },
+        }
+      );
+    },
+  },
 };
 </script>
 
@@ -57,39 +112,37 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
+                          ID
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Name
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Billable Hours
+                          Email
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Non-billable Hours
+                          Phone
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Status
+                          Created At
                         </th>
+
                         <th
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Cr/Dr
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Projects
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
@@ -104,111 +157,47 @@ export default {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ user.name }}
-                          </div>
-                          <div class="text-sm text-gray-500">
-                            {{ user.name }}
+                            {{ user.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
                             {{ user.name }}
                           </div>
-                          <div class="text-sm text-gray-500">
-                            {{ user.name }}
-                          </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
-                            {{ user.name }}
+                            {{ user.email }}
                           </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <!-- <a
-                            href="#"
-                            @click.prevent="confirmClientToggle(user)"
-                          >
-                            <span
-                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                              :class="
-                                user.activated_at
-                                  ? 'bg-green-100 text-green-800'
-                                  : 'bg-gray-100 text-gray-800'
-                              "
-                            >
-                              {{ user.activated_at ? "Active" : "Inactive" }}
-                            </span>
-                          </a> -->
-                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">123456</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <!-- <span
-                            class="text-sm text-gray-900"
-                            :class="{
-                              'text-green-600': client.balance < 0,
-                              'text-red-600': client.balance > 0,
-                            }"
-                          >
-                            {{ client.currency.symbol
-                            }}{{ balance(client.balance) }}
-                          </span> -->
+                          <span>
+                            {{ user.created_at }}
+                          </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <!-- <div class="flex items-center">
-                            <inertia-link
-                              :href="
-                                route('project.index', {
-                                  _query: {
-                                    'filter[client_id]': client.id,
-                                    'filter[status]': 'active',
-                                  },
-                                })
-                              "
-                            >
-                              <span
-                                class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800"
-                              >
-                                {{ client.projects_count }}
-                              </span>
-                            </inertia-link>
-                            <inertia-link
-                              :href="
-                                route('project.create', {
-                                  _query: {
-                                    client_id: client.id,
-                                    back: route('client.index'),
-                                  },
-                                })
-                              "
-                            >
-                              <plus-icon
-                                class="h-5 w-5 text-primary hover:text-dark ml-1"
-                              />
-                            </inertia-link>
-                          </div> -->
-                        </td>
+
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
-                          <!-- <div class="flex justify-end">
-                            <inertia-link
-                              :href="route('users.edit', client.id)"
-                            >
-                              <pencil-alt-icon
-                                class="h-5 w-5 text-primary hover:text-dark"
-                              />
-                            </inertia-link>
+                          <div class="flex justify">
                             <TrashIcon
-                              @click.prevent="confirmClientDelete(client)"
+                              @click.prevent="confirmUserDelete(user)"
                               class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
                             />
-                          </div> -->
+                          </div>
                         </td>
                       </tr>
 
                       <!-- More rows... -->
                     </tbody>
                   </table>
-                  <pagination :links="users.links" :from="users.from" :to="users.to" :total="users.total" />
+                  <pagination
+                    :links="users.links"
+                    :from="users.from"
+                    :to="users.to"
+                    :total="users.total"
+                  />
                 </div>
               </div>
             </div>
@@ -217,5 +206,56 @@ export default {
       </div>
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
+    <!-- User Active toggle Confirmation Modal -->
+        <jet-confirmation-modal :show="userBeingToggled" @close="userBeingToggled = null">
+            <template #title>
+                {{ userBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
+            </template>
+
+            <template #content>
+                Are you sure you would like to {{ userBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ userBeingToggled.name }}?
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @dblclick="userBeingToggled = null">
+                    Nevermind
+                </jet-secondary-button>
+
+                <jet-danger-button class="mr-2" @click="toggleClient"
+                    :class="{ 'opacity-25': toggleUserForm.processing }" :disabled="toggleUserForm.processing"
+                    v-if="userBeingToggled.activated_at">
+                    Deactivate
+                </jet-danger-button>
+                <jet-button class="mr-2" @click="toggleClient"
+                    :class="{ 'opacity-25': toggleUserForm.processing }" :disabled="toggleUserForm.processing"
+                    v-else>
+                    Activate
+                </jet-button>
+            </template>
+        </jet-confirmation-modal>
+    <!-- User Delete  Confirmation Modal -->
+    <jet-confirmation-modal
+      :show="userBeingDeleted"
+      @close="userBeingDeleted = null"
+    >
+      <template #title> Delete User </template>
+
+      <template #content>
+        Are you sure you would like to delete {{ userBeingDeleted.name }}?
+      </template>
+
+      <template #footer>
+        <jet-secondary-button
+          @click="userBeingDeleted = null"
+          style="margin-right: 10px"
+        >
+          Nevermind
+        </jet-secondary-button>
+
+        <jet-danger-button class="mr-2" @click="deleteUser">
+          Delete
+        </jet-danger-button>
+      </template>
+    </jet-confirmation-modal>
   </AppLayout>
 </template>

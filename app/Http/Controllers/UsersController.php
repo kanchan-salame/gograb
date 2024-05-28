@@ -69,6 +69,8 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return back()->with('flash.banner', 'User deleted successfully');
     }
 }
