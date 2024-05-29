@@ -11,15 +11,23 @@
                     <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
                     Dashboard
                 </jet-nav-link>
-                <jet-nav-link :href="route('users.index')" :active="route().current('users.index')">
+                <jet-nav-link :href="route('users.index')" :active="route().current('users.index')" v-if="this.$page.props.auth.user.role == 'admin'">
                     <OfficeBuildingIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
                     Users
                 </jet-nav-link>
-                <jet-nav-link >
+                <jet-nav-link :href="route('users.index')" :active="route().current('users.index')" v-if="this.$page.props.auth.user.role == 'vendor'">
+                    <OfficeBuildingIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
+                    Manage Restaurants
+                </jet-nav-link>
+                <jet-nav-link :href="route('users.index')" :active="route().current('users.index')" v-if="this.$page.props.auth.user.role == 'vendor'">
+                    <OfficeBuildingIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
+                    Manage Orders
+                </jet-nav-link>
+                <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
                     <ClockIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
                     Drivers
                 </jet-nav-link>
-                <jet-nav-link>
+                <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
                     <CashIcon class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700" aria-hidden="true" />
                     Notifications
                 </jet-nav-link>
