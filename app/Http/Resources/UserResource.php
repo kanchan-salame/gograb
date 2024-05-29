@@ -14,6 +14,8 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $resource = parent::toArray($request);
+        // $resource['role'] = $this->teamRole(currentTeam());
+        return $resource;
     }
 }

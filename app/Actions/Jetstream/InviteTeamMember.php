@@ -38,7 +38,7 @@ class InviteTeamMember implements InvitesTeamMembers
         // InvitingTeamMember::dispatch($team, $email, $role);
 
 
-        $invitedUser = $this->createUserIfNotExists($email);
+        $invitedUser = $this->createUserIfNotExists($email, $role);
 
         app(AddsTeamMembers::class)->add(
             $user,
@@ -72,7 +72,7 @@ class InviteTeamMember implements InvitesTeamMembers
      * @param string $email
      * @return \App\Models\User
      */
-    private function createUserIfNotExists(string $email)
+    private function createUserIfNotExists(string $email, string $role)
     {
         if ($user = User::where('email', $email)->first()) {
             return $user;
@@ -87,6 +87,7 @@ class InviteTeamMember implements InvitesTeamMembers
             'password' => $password = Str::random(8),
             'password_confirmation' => $password,
             'terms' => true,
+            'role' => $role,
             'disable_personal_team' => true
         ];
 

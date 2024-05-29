@@ -9,6 +9,10 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Resources\UserResource;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\ActiveFilter;
+use App\Filters\NameFilter;
 
 class UsersController extends Controller
 {
@@ -20,8 +24,14 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('Users/Index',[
-            'users' => fn() => User::paginate(5),
-        ]);
+            'users' => fn() =>
+                QueryBuilder::for(User::class)
+                    ->allowedFilters([
+                        AllowedFilter::custom('role', new ActiveFilter),
+                        AllowedFilter::custom('name', new NameFilter)
+                    ])->paginate(5),
+            ]
+        );
     }
 
     /**

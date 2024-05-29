@@ -139,7 +139,7 @@
 
 <script>
 import { ref, onMounted, reactive } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 // import * as Inertia from '@inertiajs/inertia';
 import { XCircleIcon, SearchIcon } from "@heroicons/vue/outline";
 export default {
@@ -164,9 +164,9 @@ export default {
         onMounted(() => {
             const filter = route().params.hasOwnProperty("filter")
                 ? route().params.filter
-                : { status: "" };
+                : { role: "" };
             filterStatus.value =
-                typeof filter.status != "undefined" ? filter.status : "";
+                typeof filter.role != "undefined" ? filter.role : "";
             searchTerm.value =
                 typeof filter[props.searchFilterKey] != "undefined" ? filter[props.searchFilterKey] : "";
         });
@@ -174,13 +174,13 @@ export default {
         /** Filter and Search Logic start */
         const searchTerm = ref("");
 
-        const applyFilter = (status) => {
+        const applyFilter = (role) => {
             let filters = {};
             filters = Object.assign(filters, route().params.filter);
-            filters = Object.assign(filters, {status: status});
+            filters = Object.assign(filters, {role: role});
             filters[props.searchFilterKey ] = searchTerm.value;
-            filterStatus.value = status;
-            Link.visit(route(route().current()), {
+            filterStatus.value = role;
+            router.visit(route(route().current()), {
                 method: "get",
                 preserveState: true,
                 data: {
