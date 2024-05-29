@@ -16,7 +16,7 @@ const props = defineProps({
 const form = useForm({
     _method: 'PUT',
     name: props.user.name,
-    name: props.user.last_name,
+    last_name: props.user.last_name,
     email: props.user.email,
     photo: null,
 });

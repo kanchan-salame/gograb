@@ -38,12 +38,12 @@ export default {
           value: "",
         },
         {
-          title: "Active",
-          value: "active",
+          title: "Driver",
+          value: "driver",
         },
         {
-          title: "In-Active",
-          value: "inactive",
+          title: "Users",
+          value: "users",
         },
       ],
     };
