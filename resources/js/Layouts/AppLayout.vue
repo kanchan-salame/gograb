@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-black">
         <jet-banner />
         <!-- <div class="relative h-screen flex overflow-hidden bg-white"></div> -->
             <div class="relative h-screen lg:flex lg:flex-shrink-0 bg-white overflow-hidden">
