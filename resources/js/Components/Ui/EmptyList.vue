@@ -6,19 +6,19 @@
             {{ description }}
         </p>
         <div class="mt-6">
-            <jet-button type="button" class="text-sm px-10"
+            <primary-button type="button" class="text-sm px-10"
                 @click="$inertia.get(buttonUrl)">
-                <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                <!-- <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" /> -->
                 {{ buttonTitle }}
-            </jet-button>
+            </primary-button>
         </div>
   </div>
 </template>
 
 <script>
-import { PlusIcon } from '@heroicons/vue/outline'
+// import { PlusIcon } from '@heroicons/vue/24/outline'
 import { defineAsyncComponent, computed } from 'vue'
-import JetButton from '@/Jetstream/Button'
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 export default {
     props: {
@@ -45,8 +45,8 @@ export default {
     },
 
      components: {
-        PlusIcon,
-        JetButton,
+        // PlusIcon,
+        PrimaryButton,
     },
 
     setup(props) {

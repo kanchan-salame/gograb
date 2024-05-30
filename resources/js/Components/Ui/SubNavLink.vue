@@ -38,8 +38,8 @@
         setup(props) {
             const classes = computed(() => {
                 return props.active
-                            ? 'group flex justify-center md:justify-start items-center py-2 text-sm leading-5 font-medium rounded-md btn__primary text-white transition ease-in-out duration-150 bg-medium-blue hover:bg-light-blue'
-                            : 'group flex justify-center md:justify-start items-center py-2 text-sm leading-5 font-medium rounded-md btn__primary text-white transition ease-in-out duration-150'
+                            ? 'group flex justify-center md:justify-start items-center py-2 text-sm leading-5 font-medium rounded-md btn__primary transition ease-in-out duration-150 bg-medium-blue hover:bg-light-blue'
+                            : 'group flex justify-center md:justify-start items-center py-2 text-sm leading-5 font-medium rounded-md btn__primary transition ease-in-out duration-150'
             })
 
             const classesSecondary = computed(() => {
@@ -50,8 +50,8 @@
 
             const iconClasses = computed(() => {
                 return props.active
-                    ? 'mr-1 h-4 w-5 text-white transition ease-in-out duration-150 text-primary'
-                    : 'mr-1 h-4 w-5 text-white transition ease-in-out duration-150'
+                    ? 'mr-1 h-4 w-5 transition ease-in-out duration-150 text-primary'
+                    : 'mr-1 h-4 w-5 transition ease-in-out duration-150'
             })
 
             const gradientIcon = computed(() => {
