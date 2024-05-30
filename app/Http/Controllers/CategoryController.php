@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
 {
@@ -12,7 +15,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Categories/Index',[
+            'categories' => fn() =>
+                QueryBuilder::for(Category::class)->paginate(5),
+            ]);
     }
 
     /**
@@ -20,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Categories/Save');
     }
 
     /**

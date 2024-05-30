@@ -4,22 +4,22 @@
       <template #title> Basic Information </template>
 
       <template #description>
-        Provide basic information like Image and image url for the Item.
+        Provide basic information like Name, Image and image url for the Category.
       </template>
 
       <template #form>
         <div class="col-span-6 sm:col-span-4">
           <div>
-            <jet-label for="url" value="Url" />
+            <jet-label for="name" value="Name" />
             <div class="flex rounded-md shadow-sm mt-1">
               <jet-input
-                id="url"
+                id="name"
                 type="text"
                 class="flex-1 block w-full rounded"
-                v-model="form.url"
+                v-model="form.name"
               />
             </div>
-            <jet-input-error :message="form.errors.url" class="mt-2" />
+            <jet-input-error :message="form.errors.name" class="mt-2" />
           </div>
         </div>
         <div
@@ -29,12 +29,26 @@
           <jet-input
                 id="image"
                 type="file"
-                ref="sliderImage"
-                @change="handleFileChange"
+                ref="categoryImage"
+                @change="handleImageChange"
                 class="flex-1 block w-full rounded"
                 accept="image/*"
               />
             <jet-input-error :message="form.errors.image" class="mt-2" />
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
+        >
+          <jet-label for="icon" value="Icon" />
+          <jet-input
+                id="icon"
+                type="file"
+                ref="categoryIcon"
+                @change="handleIconChange"
+                class="flex-1 block w-full rounded"
+                accept="image/*"
+              />
+            <jet-input-error :message="form.errors.icon" class="mt-2" />
         </div>
       </template>
     </jet-form-section>
@@ -55,7 +69,7 @@
         :disabled="form.processing"
         @click="saveItem"
       >
-        {{ item ? "Update Slider" : "Add Slider" }}
+        {{ category ? "Update Category" : "Add Category" }}
       </primary-button>
     </form-actions>
   </div>
@@ -106,11 +120,12 @@ export default {
     InputSelect,
     PrimaryButton
   },
-  props: ["slider"],
+  props: ["category"],
   setup(props) {
     const form = useForm({
-      url: props.slider ? props.slider.url : "",
-      image: props.slider ? props.slider.image : "",
+      url: props.category ? props.category.url : "",
+      image: props.category ? props.category.image : "",
+      icon: props.category ? props.category.icon : "",
     });
 
     const handleFileChange = (event) => {
@@ -137,10 +152,10 @@ export default {
 
       if (!props.slider) {
         // New Item
-        form.post(route("sliders.store"), options);
+        form.post(route("category.store"), options);
       } else {
         // Existing Item
-        form.put(route("sliders.update", props.slider.id), options);
+        form.put(route("category.update", props.category.id), options);
       }
     }
 

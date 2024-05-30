@@ -105,8 +105,8 @@
             Orders
           </jet-nav-link>
             <jet-nav-link
-            :href="route('users.index')"
-            :active="route().current('users.index')"
+            :href="route('category.index')"
+            :active="route().current('category.index')"
             v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <OfficeBuildingIcon

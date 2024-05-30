@@ -29,25 +29,25 @@ export default {
     EmptyList,
     PrimaryButton
   },
-  props: ["sliders"],
+  props: ["categories"],
   data() {
     return {
-      sliderBeingDeleted: null,
-      sliderBeingToggled: null,
-      toggleSliderForm: this.$inertia.form({}),
+      categoryBeingDeleted: null,
+      categoryBeingToggled: null,
+      toggleCategoryForm: this.$inertia.form({}),
     };
   },
   methods: {
-    confirmSliderDelete(slider) {
-      this.sliderBeingDeleted = slider;
+    confirmCategoryDelete(category) {
+      this.categoryBeingDeleted = category;
     },
     deleteSlider() {
-      this.toggleSliderForm.delete(
-        route("sliders.destroy", this.sliderBeingDeleted.id),
+      this.toggleCategoryForm.delete(
+        route("category.destroy", this.categoryBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
-          onSuccess: () => (this.sliderBeingDeleted = null),
+          onSuccess: () => (this.categoryBeingDeleted = null),
           onError: (errors) => {
             const toast = useToast();
             toast.error(errors.id);
@@ -60,18 +60,18 @@ export default {
 </script>
 
 <template>
-<Head title="Slider" />
-  <AppLayout title="Slider">
+<Head title="Food Categories" />
+  <AppLayout title="Food Categories">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Slider Images</span>
+            <span class="text-gray-800">Food Categories</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
           <primary-button :href="route('sliders.create')" icon="Plus">
-            Add Slider
+            Add Category
           </primary-button>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="sliders.data.length"
+                  v-if="categories.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -132,28 +132,28 @@ export default {
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(slider, index) in sliders.data"
-                        :key="`user-${slider.id}`"
+                        v-for="(category, index) in categories.data"
+                        :key="`user-${category.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ slider.id }}
+                            {{ category.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ slider.url }}
+                            {{ category.name }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <img :src="slider.path" alt="">
+                            <img :src="category.imagePath" alt="">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
-                            {{ slider.image }}
+                            {{ category.image }}
                           </div>
                         </td>
                         <td
@@ -161,7 +161,7 @@ export default {
                         >
                           <div class="flex justify">
                             <TrashIcon
-                              @click.prevent="confirmSliderDelete(slider)"
+                              @click.prevent="confirmCategoryDelete(category)"
                               class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
                             />
                           </div>
@@ -172,19 +172,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="sliders.links"
-                    :from="sliders.from"
-                    :to="sliders.to"
-                    :total="sliders.total"
+                    :links="categories.links"
+                    :from="categories.from"
+                    :to="categories.to"
+                    :total="categories.total"
                   />
                 </div>
                 <EmptyList
                     v-else
                     icon="ClockIcon"
-                    title="No Sliders"
-                    description="Sliders not found. Get started by adding a new Sliders."
-                    button-title="Add Sliders"
-                    :button-url="route('sliders.create')"
+                    title="No Categories"
+                    description="Categories not found. Get started by adding a new Category."
+                    button-title="Add Category"
+                    :button-url="route('category.create')"
                 />
               </div>
             </div>
@@ -194,27 +194,27 @@ export default {
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
-        <jet-confirmation-modal :show="sliderBeingToggled" @close="sliderBeingToggled = null">
+        <jet-confirmation-modal :show="categoryBeingToggled" @close="categoryBeingToggled = null">
             <template #title>
-                {{ sliderBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
+                {{ categoryBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
             </template>
 
             <template #content>
-                Are you sure you would like to {{ sliderBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ sliderBeingToggled.id }}?
+                Are you sure you would like to {{ categoryBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ categoryBeingToggled.id }}?
             </template>
 
             <template #footer>
-                <jet-secondary-button @dblclick="sliderBeingToggled = null">
+                <jet-secondary-button @dblclick="categoryBeingToggled = null">
                     Nevermind
                 </jet-secondary-button>
 
                 <jet-danger-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleSliderForm.processing }" :disabled="toggleSliderForm.processing"
-                    v-if="sliderBeingToggled.activated_at">
+                    :class="{ 'opacity-25': toggleCategoryForm.processing }" :disabled="toggleCategoryForm.processing"
+                    v-if="categoryBeingToggled.activated_at">
                     Deactivate
                 </jet-danger-button>
                 <jet-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleSliderForm.processing }" :disabled="toggleSliderForm.processing"
+                    :class="{ 'opacity-25': toggleCategoryForm.processing }" :disabled="toggleCategoryForm.processing"
                     v-else>
                     Activate
                 </jet-button>
@@ -222,24 +222,24 @@ export default {
         </jet-confirmation-modal>
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
-      :show="sliderBeingDeleted"
-      @close="sliderBeingDeleted = null"
+      :show="categoryBeingDeleted"
+      @close="categoryBeingDeleted = null"
     >
-      <template #title> Delete Slider </template>
+      <template #title> Delete Category </template>
 
       <template #content>
-        Are you sure you would like to delete {{ sliderBeingDeleted.name }}?
+        Are you sure you would like to delete {{ categoryBeingDeleted.name }}?
       </template>
 
       <template #footer>
         <jet-secondary-button
-          @click="sliderBeingDeleted = null"
+          @click="categoryBeingDeleted = null"
           style="margin-right: 10px"
         >
           Nevermind
         </jet-secondary-button>
 
-        <jet-danger-button class="mr-2" @click="deleteSlider">
+        <jet-danger-button class="mr-2" @click="deleteCategory">
           Delete
         </jet-danger-button>
       </template>

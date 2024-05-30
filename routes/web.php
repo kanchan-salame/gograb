@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -28,4 +29,5 @@ Route::middleware([
 Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class);
     Route::resource('sliders', SliderController::class);
+    Route::resource('category', CategoryController::class);
 });
