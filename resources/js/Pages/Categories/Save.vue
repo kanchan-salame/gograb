@@ -42,10 +42,7 @@ export default {
         Head
     },
     props: [
-        'types',
-        'team',
-        'slider',
-        'gstRates'
+        'category',
     ],
     computed: {
         title () {

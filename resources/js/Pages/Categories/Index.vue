@@ -7,10 +7,10 @@ import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/vue/outline";
 import JetConfirmationModal from "@/Components/Jetstream/ConfirmationModal.vue";
 import JetDangerButton from "@/Jetstream/DangerButton.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
-import JetButton from '@/Jetstream/Button.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import EmptyList from '@/Components/Ui/EmptyList.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import JetButton from "@/Jetstream/Button.vue";
+import { Head, Link } from "@inertiajs/vue3";
+import EmptyList from "@/Components/Ui/EmptyList.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 export default {
   components: {
@@ -27,7 +27,8 @@ export default {
     JetButton,
     Head,
     EmptyList,
-    PrimaryButton
+    PrimaryButton,
+    Link
   },
   props: ["categories"],
   data() {
@@ -60,7 +61,7 @@ export default {
 </script>
 
 <template>
-<Head title="Food Categories" />
+  <Head title="Food Categories" />
   <AppLayout title="Food Categories">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
@@ -161,7 +162,7 @@ export default {
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <img :src="category.imagePath" alt="">
+                          <img :src="category.imagePath" alt="" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
@@ -169,7 +170,7 @@ export default {
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <img :src="category.iconPath" alt="">
+                          <img :src="category.iconPath" alt="" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
@@ -180,10 +181,18 @@ export default {
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <TrashIcon
+                            <Link :href="route('category.edit', category.id)">
+                              <pencil-alt-icon
+                                class="h-5 w-5 text-primary hover:text-dark"
+                              />
+                            </Link>
+                            <button
                               @click.prevent="confirmCategoryDelete(category)"
-                              class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
-                            />
+                            >
+                              <TrashIcon
+                                class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
+                              />
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -199,12 +208,12 @@ export default {
                   />
                 </div>
                 <EmptyList
-                    v-else
-                    icon="ClockIcon"
-                    title="No Categories"
-                    description="Categories not found. Get started by adding a new Category."
-                    button-title="Add Category"
-                    :button-url="route('category.create')"
+                  v-else
+                  icon="ClockIcon"
+                  title="No Categories"
+                  description="Categories not found. Get started by adding a new Category."
+                  button-title="Add Category"
+                  :button-url="route('category.create')"
                 />
               </div>
             </div>
@@ -214,32 +223,48 @@ export default {
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
-        <jet-confirmation-modal :show="categoryBeingToggled" @close="categoryBeingToggled = null">
-            <template #title>
-                {{ categoryBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
-            </template>
+    <jet-confirmation-modal
+      :show="categoryBeingToggled"
+      @close="categoryBeingToggled = null"
+    >
+      <template #title>
+        {{
+          categoryBeingToggled.activated_at ? "Deactivate" : "Activate"
+        }}
+        Client
+      </template>
 
-            <template #content>
-                Are you sure you would like to {{ categoryBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ categoryBeingToggled.id }}?
-            </template>
+      <template #content>
+        Are you sure you would like to
+        {{ categoryBeingToggled.activated_at ? "deactivate" : "activate" }}
+        {{ categoryBeingToggled.id }}?
+      </template>
 
-            <template #footer>
-                <jet-secondary-button @dblclick="categoryBeingToggled = null">
-                    Nevermind
-                </jet-secondary-button>
+      <template #footer>
+        <jet-secondary-button @dblclick="categoryBeingToggled = null">
+          Nevermind
+        </jet-secondary-button>
 
-                <jet-danger-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleCategoryForm.processing }" :disabled="toggleCategoryForm.processing"
-                    v-if="categoryBeingToggled.activated_at">
-                    Deactivate
-                </jet-danger-button>
-                <jet-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleCategoryForm.processing }" :disabled="toggleCategoryForm.processing"
-                    v-else>
-                    Activate
-                </jet-button>
-            </template>
-        </jet-confirmation-modal>
+        <jet-danger-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleCategoryForm.processing }"
+          :disabled="toggleCategoryForm.processing"
+          v-if="categoryBeingToggled.activated_at"
+        >
+          Deactivate
+        </jet-danger-button>
+        <jet-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleCategoryForm.processing }"
+          :disabled="toggleCategoryForm.processing"
+          v-else
+        >
+          Activate
+        </jet-button>
+      </template>
+    </jet-confirmation-modal>
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
       :show="categoryBeingDeleted"

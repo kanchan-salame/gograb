@@ -123,6 +123,7 @@ export default {
   props: ["category"],
   setup(props) {
     const form = useForm({
+        _method: props.category ? 'PUT' : 'POST',
       name: props.category ? props.category.name : "",
       image: props.category ? props.category.image : "",
       icon: props.category ? props.category.icon : "",
@@ -150,6 +151,7 @@ export default {
 
     // Save slider
     function saveCategory() {
+        console.log(form);
       const options = {
         errorBag: "saveCategory",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
@@ -165,7 +167,7 @@ export default {
         form.post(route("category.store"), options);
       } else {
         // Existing Category
-        form.put(route("category.update", props.category.id), options);
+        form.post(route("category.update", props.category.id), options);
       }
     }
 

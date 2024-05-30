@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\SaveCategoryFormRequest;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -68,15 +69,36 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return Inertia::render('Categories/Save',
+            array_merge([
+                'category' => $category,
+            ]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(SaveCategoryFormRequest $request, Category $category)
     {
-        //
+        // dd($request->all());
+        $category->name = $request['name'];
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('public/uploads/category/images');
+            $categoryImagePath = str_replace('public/', '', $categoryImagePath);
+            } else {
+            $categoryImagePath = null;
+        }
+        $category->image = $categoryImagePath;
+
+        if ($request->hasFile('icon')) {
+            $categoryIconPath = $request->file('icon')->store('public/uploads/category/icons');
+            $categoryIconPath = str_replace('public/', '', $categoryIconPath);
+            } else {
+            $categoryIconPath = null;
+        }
+        $category->icon = $categoryIconPath;
+        $category->update();
+        return redirect()->route('category.index')->with('flash.banner', 'Category Updated successfully');
     }
 
     /**
