@@ -41,7 +41,7 @@ export default {
     confirmCategoryDelete(category) {
       this.categoryBeingDeleted = category;
     },
-    deleteSlider() {
+    deleteCategory() {
       this.toggleCategoryForm.delete(
         route("category.destroy", this.categoryBeingDeleted.id),
         {
@@ -108,7 +108,7 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Url
+                          Name
                         </th>
                         <th
                           scope="col"
@@ -121,6 +121,18 @@ export default {
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Image Url
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Icon
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Icon Url
                         </th>
                         <th
                           scope="col"
@@ -154,6 +166,14 @@ export default {
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
                             {{ category.image }}
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <img :src="category.iconPath" alt="">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                          <div class="text-sm text-gray-900">
+                            {{ category.icon }}
                           </div>
                         </td>
                         <td

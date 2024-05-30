@@ -67,7 +67,7 @@
         class="ml-2 text-sm px-10"
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"
-        @click="saveItem"
+        @click="saveCategory"
       >
         {{ category ? "Update Category" : "Add Category" }}
       </primary-button>
@@ -123,12 +123,12 @@ export default {
   props: ["category"],
   setup(props) {
     const form = useForm({
-      url: props.category ? props.category.url : "",
+      name: props.category ? props.category.name : "",
       image: props.category ? props.category.image : "",
       icon: props.category ? props.category.icon : "",
     });
 
-    const handleFileChange = (event) => {
+    const handleImageChange = (event) => {
         console.log(event.target.files[0]);
             form.image = event.target.files[0];
             const reader = new FileReader();
@@ -138,10 +138,20 @@ export default {
         };
     }
 
+    const handleIconChange = (event) => {
+        console.log(event.target.files[0]);
+            form.icon = event.target.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(form.image);
+            reader.onload = (e) => {
+            // previewImage.value = e.target.result;
+        };
+    }
+
     // Save slider
-    function saveItem() {
+    function saveCategory() {
       const options = {
-        errorBag: "saveItem",
+        errorBag: "saveCategory",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
@@ -150,19 +160,20 @@ export default {
         },
       };
 
-      if (!props.slider) {
-        // New Item
+      if (!props.category) {
+        // New Category
         form.post(route("category.store"), options);
       } else {
-        // Existing Item
+        // Existing Category
         form.put(route("category.update", props.category.id), options);
       }
     }
 
     return {
       form,
-      saveItem,
-      handleFileChange,
+      saveCategory,
+      handleImageChange,
+      handleIconChange
     };
   },
 };

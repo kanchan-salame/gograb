@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Requests\SaveCategoryFormRequest;
 
 class CategoryController extends Controller
 {
@@ -32,9 +33,26 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveCategoryFormRequest $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('public/uploads/category/images');
+            $categoryImagePath = str_replace('public/', '', $categoryImagePath);
+            } else {
+            $categoryImagePath = null;
+        }
+        $data['image'] = $categoryImagePath;
+
+        if ($request->hasFile('icon')) {
+            $categoryIconPath = $request->file('icon')->store('public/uploads/category/icons');
+            $categoryIconPath = str_replace('public/', '', $categoryIconPath);
+            } else {
+            $categoryIconPath = null;
+        }
+        $data['icon'] = $categoryIconPath;
+        Category::create($data);
+        return redirect()->route('category.index')->with('flash.banner', 'Category added successfully');
     }
 
     /**
@@ -66,6 +84,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return back()->with('flash.banner', 'Category deleted successfully');
     }
 }
