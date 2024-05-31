@@ -1,19 +1,19 @@
 <template>
 <app-layout>
-    <Head title="Add Slider" />
+    <Head title="Add Restaurant" />
     <template #header>
         <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
             <div>
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     <span class="text-gray-800">
-                        {{ slider ? 'Update Slider' : 'Add Slider'  }}
+                        {{ slider ? 'Update Restaurant' : 'Add Restaurant'  }}
                     </span>
                 </h2>
             </div>
             <div class="ml-4 flex-shrink-0 relative z-1">
-                <!-- <sub-nav-link :href="route('sliders.index')" :back="true" icon="Plus">
-                    <span class="gradient__text">Go Back</span>
-                </sub-nav-link> -->
+                <sub-nav-link :href="route('restaurant.index')" icon="Plus">
+                    Go Back
+                </sub-nav-link>
             </div>
         </div>
     </template>
@@ -21,10 +21,7 @@
         <div>
             <div class="pb-10 sm:px-6 lg:px-8">
                 <ItemForm
-                    :team="team"
-                    :types="types"
-                    :slider="slider"
-                    :gstRates="gstRates"
+                    :restaurant="restaurant"
                 />
             </div>
         </div>
@@ -35,7 +32,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue"
 import SubNavLink from '@/Components/Ui/SubNavLink.vue'
-import ItemForm from '@/Pages/Slider/Form.vue'
+import ItemForm from '@/Pages/Restaurant/Form.vue'
 import { Head, Link } from '@inertiajs/vue3';
 export default {
     components: {
@@ -45,14 +42,11 @@ export default {
         Head
     },
     props: [
-        'types',
-        'team',
-        'slider',
-        'gstRates'
+        'restaurant',
     ],
     computed: {
         title () {
-            return slider ? 'Update Slider' : 'Add Slider'
+            return props.restaurant ? 'Update Restaurant' : 'Add Restaurant'
         }
     }
 }

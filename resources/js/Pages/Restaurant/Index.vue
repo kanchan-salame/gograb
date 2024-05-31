@@ -29,25 +29,25 @@ export default {
     EmptyList,
     PrimaryButton
   },
-  props: ["sliders"],
+  props: ["restaurants"],
   data() {
     return {
-      sliderBeingDeleted: null,
-      sliderBeingToggled: null,
-      toggleSliderForm: this.$inertia.form({}),
+      restaurantBeingDeleted: null,
+      restaurantBeingToggled: null,
+      toggleRestaurantForm: this.$inertia.form({}),
     };
   },
   methods: {
-    confirmSliderDelete(slider) {
-      this.sliderBeingDeleted = slider;
+    confirmRestaurantDelete(slider) {
+      this.restaurantBeingDeleted = slider;
     },
-    deleteSlider() {
-      this.toggleSliderForm.delete(
-        route("sliders.destroy", this.sliderBeingDeleted.id),
+    deleteRestaurant() {
+      this.toggleRestaurantForm.delete(
+        route("sliders.destroy", this.restaurantBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
-          onSuccess: () => (this.sliderBeingDeleted = null),
+          onSuccess: () => (this.restaurantBeingDeleted = null),
           onError: (errors) => {
             const toast = useToast();
             toast.error(errors.id);
@@ -60,19 +60,19 @@ export default {
 </script>
 
 <template>
-<Head title="Slider" />
-  <AppLayout title="Slider">
+<Head title="Restaurants" />
+  <AppLayout title="Restaurants">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Slider Images</span>
+            <span class="text-gray-800">Restaurants</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button :href="route('sliders.create')" icon="Plus">
-            Add Slider
-          </primary-button>
+          <sub-nav-link :href="route('restaurant.create')" icon="Plus">
+            Add Restaurant
+          </sub-nav-link>
         </div>
       </div>
     </template>
@@ -87,7 +87,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="sliders.data.length"
+                  v-if="restaurants.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -132,28 +132,28 @@ export default {
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(slider, index) in sliders.data"
-                        :key="`user-${slider.id}`"
+                        v-for="(restaurant, index) in restaurants.data"
+                        :key="`user-${restaurant.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ slider.id }}
+                            {{ restaurant.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ slider.url }}
+                            {{ restaurant.name }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                            <img :src="slider.path" :alt="slider.path" class="rounded-full h-20 w-20 object-cover">
+                            <img :src="restaurant.imagepath" :alt="restaurant.imagepath" class="rounded-full h-20 w-20 object-cover">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
-                            {{ slider.image }}
+                            {{ restaurant.image }}
                           </div>
                         </td>
                         <td
@@ -161,7 +161,7 @@ export default {
                         >
                           <div class="flex justify">
                             <TrashIcon
-                              @click.prevent="confirmSliderDelete(slider)"
+                              @click.prevent="confirmRestaurantDelete(restaurant)"
                               class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
                             />
                           </div>
@@ -172,19 +172,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="sliders.links"
-                    :from="sliders.from"
-                    :to="sliders.to"
-                    :total="sliders.total"
+                    :links="restaurants.links"
+                    :from="restaurants.from"
+                    :to="restaurants.to"
+                    :total="restaurants.total"
                   />
                 </div>
                 <EmptyList
                     v-else
                     icon="ClockIcon"
-                    title="No Sliders"
-                    description="Sliders not found. Get started by adding a new Sliders."
-                    button-title="Add Sliders"
-                    :button-url="route('sliders.create')"
+                    title="No Restaurants"
+                    description="Restaurants not found. Get started by adding a new Restaurants."
+                    button-title="Add Restaurant"
+                    :button-url="route('restaurant.create')"
                 />
               </div>
             </div>
@@ -194,27 +194,27 @@ export default {
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
-        <jet-confirmation-modal :show="sliderBeingToggled" @close="sliderBeingToggled = null">
+        <jet-confirmation-modal :show="restaurantBeingToggled" @close="restaurantBeingToggled = null">
             <template #title>
-                {{ sliderBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
+                {{ restaurantBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
             </template>
 
             <template #content>
-                Are you sure you would like to {{ sliderBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ sliderBeingToggled.id }}?
+                Are you sure you would like to {{ restaurantBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ restaurantBeingToggled.id }}?
             </template>
 
             <template #footer>
-                <jet-secondary-button @dblclick="sliderBeingToggled = null">
+                <jet-secondary-button @dblclick="restaurantBeingToggled = null">
                     Nevermind
                 </jet-secondary-button>
 
                 <jet-danger-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleSliderForm.processing }" :disabled="toggleSliderForm.processing"
-                    v-if="sliderBeingToggled.activated_at">
+                    :class="{ 'opacity-25': toggleRestaurantForm.processing }" :disabled="toggleRestaurantForm.processing"
+                    v-if="restaurantBeingToggled.activated_at">
                     Deactivate
                 </jet-danger-button>
                 <jet-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleSliderForm.processing }" :disabled="toggleSliderForm.processing"
+                    :class="{ 'opacity-25': toggleRestaurantForm.processing }" :disabled="toggleRestaurantForm.processing"
                     v-else>
                     Activate
                 </jet-button>
@@ -222,24 +222,24 @@ export default {
         </jet-confirmation-modal>
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
-      :show="sliderBeingDeleted"
-      @close="sliderBeingDeleted = null"
+      :show="restaurantBeingDeleted"
+      @close="restaurantBeingDeleted = null"
     >
       <template #title> Delete Slider </template>
 
       <template #content>
-        Are you sure you would like to delete {{ sliderBeingDeleted.name }}?
+        Are you sure you would like to delete {{ restaurantBeingDeleted.name }}?
       </template>
 
       <template #footer>
         <jet-secondary-button
-          @click="sliderBeingDeleted = null"
+          @click="restaurantBeingDeleted = null"
           style="margin-right: 10px"
         >
           Nevermind
         </jet-secondary-button>
 
-        <jet-danger-button class="mr-2" @click="deleteSlider">
+        <jet-danger-button class="mr-2" @click="deleteRestaurant">
           Delete
         </jet-danger-button>
       </template>

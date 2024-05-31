@@ -22,7 +22,6 @@ class SaveCategoryFormRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this);
         return [
             'name' => ['required'],
             'image' => ['nullable', 'mimes:jpg,jpeg,png', 'max:10240'],

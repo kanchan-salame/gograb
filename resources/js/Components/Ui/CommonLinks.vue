@@ -83,8 +83,8 @@
             :class="{ hidden: this.isHidden }"
           >
             <jet-nav-link
-            :href="route('users.index')"
-            :active="route().current('users.index')"
+            :href="route('restaurant.index')"
+            :active="route().current('restaurant.index')"
             v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <OfficeBuildingIcon
