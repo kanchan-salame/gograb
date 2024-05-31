@@ -148,8 +148,8 @@ export default {
                             {{ slider.url }}
                           </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <img :src="slider.path" alt="">
+                        <td class="whitespace-nowrap text-right">
+                            <img :src="slider.path" :alt="slider.path" class="rounded-full h-20 w-20 object-cover">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">

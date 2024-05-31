@@ -23,11 +23,11 @@ class Category extends Model
 
     public function getImagePathAttribute()
     {
-        return url('storage/app/public/'.$this->image);
+        return url('storage/'.$this->image);
     }
 
     public function getIconPathAttribute()
     {
-        return url('storage/app/public/'.$this->icon);
+        return url('storage/'.$this->icon);
     }
 }

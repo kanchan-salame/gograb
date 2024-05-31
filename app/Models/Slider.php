@@ -22,6 +22,6 @@ class Slider extends Model
 
     public function getPathAttribute()
     {
-        return url('storage/app/public/'.$this->image);
+        return url('storage/'.$this->image);
     }
 }

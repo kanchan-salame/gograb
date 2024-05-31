@@ -161,16 +161,16 @@ export default {
                             {{ category.name }}
                           </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <img :src="category.imagePath" alt="" />
+                        <td class="whitespace-nowrap text-right">
+                          <img :src="category.imagepath" :alt="category.imagepath" class="rounded-full h-20 w-20 object-cover" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
                             {{ category.image }}
                           </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <img :src="category.iconPath" alt="" />
+                        <td class="whitespace-nowrap text-right">
+                          <img :src="category.iconpath" :alt="category.iconpath" class="rounded-full h-20 w-20 object-cover" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
