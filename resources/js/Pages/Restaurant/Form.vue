@@ -189,7 +189,7 @@
         :disabled="form.processing"
         @click="saveRestaurant"
       >
-        {{ item ? "Update Restaurant" : "Add Restaurant" }}
+        {{ restaurant ? "Update Restaurant" : "Add Restaurant" }}
       </primary-button>
     </form-actions>
   </div>
@@ -245,7 +245,7 @@ export default {
   setup(props) {
     const form = useForm({
         _method: props.restaurant ? 'PUT' : 'POST',
-      name: props.restaurant ? props.restaurant.url : "",
+      name: props.restaurant ? props.restaurant.name : "",
       image: props.restaurant ? props.restaurant.image : "",
       latitude: props.restaurant ? props.restaurant.latitude : "",
       longitude: props.restaurant ? props.restaurant.longitude : "",

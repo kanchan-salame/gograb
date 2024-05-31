@@ -11,6 +11,7 @@ import JetButton from '@/Jetstream/Button.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import EmptyList from '@/Components/Ui/EmptyList.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { ClockIcon, TagIcon, MenuIcon   } from "@heroicons/vue/solid"
 
 export default {
   components: {
@@ -27,7 +28,11 @@ export default {
     JetButton,
     Head,
     EmptyList,
-    PrimaryButton
+    PrimaryButton,
+    Link,
+    ClockIcon,
+    TagIcon,
+    MenuIcon
   },
   props: ["restaurants"],
   data() {
@@ -171,6 +176,30 @@ export default {
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
+                            <Link :href="route('restaurant.edit', restaurant.id)">
+                              <pencil-alt-icon
+                                class="h-5 w-5 text-primary hover:text-dark"
+                              />
+                            </Link>
+
+                            <Link :href="route('restaurant.edit', restaurant.id)">
+                              <clock-icon
+                                class="h-5 w-5 text-primary hover:text-dark"
+                              />
+                            </Link>
+
+                            <Link :href="route('restaurant.edit', restaurant.id)">
+                              <tag-icon
+                                class="h-5 w-5 text-primary hover:text-dark"
+                              />
+                            </Link>
+
+                            <Link :href="route('restaurant.edit', restaurant.id)">
+                              <menu-icon
+                                class="h-5 w-5 text-primary hover:text-dark"
+                              />
+                            </Link>
+
                             <TrashIcon
                               @click.prevent="confirmRestaurantDelete(restaurant)"
                               class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
