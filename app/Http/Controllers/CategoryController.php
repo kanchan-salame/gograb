@@ -80,7 +80,6 @@ class CategoryController extends Controller
      */
     public function update(SaveCategoryFormRequest $request, Category $category)
     {
-        // dd($request->all());
         $category->name = $request['name'];
         if ($request->hasFile('image')) {
             $categoryImagePath = $request->file('image')->store('public/uploads/category/images');

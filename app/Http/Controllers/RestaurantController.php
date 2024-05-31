@@ -37,7 +37,7 @@ class RestaurantController extends Controller
     {
         $data = $request->all();
         if ($request->hasFile('image')) {
-            $restaurantImagePath = $request->file('image')->store('public/uploads/restaurant/images');
+            $restaurantImagePath = $request->file('image')->store('uploads/restaurant/images');
             $restaurantImagePath = str_replace('public/', '', $restaurantImagePath);
             } else {
             $restaurantImagePath = null;
@@ -77,6 +77,8 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
-        //
+        // dd($restaurant);
+        $restaurant->delete();
+        return back()->with('flash.banner', 'Restaurant deleted successfully');
     }
 }

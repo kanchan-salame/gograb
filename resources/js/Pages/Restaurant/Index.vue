@@ -38,12 +38,12 @@ export default {
     };
   },
   methods: {
-    confirmRestaurantDelete(slider) {
-      this.restaurantBeingDeleted = slider;
+    confirmRestaurantDelete(restaurant) {
+      this.restaurantBeingDeleted = restaurant;
     },
     deleteRestaurant() {
       this.toggleRestaurantForm.delete(
-        route("sliders.destroy", this.restaurantBeingDeleted.id),
+        route("restaurant.destroy", this.restaurantBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
@@ -102,13 +102,13 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          ID
+                          Owner Name
                         </th>
                         <th
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Url
+                          Name
                         </th>
                         <th
                           scope="col"
@@ -120,7 +120,13 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Image Url
+                            Min Order Price
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Created At
                         </th>
                         <th
                           scope="col"
@@ -153,7 +159,12 @@ export default {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
-                            {{ restaurant.image }}
+                            {{ restaurant.min_order_price }}
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                          <div class="text-sm text-gray-900">
+                            {{ restaurant.created_at }}
                           </div>
                         </td>
                         <td
@@ -225,7 +236,7 @@ export default {
       :show="restaurantBeingDeleted"
       @close="restaurantBeingDeleted = null"
     >
-      <template #title> Delete Slider </template>
+      <template #title> Delete Restaurant </template>
 
       <template #content>
         Are you sure you would like to delete {{ restaurantBeingDeleted.name }}?
