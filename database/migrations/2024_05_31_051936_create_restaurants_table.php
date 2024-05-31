@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('image');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->decimal('min_order_price');
+            $table->decimal('delivery_fee');
+            $table->decimal('delivery_max_time');
+            $table->decimal('delivery_min_time');
             $table->timestamps();
         });
     }
