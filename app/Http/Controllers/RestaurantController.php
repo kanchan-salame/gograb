@@ -77,7 +77,6 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
-        // dd($restaurant);
         $restaurant->delete();
         return back()->with('flash.banner', 'Restaurant deleted successfully');
     }
