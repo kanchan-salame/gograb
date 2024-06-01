@@ -45,6 +45,7 @@ class RestaurantController extends Controller
             $restaurantImagePath = null;
         }
         $data['image'] = $restaurantImagePath;
+        $data['user_id'] = Auth::user()->id;
 
         Restaurant::create($data);
         return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant added successfully');
@@ -75,6 +76,7 @@ class RestaurantController extends Controller
     public function update(SaveRestaurantFormRequest $request, Restaurant $restaurant)
     {
         $restaurant->name = $request['name'];
+        $restaurant->user_id = Auth::user()->id;
         $restaurant->latitude = $request['latitude'];
         $restaurant->longitude = $request['longitude'];
         $restaurant->min_order_price = $request['min_order_price'];

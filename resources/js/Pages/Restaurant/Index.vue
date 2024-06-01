@@ -75,9 +75,9 @@ export default {
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <sub-nav-link :href="route('restaurant.create')" icon="Plus">
+          <primary-button @click="$inertia.get(route('restaurant.create'))">
             Add Restaurant
-          </sub-nav-link>
+          </primary-button>
         </div>
       </div>
     </template>

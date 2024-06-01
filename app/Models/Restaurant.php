@@ -18,6 +18,7 @@ class Restaurant extends Model
      */
     protected $fillable = [
         'name',
+        'user_id',
         'image',
         'latitude',
         'longitude',
