@@ -8,6 +8,8 @@ use Inertia\Inertia;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\SaveRestaurantFormRequest;
+use App\Models\Category;
+use App\Models\RestaurantCategories;
 
 class RestaurantController extends Controller
 {
@@ -18,7 +20,7 @@ class RestaurantController extends Controller
     {
         return Inertia::render('Restaurant/Index',[
             'restaurants' => fn() =>
-                QueryBuilder::for(Restaurant::class)->paginate(5),
+                QueryBuilder::for(Restaurant::class)->with(['user'])->paginate(5),
             ]);
     }
 
@@ -98,5 +100,48 @@ class RestaurantController extends Controller
     {
         $restaurant->delete();
         return back()->with('flash.banner', 'Restaurant deleted successfully');
+    }
+
+    /**
+     * select categories for restaurant.
+     */
+    public function selectCategories(Restaurant $restaurant)
+    {
+        return Inertia::render('Restaurant/Category',
+            array_merge([
+                'restaurant' => $restaurant,
+                'categories' => Category::all(),
+                'restaurantCategories' => $restaurant->restaurantCategories,
+            ]));
+    }
+
+    /**
+     * set timing of restaurant.
+     */
+    public function setTiming(Restaurant $restaurant)
+    {
+        return Inertia::render('Restaurant/Timing',
+            array_merge([
+                'restaurant' => $restaurant,
+                'categories' => Category::all(),
+            ]));
+    }
+
+    /**
+     * add/update categories for restaurant.
+     */
+    public function updateCategories(Request $request, Restaurant $restaurant)
+    {
+        if ($restaurant->restaurantCategories()->count() > 0) {
+            foreach ($restaurant->restaurantCategories as $key => $restaurantCategory) {
+                $restaurantCategory->delete();
+            }
+        }
+        foreach ($request->categories as $key => $value) {
+            $data['restaurant_id'] = $restaurant->id;
+            $data['category_id'] = $value;
+            RestaurantCategories::create($data);
+        }
+        return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant categories updated successfully');
     }
 }

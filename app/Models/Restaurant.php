@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Restaurant extends Model
 {
@@ -29,5 +32,29 @@ class Restaurant extends Model
     public function getImagePathAttribute()
     {
         return url('storage/'.$this->image);
+    }
+
+    /**
+     * Get the categories for the restaurant.
+     */
+    public function restaurantCategories(): HasMany
+    {
+        return $this->hasMany(RestaurantCategories::class);
+    }
+
+    /**
+     * Get the categories for the restaurant.
+     */
+    public function restaurantTimings(): HasMany
+    {
+        return $this->hasMany(RestaurantTimings::class);
+    }
+
+     /**
+     * Get the phone associated with the restaurant.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

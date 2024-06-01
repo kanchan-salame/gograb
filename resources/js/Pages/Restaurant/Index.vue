@@ -151,7 +151,7 @@ export default {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ restaurant.id }}
+                            {{ restaurant.user.name }} {{ restaurant.user.last_name }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -182,13 +182,13 @@ export default {
                               />
                             </Link>
 
-                            <Link :href="route('restaurant.edit', restaurant.id)">
+                            <Link :href="route('restaurant.timing', restaurant)" title="Set Timing">
                               <clock-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />
                             </Link>
 
-                            <Link :href="route('restaurant.edit', restaurant.id)">
+                            <Link :href="route('restaurant.categories', restaurant)" title="Set Categories">
                               <tag-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />

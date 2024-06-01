@@ -32,4 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('sliders', SliderController::class);
     Route::resource('category', CategoryController::class);
     Route::resource('restaurant', RestaurantController::class);
+    Route::get('restaurant-categories/{restaurant}', [RestaurantController::class, 'selectCategories'])->name('restaurant.categories');
+    Route::get('restaurant-timing/{restaurant}', [RestaurantController::class, 'setTiming'])->name('restaurant.timing');
+    Route::post('restaurant-update-categories/{restaurant}', [RestaurantController::class, 'updateCategories'])->name('restaurant.update.categories');
 });

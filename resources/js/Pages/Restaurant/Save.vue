@@ -1,12 +1,12 @@
 <template>
 <app-layout>
-    <Head title="Add Restaurant" />
+    <Head :title="restaurant ? 'Update Restaurant' : 'Add Restaurant'" />
     <template #header>
         <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
             <div>
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     <span class="text-gray-800">
-                        {{ slider ? 'Update Restaurant' : 'Add Restaurant'  }}
+                        {{ restaurant ? 'Update Restaurant' : 'Add Restaurant'  }}
                     </span>
                 </h2>
             </div>
