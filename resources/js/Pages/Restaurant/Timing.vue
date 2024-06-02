@@ -45,6 +45,7 @@
                       <vue-timepicker
                         format="hh:mm A"
                         class="flex-1 block w-full rounded"
+                        v-model="form.opening_times[index]"
                       ></vue-timepicker>
                     </div>
                   </div>
@@ -54,6 +55,7 @@
                       <vue-timepicker
                         format="hh:mm A"
                         class="flex-1 block w-full rounded"
+                        v-model="form.closing_times[index]"
                       ></vue-timepicker>
                     </div>
                   </div>
@@ -80,7 +82,7 @@
             class="ml-2 text-sm px-10"
             :class="{ 'opacity-25': form.processing }"
             :disabled="form.processing"
-            @click="saveRestaurant"
+            @click="saveRestaurantTimings"
           >
             Update Restaurant Timing
           </primary-button>
@@ -153,9 +155,9 @@ export default {
     const checked = ref("checked");
 
     // Save restaurant
-    function saveRestaurantCategories() {
+    function saveRestaurantTimings() {
       const options = {
-        errorBag: "saveRestaurantCategories",
+        errorBag: "saveRestaurantTimings",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
@@ -165,14 +167,14 @@ export default {
       };
 
       form.post(
-        route("restaurant.update.categories", props.restaurant.id),
+        route("restaurant.update.timing", props.restaurant.id),
         options
       );
     }
 
     return {
       form,
-      saveRestaurantCategories,
+      saveRestaurantTimings,
       isChecked,
       checked,
     };

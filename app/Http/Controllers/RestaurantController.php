@@ -10,6 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\SaveRestaurantFormRequest;
 use App\Models\Category;
 use App\Models\RestaurantCategories;
+use App\Models\RestaurantTiming;
 
 class RestaurantController extends Controller
 {
@@ -145,5 +146,29 @@ class RestaurantController extends Controller
             RestaurantCategories::create($data);
         }
         return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant categories updated successfully');
+    }
+
+    /**
+     * add/update categories for restaurant.
+     */
+    public function updateTiming(Request $request, Restaurant $restaurant)
+    {
+        // dd($request->all());
+        if ($restaurant->restaurantTimings()->count() > 0) {
+            foreach ($restaurant->restaurantTimings as $key => $restaurantTiming) {
+                $restaurantTiming->delete();
+            }
+        }
+        foreach ($request->days as $key => $value) {
+            // dd($request->opening_times[$key]);
+            if (!empty($request->opening_times[$key])) {
+                $data['restaurant_id'] = $restaurant->id;
+                $data['day'] = $value;
+                $data['opening_time'] = implode(",", $request->opening_times[$key]);
+                $data['closing_time'] = implode(",", $request->closing_times[$key]);
+                RestaurantTiming::create($data);
+            }
+        }
+        return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant timing updated successfully');
     }
 }

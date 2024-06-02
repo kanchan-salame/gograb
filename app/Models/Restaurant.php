@@ -48,7 +48,7 @@ class Restaurant extends Model
      */
     public function restaurantTimings(): HasMany
     {
-        return $this->hasMany(RestaurantTimings::class);
+        return $this->hasMany(RestaurantTiming::class);
     }
 
      /**
