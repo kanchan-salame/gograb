@@ -176,7 +176,7 @@ export default {
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <Link :href="route('restaurant.edit', restaurant.id)">
+                            <Link :href="route('restaurant.edit', restaurant.id)" title="Edit Restaurant">
                               <pencil-alt-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />
@@ -194,7 +194,7 @@ export default {
                               />
                             </Link>
 
-                            <Link :href="route('restaurant.edit', restaurant.id)">
+                            <Link :href="route('restaurant.menus', restaurant.id)" title="Restaurant Menus">
                               <menu-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />
@@ -203,6 +203,7 @@ export default {
                             <TrashIcon
                               @click.prevent="confirmRestaurantDelete(restaurant)"
                               class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
+                              title="Delete Restaurant"
                             />
                           </div>
                         </td>

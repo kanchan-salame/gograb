@@ -131,6 +131,28 @@ class RestaurantController extends Controller
     }
 
     /**
+     * set menus of restaurant.
+     */
+    public function setMenus(Restaurant $restaurant)
+    {
+        return Inertia::render('Restaurant/Menu/Index',
+            array_merge([
+                'restaurant' => $restaurant,
+                'categories' => Category::all(),
+            ]));
+    }
+
+    /**
+     * set menus of restaurant.
+     */
+    public function createMenu(Restaurant $restaurant)
+    {
+        return Inertia::render('Restaurant/Menu/Save');
+    }
+
+
+
+    /**
      * add/update categories for restaurant.
      */
     public function updateCategories(Request $request, Restaurant $restaurant)
