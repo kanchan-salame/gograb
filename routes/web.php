@@ -35,8 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::get('restaurant-categories/{restaurant}', [RestaurantController::class, 'selectCategories'])->name('restaurant.categories');
     Route::get('restaurant-timing/{restaurant}', [RestaurantController::class, 'setTiming'])->name('restaurant.timing');
     Route::get('restaurant-menus/{restaurant}', [RestaurantController::class, 'setMenus'])->name('restaurant.menus');
-    Route::get('create-restaurant-menu/', [RestaurantController::class, 'createMenu'])->name('restaurant.menu.create');
-
+    Route::get('create-restaurant-menu/{restaurant}/', [RestaurantController::class, 'createMenu'])->name('restaurant.menu.create');
+    Route::get('edit-restaurant-menu/{restaurant}/{restaurantMenu}', [RestaurantController::class, 'editMenu'])->name('restaurant.menu.edit');
+    Route::post('restaurant-save-menu/{restaurant}/', [RestaurantController::class, 'saveMenu'])->name('restaurant.save.menu');
+    Route::put('restaurant-update-menu/{restaurant}/{restaurantMenu}', [RestaurantController::class, 'updateMenu'])->name('restaurant.update.menu');
     Route::post('restaurant-update-categories/{restaurant}', [RestaurantController::class, 'updateCategories'])->name('restaurant.update.categories');
     Route::post('restaurant-update-timing/{restaurant}', [RestaurantController::class, 'updateTiming'])->name('restaurant.update.timing');
 });

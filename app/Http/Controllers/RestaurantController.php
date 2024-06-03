@@ -11,6 +11,8 @@ use App\Http\Requests\SaveRestaurantFormRequest;
 use App\Models\Category;
 use App\Models\RestaurantCategories;
 use App\Models\RestaurantTiming;
+use App\Http\Requests\SaveRestaurantMenuFormRequest;
+use App\Models\RestaurantMenu;
 
 class RestaurantController extends Controller
 {
@@ -138,7 +140,7 @@ class RestaurantController extends Controller
         return Inertia::render('Restaurant/Menu/Index',
             array_merge([
                 'restaurant' => $restaurant,
-                'categories' => Category::all(),
+                'menus' => RestaurantMenu::where('restaurant_id', $restaurant->id)->get(),
             ]));
     }
 
@@ -147,8 +149,63 @@ class RestaurantController extends Controller
      */
     public function createMenu(Restaurant $restaurant)
     {
-        return Inertia::render('Restaurant/Menu/Save');
+        return Inertia::render('Restaurant/Menu/Save',
+        array_merge([
+            'restaurant' => $restaurant,
+            'menu' =>'',
+        ]));
     }
+
+    /**
+     * set menus of restaurant.
+     */
+    public function editMenu(Restaurant $restaurant, RestaurantMenu $restaurantMenu)
+    {
+        return Inertia::render('Restaurant/Menu/Save',
+        array_merge([
+            'restaurant' => $restaurant,
+            'menu' => $restaurantMenu,
+        ]));
+    }
+
+    /**
+     * save menus of restaurant.
+     */
+    public function saveMenu(SaveRestaurantMenuFormRequest $request, Restaurant $restaurant)
+    {
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $restaurantMenuImagePath = $request->file('image')->store('uploads/restaurant/menu/images');
+            $restaurantMenuImagePath = str_replace('public/', '', $restaurantMenuImagePath);
+            } else {
+            $restaurantMenuImagePath = null;
+        }
+        $data['image'] = $restaurantMenuImagePath;
+        $data['restaurant_id'] = $restaurant->id;
+
+        RestaurantMenu::create($data);
+        return redirect()->route('restaurant.menus', $restaurant->id)->with('flash.banner', 'Restaurant Menu added successfully');
+    }
+
+    public function updateMenu(SaveRestaurantMenuFormRequest $request, Restaurant $restaurant, RestaurantMenu $restaurantMenu)
+    {
+        // $data = $request->all();
+        $restaurantMenu->name = $request['name'];
+        $restaurantMenu->description = $request['description'];
+
+        if ($request->hasFile('image')) {
+            $restaurantMenuImagePath = $request->file('image')->store('uploads/restaurant/menu/images');
+            $restaurantMenuImagePath = str_replace('public/', '', $restaurantMenuImagePath);
+            } else {
+            $restaurantMenuImagePath = null;
+        }
+        $restaurantMenu->image = $restaurantMenuImagePath;
+        $restaurantMenu->restaurant_id = $restaurant->id;
+
+        $restaurantMenu->update();
+        return redirect()->route('restaurant.menus', $restaurant->id)->with('flash.banner', 'Restaurant Menu added successfully');
+    }
+
 
 
 

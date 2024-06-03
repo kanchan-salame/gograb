@@ -62,7 +62,7 @@
         class="ml-2 text-sm px-10"
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"
-        @click="saveRestaurant"
+        @click="saveRestaurantMenu"
       >
         {{ restaurant ? "Update Restaurant Menu" : "Add Restaurant Menu" }}
       </primary-button>
@@ -115,13 +115,13 @@ export default {
     InputSelect,
     PrimaryButton,
   },
-  props: ["restaurant"],
+  props: ["restaurant", 'menu'],
   setup(props) {
     const form = useForm({
-        _method: props.restaurant ? 'PUT' : 'POST',
-      name: props.restaurant ? props.restaurant.name : "",
-      image: props.restaurant ? props.restaurant.image : "",
-      description: props.restaurant ? props.restaurant.description : "",
+        _method: props.menu ? 'PUT' : 'POST',
+      name: props.menu ? props.menu.name : "",
+      image: props.menu ? props.menu.image : "",
+      description: props.menu ? props.menu.description : "",
     });
 
     const handleFileChange = (event) => {
@@ -135,9 +135,9 @@ export default {
     };
 
     // Save restaurant
-    function saveRestaurant() {
+    function saveRestaurantMenu() {
       const options = {
-        errorBag: "saveRestaurant",
+        errorBag: "saveRestaurantMenu",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
@@ -146,18 +146,18 @@ export default {
         },
       };
 
-      if (!props.restaurant) {
+      if (!props.menu) {
         // New Item
-        form.post(route("restaurant.store"), options);
+        form.post(route("restaurant.save.menu" , props.restaurant.id), options);
       } else {
         // Existing Item
-        form.post(route("restaurant.update", props.restaurant.id), options);
+        form.post(route("restaurant.update.menu", {restaurant:props.restaurant.id, restaurantMenu:props.menu.id}), options);
       }
     }
 
     return {
       form,
-      saveRestaurant,
+      saveRestaurantMenu,
       handleFileChange,
     };
   },

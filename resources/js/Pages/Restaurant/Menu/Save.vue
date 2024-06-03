@@ -6,7 +6,7 @@
             <div>
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     <span class="text-gray-800">
-                        Add Restaurant Menu
+                        {{ menu ? 'Update Restaurant Menu' : 'Add Restaurant Menu' }}
                     </span>
                 </h2>
             </div>
@@ -21,10 +21,8 @@
         <div>
             <div class="pb-10 sm:px-6 lg:px-8">
                 <MenuForm
-                    :team="team"
-                    :types="types"
-                    :slider="slider"
-                    :gstRates="gstRates"
+                    :restaurant="restaurant"
+                    :menu="menu"
                 />
             </div>
         </div>
@@ -45,15 +43,11 @@ export default {
         Head
     },
     props: [
-        'types',
-        'team',
-        'slider',
-        'gstRates'
+        'restaurant',
+        'menu',
     ],
     computed: {
-        title () {
-            return slider ? 'Update Slider' : 'Add Slider'
-        }
+
     }
 }
 </script>

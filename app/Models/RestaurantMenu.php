@@ -23,4 +23,11 @@ class RestaurantMenu extends Model
         'has_menu_item',
         'index',
     ];
+
+    protected $appends = ['imagepath'];
+
+    public function getImagePathAttribute()
+    {
+        return url('storage/'.$this->image);
+    }
 }

@@ -7,11 +7,12 @@ import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/vue/outline";
 import JetConfirmationModal from "@/Components/Jetstream/ConfirmationModal.vue";
 import JetDangerButton from "@/Jetstream/DangerButton.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
-import JetButton from '@/Jetstream/Button.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import EmptyList from '@/Components/Ui/EmptyList.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ClockIcon, TagIcon, MenuIcon   } from "@heroicons/vue/solid"
+import JetButton from "@/Jetstream/Button.vue";
+import { Head, Link } from "@inertiajs/vue3";
+import EmptyList from "@/Components/Ui/EmptyList.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { ClockIcon, TagIcon, MenuIcon } from "@heroicons/vue/solid";
+import Accordion from "@/Components/Ui/Accordion.vue";
 
 export default {
   components: {
@@ -32,9 +33,10 @@ export default {
     Link,
     ClockIcon,
     TagIcon,
-    MenuIcon
+    MenuIcon,
+    Accordion,
   },
-  props: ["restaurant"],
+  props: ["restaurant", "menus"],
   data() {
     return {
       restaurantBeingDeleted: null,
@@ -65,7 +67,7 @@ export default {
 </script>
 
 <template>
-<Head title="Restaurants" />
+  <Head title="Restaurants" />
   <AppLayout title="Restaurants">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
@@ -91,18 +93,37 @@ export default {
                 class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
               >
                 <div
-                  class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-
+                  class="bg-white overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                  v-if="menus.length"
                 >
-
+                  <div class="bg-white">
+                    <div
+                      v-for="(menu, index) in menus"
+                      :key="`menus-${index}`"
+                      class="mx-8 my-3"
+                    >
+                      <Accordion
+                        :image="menu.imagepath"
+                        :title="menu.name"
+                        :id="`menu-${index}`"
+                        :active="menu.active"
+                        :description="menu.description"
+                        :deleteRoute="'restaurant.destroy.menu'"
+                        :editRoute="route('restaurant.menu.edit', {restaurant: restaurant.id, restaurantMenu:menu.id})"
+                        :menuId="menu.id"
+                      >
+                        {{ menu.description }}
+                      </Accordion>
+                    </div>
+                  </div>
                 </div>
                 <EmptyList
-
-                    icon="ClockIcon"
-                    title="No Restaurant Menu"
-                    description="Restaurant Menu not found. Get started by adding a new Restaurant Menus."
-                    button-title="Add Restaurant Menus"
-                    :button-url="route('restaurant.menu.create')"
+                  v-else
+                  icon="ClockIcon"
+                  title="No Restaurant Menu"
+                  description="Restaurant Menu not found. Get started by adding a new Restaurant Menus."
+                  button-title="Add Restaurant Menus"
+                  :button-url="route('restaurant.menu.create', restaurant.id)"
                 />
               </div>
             </div>
@@ -112,32 +133,48 @@ export default {
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
-        <jet-confirmation-modal :show="restaurantBeingToggled" @close="restaurantBeingToggled = null">
-            <template #title>
-                {{ restaurantBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
-            </template>
+    <jet-confirmation-modal
+      :show="restaurantBeingToggled"
+      @close="restaurantBeingToggled = null"
+    >
+      <template #title>
+        {{
+          restaurantBeingToggled.activated_at ? "Deactivate" : "Activate"
+        }}
+        Client
+      </template>
 
-            <template #content>
-                Are you sure you would like to {{ restaurantBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ restaurantBeingToggled.id }}?
-            </template>
+      <template #content>
+        Are you sure you would like to
+        {{ restaurantBeingToggled.activated_at ? "deactivate" : "activate" }}
+        {{ restaurantBeingToggled.id }}?
+      </template>
 
-            <template #footer>
-                <jet-secondary-button @dblclick="restaurantBeingToggled = null">
-                    Nevermind
-                </jet-secondary-button>
+      <template #footer>
+        <jet-secondary-button @dblclick="restaurantBeingToggled = null">
+          Nevermind
+        </jet-secondary-button>
 
-                <jet-danger-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleRestaurantForm.processing }" :disabled="toggleRestaurantForm.processing"
-                    v-if="restaurantBeingToggled.activated_at">
-                    Deactivate
-                </jet-danger-button>
-                <jet-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleRestaurantForm.processing }" :disabled="toggleRestaurantForm.processing"
-                    v-else>
-                    Activate
-                </jet-button>
-            </template>
-        </jet-confirmation-modal>
+        <jet-danger-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleRestaurantForm.processing }"
+          :disabled="toggleRestaurantForm.processing"
+          v-if="restaurantBeingToggled.activated_at"
+        >
+          Deactivate
+        </jet-danger-button>
+        <jet-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleRestaurantForm.processing }"
+          :disabled="toggleRestaurantForm.processing"
+          v-else
+        >
+          Activate
+        </jet-button>
+      </template>
+    </jet-confirmation-modal>
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
       :show="restaurantBeingDeleted"
