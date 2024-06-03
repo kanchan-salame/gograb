@@ -206,6 +206,12 @@ class RestaurantController extends Controller
         return redirect()->route('restaurant.menus', $restaurant->id)->with('flash.banner', 'Restaurant Menu added successfully');
     }
 
+    public function destroyMenu(Restaurant $restaurant, RestaurantMenu $restaurantMenu)
+    {
+        $restaurantMenu->delete();
+        return redirect()->route('restaurant.menus', $restaurant->id)->with('flash.banner', 'Restaurant Menu deleted successfully');
+    }
+
 
 
 

@@ -108,7 +108,7 @@ export default {
                         :id="`menu-${index}`"
                         :active="menu.active"
                         :description="menu.description"
-                        :deleteRoute="'restaurant.destroy.menu'"
+                        :deleteRoute="route('restaurant.destroy.menu', {restaurant: restaurant.id, restaurantMenu:menu.id})"
                         :editRoute="route('restaurant.menu.edit', {restaurant: restaurant.id, restaurantMenu:menu.id})"
                         :menuId="menu.id"
                       >

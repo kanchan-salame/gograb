@@ -12,7 +12,7 @@ import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
 import JetButton from '@/Jetstream/Button.vue';
 
 const accordionOpen = ref<boolean>(false);
-const beingDeleted = ref<string>(null);
+const beingDeleted = ref<string>('');
 const toggleRestaurantForm = useForm({});
 
 const props = defineProps<{
@@ -24,9 +24,6 @@ const props = defineProps<{
   deleteRoute: string;
   editRoute: string;
   menuId: number;
-  beingDeleted: {
-    default: null
-  }
 }>();
 
 
@@ -35,9 +32,12 @@ onMounted(() => {
 });
 
 const confirmDelete = (Id) => {
-    console.log(props.beingDeleted);
+    // console.log(props.beingDeleted);
 
-    // props.beingDeleted = Id;
+    // beingDeleted.value = Id;
+    console.log(Id);
+
+    route(props.deleteRoute, Id);
 }
 
 const closeDeleted = () => {
@@ -85,11 +85,12 @@ const deleteMenu = (Id) => {
               class="flex items-center justify-between w-full text-left font-semibold py-2"
             >
               <span>{{ title }}</span>
-                <TrashIcon
-                @click.prevent="confirmDelete(menuId)"
-                class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
+              <Link
+                :href="deleteRoute"
                 title="Delete Restaurant Menu"
-              />
+              >
+                <trash-icon class="h-5 w-5 text-primary hover:text-dark" />
+              </Link>
 
               <Link
                 :href="editRoute"
@@ -166,7 +167,7 @@ const deleteMenu = (Id) => {
 
       <template #footer>
         <jet-secondary-button
-          @click="beingDeleted.value = null"
+          onclick="alert('hi')"
           style="margin-right: 10px"
         >
           Nevermind
