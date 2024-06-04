@@ -256,4 +256,26 @@ class RestaurantController extends Controller
         }
         return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant timing updated successfully');
     }
+
+    /**
+     * set menu item of restaurant.
+     */
+    public function createMenuItem(RestaurantMenu $restaurantMenu)
+    {
+        return Inertia::render('Restaurant/Menu/SaveMenuItem',
+        array_merge([
+            'restaurantMenu' => $restaurantMenu,
+        ]));
+    }
+
+    /**
+     * store menu item of restaurant.
+     */
+    public function storeMenuItem(RestaurantMenu $restaurantMenu)
+    {
+        return Inertia::render('Restaurant/Menu/SaveMenuItem',
+        array_merge([
+            'restaurantMenu' => $restaurantMenu,
+        ]));
+    }
 }

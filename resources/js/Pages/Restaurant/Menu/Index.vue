@@ -112,7 +112,9 @@ export default {
                         :editRoute="route('restaurant.menu.edit', {restaurant: restaurant.id, restaurantMenu:menu.id})"
                         :menuId="menu.id"
                       >
-                        {{ menu.description }}
+                        <primary-button @click="$inertia.get(route('restaurant.create.menu.item', menu.id))">
+                            Add New Menu Item
+                        </primary-button>
                       </Accordion>
                     </div>
                   </div>
