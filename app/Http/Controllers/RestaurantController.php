@@ -14,6 +14,7 @@ use App\Models\RestaurantTiming;
 use App\Http\Requests\SaveRestaurantMenuFormRequest;
 use App\Http\Requests\SaveRestaurantMenuItemFormRequest;
 use App\Models\RestaurantMenu;
+use App\Models\RestaurantMenuItem;
 
 class RestaurantController extends Controller
 {
@@ -138,10 +139,18 @@ class RestaurantController extends Controller
      */
     public function setMenus(Restaurant $restaurant)
     {
+        // $data = RestaurantMenu::all();
+        // // dd($data->menuItems());
+        // foreach ($data as $key => $value) {
+        //     dd($value->menuItems());
+        // }
         return Inertia::render('Restaurant/Menu/Index',
             array_merge([
                 'restaurant' => $restaurant,
-                'menus' => RestaurantMenu::where('restaurant_id', $restaurant->id)->get(),
+                'menus' => fn() =>
+                QueryBuilder::for(RestaurantMenu::class)
+                ->where('restaurant_id', $restaurant->id)
+                ->with(['menuItems'])->get(),
             ]));
     }
 
@@ -296,13 +305,12 @@ class RestaurantController extends Controller
         return Inertia::render('Restaurant/Menu/SaveMenuItem',
         array_merge([
             'restaurantMenu' => $restaurantMenu,
-            'menuItem' => $restaurantMenuItem,
+            'restaurantMenuItem' => $restaurantMenuItem,
         ]));
     }
 
     public function updateMenuItem(SaveRestaurantMenuItemFormRequest $request, RestaurantMenu $restaurantMenu, RestaurantMenuItem $restaurantMenuItem,)
     {
-        // $data = $request->all();
         $restaurantMenuItem->name = $request['name'];
         $restaurantMenuItem->description = $request['description'];
         $restaurantMenuItem->price = $request['price'];

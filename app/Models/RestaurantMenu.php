@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RestaurantMenu extends Model
 {
@@ -29,5 +31,13 @@ class RestaurantMenu extends Model
     public function getImagePathAttribute()
     {
         return url('storage/'.$this->image);
+    }
+
+    /**
+     * Get the menu item for the restaurant menu.
+     */
+    public function menuItems(): HasMany
+    {
+        return $this->hasMany(RestaurantMenuItem::class);
     }
 }

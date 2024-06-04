@@ -6,7 +6,7 @@
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             <span class="text-gray-800">
-              {{ menu ? "Update Restaurant Menu Item" : "Add Restaurant Menu Item" }}
+              {{ restaurantMenuItem ? "Update Restaurant Menu Item" : "Add Restaurant Menu Item" }}
             </span>
           </h2>
         </div>
@@ -103,9 +103,9 @@
             class="ml-2 text-sm px-10"
             :class="{ 'opacity-25': form.processing }"
             :disabled="form.processing"
-            @click="saveRestaurantMenu"
+            @click="saveRestaurantMenuItem"
           >
-            {{ restaurant ? "Update Restaurant Menu Item" : "Add Restaurant Menu Item" }}
+            {{ restaurantMenuItem ? "Update Restaurant Menu Item" : "Add Restaurant Menu Item" }}
           </primary-button>
         </form-actions>
       </div>
@@ -164,14 +164,14 @@ export default {
     InputSelect,
     PrimaryButton,
   },
-  props: ["menu"],
+  props: ["restaurantMenu", "restaurantMenuItem"],
   setup(props) {
     const form = useForm({
-      _method: props.menu ? "PUT" : "POST",
-      name: props.menu ? props.menu.name : "",
-      price: props.menu ? props.menu.price : "",
-      image: props.menu ? props.menu.image : "",
-      description: props.menu ? props.menu.description : "",
+      _method: props.restaurantMenuItem ? "PUT" : "POST",
+      name: props.restaurantMenuItem ? props.restaurantMenuItem.name : "",
+      price: props.restaurantMenuItem ? props.restaurantMenuItem.price : "",
+      image: props.restaurantMenuItem ? props.restaurantMenuItem.image : "",
+      description: props.restaurantMenuItem ? props.restaurantMenuItem.description : "",
     });
 
     const handleFileChange = (event) => {
@@ -185,9 +185,9 @@ export default {
     };
 
     // Save restaurant
-    function saveRestaurantMenu() {
+    function saveRestaurantMenuItem() {
       const options = {
-        errorBag: "saveRestaurantMenu",
+        errorBag: "saveRestaurantMenuItem",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
@@ -196,15 +196,15 @@ export default {
         },
       };
 
-      if (!props.menu) {
+      if (!props.restaurantMenuItem) {
         // New Item
-        form.post(route("restaurant.store.menu.item", props.restaurant.id), options);
+        form.post(route("restaurant.store.menu.item", props.restaurantMenu.id), options);
       } else {
         // Existing Item
         form.post(
           route("restaurant.update.menu.item", {
-            restaurant: props.restaurant.id,
-            restaurantMenu: props.menu.id,
+            restaurantMenu: props.restaurantMenu.id,
+            restaurantMenuItem: props.restaurantMenuItem.id,
           }),
           options
         );
@@ -213,7 +213,7 @@ export default {
 
     return {
       form,
-      saveRestaurantMenu,
+      saveRestaurantMenuItem,
       handleFileChange,
     };
   },

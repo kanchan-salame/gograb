@@ -112,6 +112,25 @@ export default {
                         :editRoute="route('restaurant.menu.edit', {restaurant: restaurant.id, restaurantMenu:menu.id})"
                         :menuId="menu.id"
                       >
+                      <div class="bg-gray ml-6">
+                            <div
+                                v-for="(menu_item, index) in menu.menu_items"
+                                :key="`menus-${index}`"
+                                class="mx-8 my-3"
+                            >
+                                <Accordion
+                                    :image="menu_item.imagepath"
+                                    :title="menu_item.name"
+                                    :id="`menu_item-${index}`"
+                                    :active="menu_item.active"
+                                    :description="menu_item.description"
+                                    :deleteRoute="route('restaurant.destroy.menu.item', {restaurantMenu:menu.id, restaurantMenuItem: menu_item.id})"
+                                    :editRoute="route('restaurant.menu.edit.item', {restaurantMenu:menu.id, restaurantMenuItem: menu_item.id})"
+                                    :menuId="menu_item.id"
+                                >
+                                </Accordion>
+                            </div>
+                      </div>
                         <primary-button @click="$inertia.get(route('restaurant.create.menu.item', menu.id))">
                             Add New Menu Item
                         </primary-button>
