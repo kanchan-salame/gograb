@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\RestaurantCategories;
 use App\Models\RestaurantTiming;
 use App\Http\Requests\SaveRestaurantMenuFormRequest;
+use App\Http\Requests\SaveRestaurantMenuItemFormRequest;
 use App\Models\RestaurantMenu;
 
 class RestaurantController extends Controller
@@ -271,11 +272,57 @@ class RestaurantController extends Controller
     /**
      * store menu item of restaurant.
      */
-    public function storeMenuItem(RestaurantMenu $restaurantMenu)
+    public function storeMenuItem(SaveRestaurantMenuItemFormRequest $request, RestaurantMenu $restaurantMenu)
+    {
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $restaurantMenuImagePath = $request->file('image')->store('uploads/restaurant/menu-item/images');
+            $restaurantMenuImagePath = str_replace('public/', '', $restaurantMenuImagePath);
+            } else {
+            $restaurantMenuImagePath = null;
+        }
+        $data['image'] = $restaurantMenuImagePath;
+        $data['restaurant_menu_id'] = $restaurantMenu->id;
+
+        RestaurantMenuItem::create($data);
+        return redirect()->route('restaurant.menus', $restaurantMenu->restaurant_id)->with('flash.banner', 'Restaurant Menu Item added successfully');
+    }
+
+    /**
+     * edit menu item of restaurant.
+     */
+    public function editMenuItem(RestaurantMenu $restaurantMenu, RestaurantMenuItem $restaurantMenuItem )
     {
         return Inertia::render('Restaurant/Menu/SaveMenuItem',
         array_merge([
             'restaurantMenu' => $restaurantMenu,
+            'menuItem' => $restaurantMenuItem,
         ]));
+    }
+
+    public function updateMenuItem(SaveRestaurantMenuItemFormRequest $request, RestaurantMenu $restaurantMenu, RestaurantMenuItem $restaurantMenuItem,)
+    {
+        // $data = $request->all();
+        $restaurantMenuItem->name = $request['name'];
+        $restaurantMenuItem->description = $request['description'];
+        $restaurantMenuItem->price = $request['price'];
+
+        if ($request->hasFile('image')) {
+            $restaurantMenuImagePath = $request->file('image')->store('uploads/restaurant/menu-item/images');
+            $restaurantMenuImagePath = str_replace('public/', '', $restaurantMenuImagePath);
+            } else {
+            $restaurantMenuImagePath = null;
+        }
+        $restaurantMenuItem->image = $restaurantMenuImagePath;
+        $restaurantMenuItem->restaurant_menu_id = $restaurantMenu->id;
+
+        $restaurantMenuItem->update();
+        return redirect()->route('restaurant.menus', $restaurantMenu->restaurant_id)->with('flash.banner', 'Restaurant Menu Item updated successfully');
+    }
+
+    public function destroyMenuItem(RestaurantMenu $restaurantMenu, RestaurantMenuItem $restaurantMenuItem)
+    {
+        $restaurantMenuItem->delete();
+        return redirect()->route('restaurant.menus', $restaurantMenu->restaurant_id)->with('flash.banner', 'Restaurant Menu Item deleted successfully');
     }
 }

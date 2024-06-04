@@ -198,11 +198,11 @@ export default {
 
       if (!props.menu) {
         // New Item
-        form.post(route("restaurant.save.menu", props.restaurant.id), options);
+        form.post(route("restaurant.store.menu.item", props.restaurant.id), options);
       } else {
         // Existing Item
         form.post(
-          route("restaurant.update.menu", {
+          route("restaurant.update.menu.item", {
             restaurant: props.restaurant.id,
             restaurantMenu: props.menu.id,
           }),

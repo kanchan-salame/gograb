@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::put('restaurant-update-menu/{restaurant}/{restaurantMenu}', [RestaurantController::class, 'updateMenu'])->name('restaurant.update.menu');
     Route::get('restaurant-destroy-menu/{restaurant}/{restaurantMenu}', [RestaurantController::class, 'destroyMenu'])->name('restaurant.destroy.menu');
     Route::get('restaurant-create-menu-item/{restaurantMenu}', [RestaurantController::class, 'createMenuItem'])->name('restaurant.create.menu.item');
+    Route::post('restaurant-save-menu-item/{restaurantMenu}/', [RestaurantController::class, 'storeMenuItem'])->name('restaurant.store.menu.item');
+    Route::get('edit-restaurant-menu/{restaurantMenu}/{restaurantMenuItem}', [RestaurantController::class, 'editMenuItem'])->name('restaurant.menu.edit');
+    Route::put('restaurant-update-menu-item/{restaurantMenu}/{restaurantMenuItem}', [RestaurantController::class, 'updateMenuItem'])->name('restaurant.update.menu.item');
+    Route::get('restaurant-destroy-menu-item/{restaurantMenu}/{restaurantMenuItem}', [RestaurantController::class, 'destroyMenuItem'])->name('restaurant.destroy.menu.item');
     Route::post('restaurant-update-categories/{restaurant}', [RestaurantController::class, 'updateCategories'])->name('restaurant.update.categories');
     Route::post('restaurant-update-timing/{restaurant}', [RestaurantController::class, 'updateTiming'])->name('restaurant.update.timing');
 });
