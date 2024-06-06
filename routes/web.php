@@ -8,6 +8,7 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\GoodTypeController;
+use App\Http\Controllers\PackageSizeController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -31,6 +32,7 @@ Route::middleware([
 Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class);
     Route::resource('goodType', GoodTypeController::class);
+    Route::resource('packageSize', PackageSizeController::class);
     Route::resource('sliders', SliderController::class);
     Route::resource('category', CategoryController::class);
     Route::resource('restaurant', RestaurantController::class);
