@@ -15,7 +15,7 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-100" />
         </TransitionChild>
         <TransitionChild
           as="template"
