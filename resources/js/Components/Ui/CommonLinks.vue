@@ -225,7 +225,7 @@
               Trip Requests
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown3()">
+          <sidebar-dropdown @click="dropdown4()">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -233,7 +233,7 @@
             Services
             <ChevronRightIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-              :class="rotate3"
+              :class="rotate4"
               aria-hidden="true"
               style="right: -40px; position: relative"
             />
@@ -241,7 +241,7 @@
           <div
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
-            :class="{ hidden: this.isHidden3 }"
+            :class="{ hidden: this.isHidden4 }"
           >
             <jet-nav-link
               :href="route('users.index')"
@@ -287,16 +287,27 @@
               />
               Sub Services
             </jet-nav-link>
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Bookings
+            </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown3()">
+          <sidebar-dropdown @click="dropdown5()">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
             />
-            Calculator
+            Predict Cost
             <ChevronRightIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-              :class="rotate3"
+              :class="rotate5"
               aria-hidden="true"
               style="right: -40px; position: relative"
             />
@@ -304,7 +315,7 @@
           <div
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
-            :class="{ hidden: this.isHidden3 }"
+            :class="{ hidden: this.isHidden5 }"
           >
             <jet-nav-link
               :href="route('users.index')"
@@ -315,7 +326,7 @@
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
                 aria-hidden="true"
               />
-              Website Cost
+              Website
             </jet-nav-link>
             <jet-nav-link
               :href="route('users.index')"
@@ -326,7 +337,7 @@
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
                 aria-hidden="true"
               />
-              App Cost
+              App
             </jet-nav-link>
             <jet-nav-link
               :href="route('users.index')"
@@ -337,7 +348,7 @@
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
                 aria-hidden="true"
               />
-              Electric Equipment
+              Equipment
             </jet-nav-link>
             <jet-nav-link
               :href="route('users.index')"
@@ -348,7 +359,7 @@
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
                 aria-hidden="true"
               />
-              Electric Charger
+              Installation
             </jet-nav-link>
           </div>
           <jet-nav-link
@@ -477,12 +488,16 @@ export default {
     const isHidden = ref(true);
     const isHidden2 = ref(true);
     const isHidden3 = ref(true);
+    const isHidden4 = ref(true);
+    const isHidden5 = ref(true);
     const isRotate = ref(true);
     // ...
     return {
       isHidden,
       isHidden2,
       isHidden3,
+      isHidden4,
+      isHidden5,
       isRotate,
     };
   },
@@ -532,6 +547,12 @@ export default {
     rotate3() {
       return this.isHidden3 ? "rotate-0" : "rotate-90";
     },
+    rotate4() {
+      return this.isHidden4 ? "rotate-0" : "rotate-90";
+    },
+    rotate5() {
+      return this.isHidden5 ? "rotate-0" : "rotate-90";
+    },
   },
   methods: {
     dropdown() {
@@ -542,6 +563,12 @@ export default {
     },
     dropdown3() {
       this.isHidden3 = !this.isHidden3;
+    },
+    dropdown4() {
+      this.isHidden4 = !this.isHidden4;
+    },
+    dropdown5() {
+      this.isHidden5 = !this.isHidden5;
     },
   },
 };
