@@ -9,6 +9,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\GoodTypeController;
 use App\Http\Controllers\PackageSizeController;
+use App\Http\Controllers\ServiceCategoryController;
+use App\Http\Controllers\ServiceSubCategoryController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SubServiceController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -31,6 +35,10 @@ Route::middleware([
 
 Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class);
+    Route::resource('serviceCategory', ServiceCategoryController::class);
+    Route::resource('serviceSubCategory', ServiceSubCategoryController::class);
+    Route::resource('service', ServiceController::class);
+    Route::resource('subService', SubServiceController::class);
     Route::resource('goodType', GoodTypeController::class);
     Route::resource('packageSize', PackageSizeController::class);
     Route::resource('sliders', SliderController::class);
