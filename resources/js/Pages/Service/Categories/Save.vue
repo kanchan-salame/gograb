@@ -1,12 +1,12 @@
 <template>
 <app-layout>
-    <Head title="Add Category" />
+    <Head title="Add Service Category" />
     <template #header>
         <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
             <div>
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     <span class="text-gray-800">
-                        {{ category ? 'Update Category' : 'Add Category'  }}
+                        {{ serviceCategory ? 'Update Service Category' : 'Add Service Category'  }}
                     </span>
                 </h2>
             </div>
@@ -21,7 +21,7 @@
         <div>
             <div class="pb-10 sm:px-6 lg:px-8">
                 <ItemForm
-                    :category="category"
+                    :serviceCategory="serviceCategory"
                 />
             </div>
         </div>
@@ -32,7 +32,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue"
 import SubNavLink from '@/Components/Ui/SubNavLink.vue'
-import ItemForm from '@/Pages/Categories/Form.vue'
+import ItemForm from '@/Pages/Service/Categories/Form.vue'
 import { Head, Link } from '@inertiajs/vue3';
 export default {
     components: {
@@ -42,11 +42,11 @@ export default {
         Head
     },
     props: [
-        'category',
+        'serviceCategory',
     ],
     computed: {
         title () {
-            return slider ? 'Update Slider' : 'Add Slider'
+            return slider ? 'Update Service Category' : 'Add Service Category'
         }
     }
 }

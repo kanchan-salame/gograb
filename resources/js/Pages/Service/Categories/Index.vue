@@ -30,7 +30,7 @@ export default {
     PrimaryButton,
     Link
   },
-  props: ["categories"],
+  props: ["serviceCategories"],
   data() {
     return {
       categoryBeingDeleted: null,
@@ -44,7 +44,7 @@ export default {
     },
     deleteCategory() {
       this.toggleCategoryForm.delete(
-        route("category.destroy", this.categoryBeingDeleted.id),
+        route("serviceCategory.destroy", this.categoryBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
@@ -61,18 +61,18 @@ export default {
 </script>
 
 <template>
-  <Head title="Food Categories" />
-  <AppLayout title="Food Categories">
+  <Head title="Service Categories" />
+  <AppLayout title="Service Categories">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Food Categories</span>
+            <span class="text-gray-800">Service Categories</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button :href="route('sliders.create')" icon="Plus">
-            Add Category
+          <primary-button :href="route('serviceCategory.create')" icon="Plus">
+            Add Service Category
           </primary-button>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="categories.data.length"
+                  v-if="serviceCategories.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -121,73 +121,42 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Image Url
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Icon
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Icon Url
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
                           Actions
                         </th>
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(category, index) in categories.data"
-                        :key="`user-${category.id}`"
+                        v-for="(serviceCategory, index) in serviceCategories.data"
+                        :key="`user-${serviceCategory.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ category.id }}
+                            {{ serviceCategory.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ category.name }}
+                            {{ serviceCategory.name }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                          <img :src="category.imagepath" :alt="category.imagepath" class="rounded-full h-20 w-20 object-cover" />
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <div class="text-sm text-gray-900">
-                            {{ category.image }}
-                          </div>
-                        </td>
-                        <td class="whitespace-nowrap text-right">
-                          <img :src="category.iconpath" :alt="category.iconpath" class="rounded-full h-20 w-20 object-cover" />
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <div class="text-sm text-gray-900">
-                            {{ category.icon }}
-                          </div>
+                          <img :src="serviceCategory.imagepath" :alt="serviceCategory.imagepath" class="rounded-full h-20 w-20 object-cover" />
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <Link :href="route('category.edit', category.id)">
+                            <Link :href="route('serviceCategory.edit', serviceCategory.id)">
                               <pencil-alt-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />
                             </Link>
                             <button
-                              @click.prevent="confirmCategoryDelete(category)"
+                              @click.prevent="confirmCategoryDelete(serviceCategory)"
                             >
                               <TrashIcon
                                 class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
@@ -201,19 +170,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="categories.links"
-                    :from="categories.from"
-                    :to="categories.to"
-                    :total="categories.total"
+                    :links="serviceCategories.links"
+                    :from="serviceCategories.from"
+                    :to="serviceCategories.to"
+                    :total="serviceCategories.total"
                   />
                 </div>
                 <EmptyList
                   v-else
                   icon="ClockIcon"
-                  title="No Categories"
-                  description="Categories not found. Get started by adding a new Category."
-                  button-title="Add Category"
-                  :button-url="route('category.create')"
+                  title="No Service Categories"
+                  description="Service Categories not found. Get started by adding a new Service Category."
+                  button-title="Add Service Category"
+                  :button-url="route('serviceCategory.create')"
                 />
               </div>
             </div>

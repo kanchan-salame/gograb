@@ -244,8 +244,8 @@
             :class="{ hidden: this.isHidden4 }"
           >
             <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
+              :href="route('serviceCategory.index')"
+              :active="route().current('serviceCategory.index')"
               v-if="this.$page.props.auth.user.role == 'admin'"
             >
               <TruckIcon

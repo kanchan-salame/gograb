@@ -4,7 +4,7 @@
       <template #title> Basic Information </template>
 
       <template #description>
-        Provide basic information like Name, Image and image url for the Category.
+        Provide basic information like Name, Image and image url for the Service Category.
       </template>
 
       <template #form>
@@ -36,20 +36,6 @@
               />
             <jet-input-error :message="form.errors.image" class="mt-2" />
         </div>
-        <div
-          class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
-        >
-          <jet-label for="icon" value="Icon" />
-          <jet-input
-                id="icon"
-                type="file"
-                ref="categoryIcon"
-                @change="handleIconChange"
-                class="flex-1 block w-full rounded"
-                accept="image/*"
-              />
-            <jet-input-error :message="form.errors.icon" class="mt-2" />
-        </div>
       </template>
     </jet-form-section>
 
@@ -58,7 +44,7 @@
 
       <jet-secondary-button
         class="text-sm px-10"
-        @click="$inertia.get(route('sliders.index'))"
+        @click="$inertia.get(route('serviceCategory.index'))"
       >
         Nevermind
       </jet-secondary-button>
@@ -67,9 +53,9 @@
         class="ml-2 text-sm px-10"
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"
-        @click="saveCategory"
+        @click="saveServiceCategory"
       >
-        {{ category ? "Update Category" : "Add Category" }}
+        {{ serviceCategory ? "Update Service Category" : "Add Service Category" }}
       </primary-button>
     </form-actions>
   </div>
@@ -120,13 +106,12 @@ export default {
     InputSelect,
     PrimaryButton
   },
-  props: ["category"],
+  props: ["serviceCategory"],
   setup(props) {
     const form = useForm({
-        _method: props.category ? 'PUT' : 'POST',
-      name: props.category ? props.category.name : "",
-      image: props.category ? props.category.image : "",
-      icon: props.category ? props.category.icon : "",
+        _method: props.serviceCategory ? 'PUT' : 'POST',
+      name: props.serviceCategory ? props.serviceCategory.name : "",
+      image: props.serviceCategory ? props.serviceCategory.image : "",
     });
 
     const handleImageChange = (event) => {
@@ -139,21 +124,12 @@ export default {
         };
     }
 
-    const handleIconChange = (event) => {
-        console.log(event.target.files[0]);
-            form.icon = event.target.files[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(form.image);
-            reader.onload = (e) => {
-            // previewImage.value = e.target.result;
-        };
-    }
 
     // Save slider
-    function saveCategory() {
+    function saveServiceCategory() {
         console.log(form);
       const options = {
-        errorBag: "saveCategory",
+        errorBag: "saveServiceCategory",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
@@ -162,20 +138,19 @@ export default {
         },
       };
 
-      if (!props.category) {
-        // New Category
-        form.post(route("category.store"), options);
+      if (!props.serviceCategory) {
+        // New serviceCategory
+        form.post(route("serviceCategory.store"), options);
       } else {
-        // Existing Category
-        form.post(route("category.update", props.category.id), options);
+        // Existing serviceCategory
+        form.post(route("serviceCategory.update", props.serviceCategory.id), options);
       }
     }
 
     return {
       form,
-      saveCategory,
+      saveServiceCategory,
       handleImageChange,
-      handleIconChange
     };
   },
 };

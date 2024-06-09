@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Http\Requests\SaveCategoryFormRequest;
+use App\Http\Requests\SaveServiceCategoryFormRequest;
 
 class ServiceCategoryController extends Controller
 {
@@ -33,9 +33,18 @@ class ServiceCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveServiceCategoryFormRequest $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/service/category/images');
+            // $categoryImagePath = str_replace('public/', '', $categoryImagePath);
+            } else {
+            $categoryImagePath = null;
+        }
+        $data['image'] = $categoryImagePath;
+        ServiceCategory::create($data);
+        return redirect()->route('serviceCategory.index')->with('flash.banner', 'Service Category added successfully');
     }
 
     /**
@@ -51,15 +60,26 @@ class ServiceCategoryController extends Controller
      */
     public function edit(ServiceCategory $serviceCategory)
     {
-        //
+        return Inertia::render('Service/Categories/Save',
+            array_merge([
+                'serviceCategory' => $serviceCategory,
+            ]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ServiceCategory $serviceCategory)
+    public function update(SaveServiceCategoryFormRequest $request, ServiceCategory $serviceCategory)
     {
-        //
+        $serviceCategory->name = $request['name'];
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/category/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $serviceCategory->image = $categoryImagePath;
+        $serviceCategory->update();
+        return redirect()->route('serviceCategory.index')->with('flash.banner', 'Service Category Updated successfully');
     }
 
     /**
@@ -67,6 +87,7 @@ class ServiceCategoryController extends Controller
      */
     public function destroy(ServiceCategory $serviceCategory)
     {
-        //
+        $serviceCategory->delete();
+        return back()->with('flash.banner', 'Service Category deleted successfully');
     }
 }
