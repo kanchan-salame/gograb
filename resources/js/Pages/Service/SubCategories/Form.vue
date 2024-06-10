@@ -4,7 +4,7 @@
       <template #title> Basic Information </template>
 
       <template #description>
-        Provide basic information like Name, Image and image url for the Category.
+        Provide basic information like Name, Image and image url for the Service Sub Category.
       </template>
 
       <template #form>
@@ -36,20 +36,6 @@
               />
             <jet-input-error :message="form.errors.image" class="mt-2" />
         </div>
-        <div
-          class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
-        >
-          <jet-label for="icon" value="Icon" />
-          <jet-input
-                id="icon"
-                type="file"
-                ref="categoryIcon"
-                @change="handleIconChange"
-                class="flex-1 block w-full rounded"
-                accept="image/*"
-              />
-            <jet-input-error :message="form.errors.icon" class="mt-2" />
-        </div>
       </template>
     </jet-form-section>
 
@@ -58,7 +44,7 @@
 
       <jet-secondary-button
         class="text-sm px-10"
-        @click="$inertia.get(route('sliders.index'))"
+        @click="$inertia.get(route('serviceSubCategory.index'))"
       >
         Nevermind
       </jet-secondary-button>
@@ -67,9 +53,9 @@
         class="ml-2 text-sm px-10"
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"
-        @click="saveCategory"
+        @click="saveServiceSubCategory"
       >
-        {{ category ? "Update Category" : "Add Category" }}
+        {{ serviceSubCategory ? "Update Service Sub Category" : "Add Service Sub Category" }}
       </primary-button>
     </form-actions>
   </div>
@@ -120,40 +106,27 @@ export default {
     InputSelect,
     PrimaryButton
   },
-  props: ["category"],
+  props: ["serviceSubCategory"],
   setup(props) {
     const form = useForm({
-        _method: props.category ? 'PUT' : 'POST',
-      name: props.category ? props.category.name : "",
-      image: props.category ? props.category.image : "",
-      icon: props.category ? props.category.icon : "",
+        _method: props.serviceSubCategory ? 'PUT' : 'POST',
+      name: props.serviceSubCategory ? props.serviceSubCategory.name : "",
+      image: props.serviceSubCategory ? props.serviceSubCategory.image : "",
     });
 
     const handleImageChange = (event) => {
-        console.log(event.target.files[0]);
             form.image = event.target.files[0];
             const reader = new FileReader();
             reader.readAsDataURL(form.image);
             reader.onload = (e) => {
-            // previewImage.value = e.target.result;
         };
     }
 
-    const handleIconChange = (event) => {
-        console.log(event.target.files[0]);
-            form.icon = event.target.files[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(form.image);
-            reader.onload = (e) => {
-            // previewImage.value = e.target.result;
-        };
-    }
 
     // Save slider
-    function saveCategory() {
-        console.log(form);
+    function saveServiceSubCategory() {
       const options = {
-        errorBag: "saveCategory",
+        errorBag: "saveServiceSubCategory",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
@@ -162,20 +135,19 @@ export default {
         },
       };
 
-      if (!props.category) {
-        // New Category
-        form.post(route("category.store"), options);
+      if (!props.serviceSubCategory) {
+        // New serviceSubCategory
+        form.post(route("serviceSubCategory.store"), options);
       } else {
-        // Existing Category
-        form.post(route("category.update", props.category.id), options);
+        // Existing serviceSubCategory
+        form.post(route("serviceSubCategory.update", props.serviceSubCategory.id), options);
       }
     }
 
     return {
       form,
-      saveCategory,
+      saveServiceSubCategory,
       handleImageChange,
-      handleIconChange
     };
   },
 };

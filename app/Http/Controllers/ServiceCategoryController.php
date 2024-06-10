@@ -38,7 +38,6 @@ class ServiceCategoryController extends Controller
         $data = $request->all();
         if ($request->hasFile('image')) {
             $categoryImagePath = $request->file('image')->store('uploads/service/category/images');
-            // $categoryImagePath = str_replace('public/', '', $categoryImagePath);
             } else {
             $categoryImagePath = null;
         }

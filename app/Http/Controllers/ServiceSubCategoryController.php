@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceSubCategory;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Requests\SaveServiceSubCategoryFormRequest;
 
 class ServiceSubCategoryController extends Controller
 {
@@ -12,7 +16,10 @@ class ServiceSubCategoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Service/SubCategories/Index',[
+            'serviceSubCategories' => fn() =>
+                QueryBuilder::for(ServiceSubCategory::class)->paginate(5),
+            ]);
     }
 
     /**
@@ -20,15 +27,23 @@ class ServiceSubCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Service/SubCategories/Save');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveServiceSubCategoryFormRequest $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/service/sub-category/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $data['image'] = $categoryImagePath;
+        ServiceCategory::create($data);
+        return redirect()->route('serviceSubCategory.index')->with('flash.banner', 'Service Category added successfully');
     }
 
     /**
@@ -44,15 +59,26 @@ class ServiceSubCategoryController extends Controller
      */
     public function edit(ServiceSubCategory $serviceSubCategory)
     {
-        //
+        return Inertia::render('Service/SubCategories/Save',
+            array_merge([
+                'serviceSubCategory' => $serviceSubCategory,
+            ]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ServiceSubCategory $serviceSubCategory)
+    public function update(SaveServiceSubCategoryFormRequest $request, ServiceSubCategory $serviceSubCategory)
     {
-        //
+        $serviceSubCategory->name = $request['name'];
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/sub-category/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $serviceSubCategory->image = $categoryImagePath;
+        $serviceSubCategory->update();
+        return redirect()->route('serviceSubCategory.index')->with('flash.banner', 'Service Category Updated successfully');
     }
 
     /**
@@ -60,6 +86,7 @@ class ServiceSubCategoryController extends Controller
      */
     public function destroy(ServiceSubCategory $serviceSubCategory)
     {
-        //
+        $serviceSubCategory->delete();
+        return back()->with('flash.banner', 'Service Sub Category deleted successfully');
     }
 }
