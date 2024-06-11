@@ -365,10 +365,16 @@ export default {
         axios.post('showNotification/' + notification.id).then((response) => {
             location.reload();
             console.log(response);
+            toast.success("Notification mark as read!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
 
 
         }).catch((errors) => {
             console.log(errors);
+            toast.error("Something went wrong!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
         });
     },
 
