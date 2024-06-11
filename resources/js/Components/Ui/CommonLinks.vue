@@ -53,8 +53,11 @@
           />
           Manage Orders
         </jet-nav-link>
-        <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
+        <jet-nav-link :href="route('notification.index')"
+          :active="route().current('notification.index')"
+          v-if="this.$page.props.auth.user.role == 'admin'">
           <BellIcon
+
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
           />
