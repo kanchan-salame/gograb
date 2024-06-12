@@ -21,12 +21,12 @@ class AuthController extends Controller
     */
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email'=>'required|string|unique:users',
-            'password'=>'required|string',
-            'c_password' => 'required|same:password'
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'email'=>'required|string|unique:users',
+        //     'password'=>'required|string',
+        //     'c_password' => 'required|same:password'
+        // ]);
 
         $user = new User([
             'name'  => $request->name,
@@ -42,6 +42,8 @@ class AuthController extends Controller
             return response()->json([
             'message' => 'Successfully created user!',
             'accessToken'=> $token,
+            'status' => 200,
+            'message' => 'Register Successfully! Welcome to Our Community'
             ],201);
         }
         else{
@@ -81,6 +83,9 @@ public function login(Request $request)
     return response()->json([
     'accessToken' =>$token,
     'token_type' => 'Bearer',
+    'status' => 200,
+    'user' => $user,
+    'message' => 'Successfully Login! Welcome Back'
     ]);
 }
 
