@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\SaveServiceSubCategoryFormRequest;
+use App\Models\ServiceCategory;
 
 class ServiceSubCategoryController extends Controller
 {
@@ -18,7 +19,7 @@ class ServiceSubCategoryController extends Controller
     {
         return Inertia::render('Service/SubCategories/Index',[
             'serviceSubCategories' => fn() =>
-                QueryBuilder::for(ServiceSubCategory::class)->paginate(5),
+                QueryBuilder::for(ServiceSubCategory::class)->get(),
             ]);
     }
 
@@ -27,7 +28,10 @@ class ServiceSubCategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Service/SubCategories/Save');
+        return Inertia::render('Service/SubCategories/Save',[
+            'serviceCategories' => fn() =>
+                QueryBuilder::for(ServiceCategory::class)->get(),
+            ]);
     }
 
     /**

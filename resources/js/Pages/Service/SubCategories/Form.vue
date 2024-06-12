@@ -22,6 +22,21 @@
             <jet-input-error :message="form.errors.name" class="mt-2" />
           </div>
         </div>
+
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="serviceCategory" value="Service Category" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <jet-input
+                id="serviceCategory"
+                type="text"
+                class="flex-1 block w-full rounded"
+                v-model="form.serviceCategory"
+              />
+            </div>
+            <jet-input-error :message="form.errors.serviceCategory" class="mt-2" />
+          </div>
+        </div>
         <div
           class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
         >
@@ -106,12 +121,16 @@ export default {
     InputSelect,
     PrimaryButton
   },
-  props: ["serviceSubCategory"],
+  props: ["serviceSubCategory","serviceCategories"],
+//   computed: {
+//     options
+//   },
   setup(props) {
     const form = useForm({
         _method: props.serviceSubCategory ? 'PUT' : 'POST',
       name: props.serviceSubCategory ? props.serviceSubCategory.name : "",
       image: props.serviceSubCategory ? props.serviceSubCategory.image : "",
+      serviceCategory: props.serviceSubCategory ? props.serviceSubCategory.serviceCategory : "",
     });
 
     const handleImageChange = (event) => {
