@@ -18,6 +18,8 @@ class SubService extends Model
         'name',
         'service_id',
         'image',
+        'service_category_id',
+        'service_sub_category_id',
     ];
 
     protected $appends = ['imagepath'];

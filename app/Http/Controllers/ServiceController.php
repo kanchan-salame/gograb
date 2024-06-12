@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Requests\SaveServiceFormRequest;
+use App\Models\ServiceCategory;
 
 class ServiceController extends Controller
 {
@@ -12,7 +17,10 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Service/Index',[
+            'services' => fn() =>
+                QueryBuilder::for(Service::class)->paginate(5),
+            ]);
     }
 
     /**
@@ -20,7 +28,10 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Service/Save',[
+            'serviceCategories' => fn() =>
+                QueryBuilder::for(ServiceCategory::class)->get(),
+            ]);
     }
 
     /**

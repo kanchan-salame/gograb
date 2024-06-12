@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('service_id');
+            $table->integer('service_category_id')->nullable();
+            $table->integer('service_sub_category_id')->nullable();
             $table->string('image');
             $table->timestamps();
         });
