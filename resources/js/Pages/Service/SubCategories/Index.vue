@@ -44,7 +44,7 @@ export default {
     },
     deleteCategory() {
       this.toggleCategoryForm.delete(
-        route("serviceCategory.destroy", this.categoryBeingDeleted.id),
+        route("serviceSubCategory.destroy", this.categoryBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,

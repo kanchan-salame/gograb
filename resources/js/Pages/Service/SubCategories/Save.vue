@@ -21,7 +21,7 @@
         <div>
             <div class="pb-10 sm:px-6 lg:px-8">
                 <ItemForm
-                    :serviceSubCategories="serviceSubCategories"
+                    :serviceSubCategory="serviceSubCategory"
                     :serviceCategories="serviceCategories"
                 />
             </div>
@@ -43,7 +43,7 @@ export default {
         Head
     },
     props: [
-        'serviceSubCategories',
+        'serviceSubCategory',
         'serviceCategories'
     ],
     computed: {

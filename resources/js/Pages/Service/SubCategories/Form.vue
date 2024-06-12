@@ -27,14 +27,15 @@
           <div>
             <jet-label for="serviceCategory" value="Service Category" />
             <div class="flex rounded-md shadow-sm mt-1">
-              <jet-input
+              <input-select
                 id="serviceCategory"
-                type="text"
                 class="flex-1 block w-full rounded"
-                v-model="form.serviceCategory"
+                :options="options"
+                v-model="form.service_category_id"
+                :empty="'Select Category'"
               />
             </div>
-            <jet-input-error :message="form.errors.serviceCategory" class="mt-2" />
+            <jet-input-error :message="form.errors.service_category_id" class="mt-2" />
           </div>
         </div>
         <div
@@ -122,7 +123,16 @@ export default {
     PrimaryButton
   },
   props: ["serviceSubCategory","serviceCategories"],
+//   data() {
+//     return {
+//         options: []
+//         }
+//   },
 //   computed: {
+
+//     props.serviceCategories.forEach(element => {
+
+//     });
 //     options
 //   },
   setup(props) {
@@ -130,7 +140,14 @@ export default {
         _method: props.serviceSubCategory ? 'PUT' : 'POST',
       name: props.serviceSubCategory ? props.serviceSubCategory.name : "",
       image: props.serviceSubCategory ? props.serviceSubCategory.image : "",
-      serviceCategory: props.serviceSubCategory ? props.serviceSubCategory.serviceCategory : "",
+      service_category_id: props.serviceSubCategory ? props.serviceSubCategory.service_category_id : "",
+    });
+
+    const options = [];
+
+    props.serviceCategories.forEach(element => {
+        let option = { 'value': element.id, 'label': element.name}
+        options.push(option)
     });
 
     const handleImageChange = (event) => {
@@ -163,10 +180,13 @@ export default {
       }
     }
 
+
+
     return {
       form,
       saveServiceSubCategory,
       handleImageChange,
+      options
     };
   },
 };

@@ -23,6 +23,7 @@ class SaveServiceSubCategoryFormRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'service_category_id' => ['required'],
             'image' => ['nullable', 'mimes:jpg,jpeg,png', 'max:10240'],
         ];
     }
