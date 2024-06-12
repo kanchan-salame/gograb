@@ -10,16 +10,52 @@
       <template #form>
         <div class="col-span-6 sm:col-span-4">
           <div>
-            <jet-label for="url" value="Url" />
+            <jet-label for="name" value="Name" />
             <div class="flex rounded-md shadow-sm mt-1">
               <jet-input
-                id="url"
+                id="name"
                 type="text"
                 class="flex-1 block w-full rounded"
-                v-model="form.url"
+                v-model="form.name"
               />
             </div>
-            <jet-input-error :message="form.errors.url" class="mt-2" />
+            <jet-input-error :message="form.errors.name" class="mt-2" />
+          </div>
+        </div>
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="serviceSubCategory" value="Service Category" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <input-select
+                id="serviceCategory"
+                class="flex-1 block w-full rounded"
+                :options="serviceCategoriesOptions"
+                v-model="form.service_category_id"
+                :empty="'Select Category'"
+              />
+            </div>
+            <jet-input-error
+              :message="form.errors.service_category_id"
+              class="mt-2"
+            />
+          </div>
+        </div>
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="serviceSubCategory" value="Service Sub Category" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <input-select
+                id="serviceSubCategory"
+                class="flex-1 block w-full rounded"
+                :options="serviceSubCategoriesOptions"
+                v-model="form.service_sub_category_id"
+                :empty="'Select Sub Category'"
+              />
+            </div>
+            <jet-input-error
+              :message="form.errors.service_sub_category_id"
+              class="mt-2"
+            />
           </div>
         </div>
         <div
@@ -27,14 +63,14 @@
         >
           <jet-label for="image" value="Image" />
           <jet-input
-                id="image"
-                type="file"
-                ref="sliderImage"
-                @change="handleFileChange"
-                class="flex-1 block w-full rounded"
-                accept="image/*"
-              />
-            <jet-input-error :message="form.errors.image" class="mt-2" />
+            id="image"
+            type="file"
+            ref="sliderImage"
+            @change="handleFileChange"
+            class="flex-1 block w-full rounded"
+            accept="image/*"
+          />
+          <jet-input-error :message="form.errors.image" class="mt-2" />
         </div>
       </template>
     </jet-form-section>
@@ -55,7 +91,7 @@
         :disabled="form.processing"
         @click="saveItem"
       >
-        {{ item ? "Update Slider" : "Add Slider" }}
+        {{ service ? "Update Service" : "Add Service" }}
       </primary-button>
     </form-actions>
   </div>
@@ -75,7 +111,7 @@ import InputHelp from "@/Components/Form/InputHelp.vue";
 import InputSelect from "@/Components/Form/Select.vue";
 import FormActions from "@/Components/Form/Actions.vue";
 import axios from "axios";
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 import {
   CalculatorIcon,
@@ -84,8 +120,8 @@ import {
 } from "@heroicons/vue/outline";
 import { reactive, computed, watch, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   components: {
@@ -104,24 +140,40 @@ export default {
     AdjustmentsIcon,
     CalendarIcon,
     InputSelect,
-    PrimaryButton
+    PrimaryButton,
   },
-  props: ["slider"],
+  props: ["service", "serviceCategories"],
   setup(props) {
     const form = useForm({
-      url: props.slider ? props.slider.url : "",
-      image: props.slider ? props.slider.image : "",
+      _method: props.service ? "PUT" : "POST",
+      name: props.service ? props.service.name : "",
+      image: props.service ? props.service.image : "",
+      service_category_id: props.service
+        ? props.service.service_category_id
+        : "",
+      service_sub_category_id: props.service
+        ? props.service.service_sub_category_id
+        : "",
+    });
+
+    const serviceCategoriesOptions = [];
+    const serviceSubCategoriesOptions = [];
+
+
+    props.serviceCategories.forEach(element => {
+        let option = { 'value': element.id, 'label': element.name}
+        serviceCategoriesOptions.push(option)
     });
 
     const handleFileChange = (event) => {
-        console.log(event.target.files[0]);
-            form.image = event.target.files[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(form.image);
-            reader.onload = (e) => {
-            // previewImage.value = e.target.result;
-        };
-    }
+      console.log(event.target.files[0]);
+      form.image = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(form.image);
+      reader.onload = (e) => {
+        // previewImage.value = e.target.result;
+      };
+    };
 
     // Save slider
     function saveItem() {
@@ -130,17 +182,17 @@ export default {
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
         },
       };
 
       if (!props.slider) {
         // New Item
-        form.post(route("sliders.store"), options);
+        form.post(route("service.store"), options);
       } else {
         // Existing Item
-        form.put(route("sliders.update", props.slider.id), options);
+        form.put(route("service.update", props.slider.id), options);
       }
     }
 
@@ -148,6 +200,8 @@ export default {
       form,
       saveItem,
       handleFileChange,
+      serviceCategoriesOptions,
+      serviceSubCategoriesOptions
     };
   },
 };

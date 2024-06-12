@@ -266,8 +266,8 @@
               Sub Categories
             </jet-nav-link>
             <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
+              :href="route('service.index')"
+              :active="route().current('service.index')"
               v-if="this.$page.props.auth.user.role == 'admin'"
             >
               <TruckIcon

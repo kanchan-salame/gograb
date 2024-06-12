@@ -1,12 +1,12 @@
 <template>
 <app-layout>
-    <Head title="Add Slider" />
+    <Head title="Add Service" />
     <template #header>
         <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
             <div>
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     <span class="text-gray-800">
-                        {{ slider ? 'Update Slider' : 'Add Slider'  }}
+                        {{ service ? 'Update Service' : 'Add Service'  }}
                     </span>
                 </h2>
             </div>
@@ -21,10 +21,8 @@
         <div>
             <div class="pb-10 sm:px-6 lg:px-8">
                 <ItemForm
-                    :team="team"
-                    :types="types"
-                    :slider="slider"
-                    :gstRates="gstRates"
+                    :service="service"
+                    :serviceCategories="serviceCategories"
                 />
             </div>
         </div>
@@ -35,7 +33,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue"
 import SubNavLink from '@/Components/Ui/SubNavLink.vue'
-import ItemForm from '@/Pages/Slider/Form.vue'
+import ItemForm from '@/Pages/Service/Form.vue'
 import { Head, Link } from '@inertiajs/vue3';
 export default {
     components: {
@@ -45,10 +43,8 @@ export default {
         Head
     },
     props: [
-        'types',
-        'team',
-        'slider',
-        'gstRates'
+        'service',
+        'serviceCategories'
     ],
     computed: {
         title () {

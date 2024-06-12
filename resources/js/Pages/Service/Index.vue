@@ -29,7 +29,7 @@ export default {
     EmptyList,
     PrimaryButton
   },
-  props: ["sliders"],
+  props: ["services"],
   data() {
     return {
       sliderBeingDeleted: null,
@@ -66,12 +66,12 @@ export default {
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Slider Images</span>
+            <span class="text-gray-800">Services</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button :href="route('sliders.create')" icon="Plus">
-            Add Slider
+          <primary-button :href="route('service.create')" icon="Plus">
+            Add Service
           </primary-button>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="sliders.data.length"
+                  v-if="services.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -120,48 +120,37 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Image Url
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
                           Actions
                         </th>
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(slider, index) in sliders.data"
-                        :key="`user-${slider.id}`"
+                        v-for="(service, index) in services.data"
+                        :key="`user-${service.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ slider.id }}
+                            {{ service.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ slider.url }}
+                            {{ service.name }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                            <img :src="slider.path" :alt="slider.path" class="rounded-full h-20 w-20 object-cover">
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <div class="text-sm text-gray-900">
-                            {{ slider.image }}
-                          </div>
+                            <img :src="service.imagepath" :alt="service.imagepath" class="rounded-full h-20 w-20 object-cover">
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
                             <TrashIcon
-                              @click.prevent="confirmSliderDelete(slider)"
+                              @click.prevent="confirmSliderDelete(service)"
                               class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
                             />
                           </div>
@@ -172,19 +161,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="sliders.links"
-                    :from="sliders.from"
-                    :to="sliders.to"
-                    :total="sliders.total"
+                    :links="services.links"
+                    :from="services.from"
+                    :to="services.to"
+                    :total="services.total"
                   />
                 </div>
                 <EmptyList
                     v-else
                     icon="ClockIcon"
-                    title="No Sliders"
-                    description="Sliders not found. Get started by adding a new Sliders."
-                    button-title="Add Sliders"
-                    :button-url="route('sliders.create')"
+                    title="No Service"
+                    description="Service not found. Get started by adding a new Service."
+                    button-title="Add Service"
+                    :button-url="route('service.create')"
                 />
               </div>
             </div>
