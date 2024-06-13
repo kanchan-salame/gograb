@@ -30,7 +30,7 @@ export default {
     PrimaryButton,
     Link
   },
-  props: ["categories"],
+  props: ["subServices"],
   data() {
     return {
       categoryBeingDeleted: null,
@@ -61,18 +61,18 @@ export default {
 </script>
 
 <template>
-  <Head title="Food Categories" />
-  <AppLayout title="Food Categories">
+  <Head title="Sub Services" />
+  <AppLayout title="Sub Services">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Food Categories</span>
+            <span class="text-gray-800">Sub Services</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button :href="route('sliders.create')" icon="Plus">
-            Add Category
+          <primary-button :href="route('subService.create')" icon="Plus">
+            Add Sub Service
           </primary-button>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="categories.data.length"
+                  v-if="subServices.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -145,49 +145,49 @@ export default {
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(category, index) in categories.data"
-                        :key="`user-${category.id}`"
+                        v-for="(subService, index) in subServices.data"
+                        :key="`user-${subService.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ category.id }}
+                            {{ subService.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ category.name }}
+                            {{ subService.name }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                          <img :src="category.imagepath" :alt="category.imagepath" class="rounded-full h-20 w-20 object-cover" />
+                          <img :src="subService.imagepath" :alt="subService.imagepath" class="rounded-full h-20 w-20 object-cover" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
-                            {{ category.image }}
+                            {{ subService.image }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                          <img :src="category.iconpath" :alt="category.iconpath" class="rounded-full h-20 w-20 object-cover" />
+                          <img :src="subService.iconpath" :alt="subService.iconpath" class="rounded-full h-20 w-20 object-cover" />
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                           <div class="text-sm text-gray-900">
-                            {{ category.icon }}
+                            {{ subService.icon }}
                           </div>
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <Link :href="route('category.edit', category.id)">
+                            <Link :href="route('subService.edit', subService.id)">
                               <pencil-alt-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />
                             </Link>
                             <button
-                              @click.prevent="confirmCategoryDelete(category)"
+                              @click.prevent="confirmCategoryDelete(subService)"
                             >
                               <TrashIcon
                                 class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
@@ -201,19 +201,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="categories.links"
-                    :from="categories.from"
-                    :to="categories.to"
-                    :total="categories.total"
+                    :links="subServices.links"
+                    :from="subServices.from"
+                    :to="subServices.to"
+                    :total="subServices.total"
                   />
                 </div>
                 <EmptyList
                   v-else
                   icon="ClockIcon"
-                  title="No Categories"
-                  description="Categories not found. Get started by adding a new Category."
-                  button-title="Add Category"
-                  :button-url="route('category.create')"
+                  title="No Sub Services"
+                  description="Sub Services not found. Get started by adding a new Sub Service."
+                  button-title="Add Sub Service"
+                  :button-url="route('subService.create')"
                 />
               </div>
             </div>

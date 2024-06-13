@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\SubService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Requests\SaveSubServiceFormRequest;
+use App\Models\ServiceCategory;
+use App\Models\Service;
 
 class SubServiceController extends Controller
 {
@@ -12,7 +18,10 @@ class SubServiceController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Service/SubService/Index',[
+            'subServices' => fn() =>
+                QueryBuilder::for(SubService::class)->paginate(5),
+            ]);
     }
 
     /**

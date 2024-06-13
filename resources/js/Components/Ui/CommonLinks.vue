@@ -277,8 +277,8 @@
               Services
             </jet-nav-link>
             <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
+              :href="route('subService.index')"
+              :active="route().current('subService.index')"
               v-if="this.$page.props.auth.user.role == 'admin'"
             >
               <TruckIcon
