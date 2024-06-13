@@ -40,9 +40,17 @@ class SubServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveSubServiceFormRequest $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/subService/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $data['image'] = $categoryImagePath;
+        SubService::create($data);
+        return redirect()->route('subService.index')->with('flash.banner', 'Sub Service added successfully');
     }
 
     /**
@@ -70,9 +78,20 @@ class SubServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SubService $subService)
+    public function update(SaveSubServiceFormRequest $request, SubService $subService)
     {
-        //
+        $subService->name = $request['name'];
+        $subService->service_category_id = $request['service_category_id'];
+        $subService->service_sub_category_id = $request['service_sub_category_id'];
+        $subService->service_id = $request['service_id'];
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/subService/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $subService->image = $categoryImagePath;
+        $subService->update();
+        return redirect()->route('subService.index')->with('flash.banner', 'Sub Service Updated successfully');
     }
 
     /**
@@ -80,6 +99,7 @@ class SubServiceController extends Controller
      */
     public function destroy(SubService $subService)
     {
-        //
+        $subService->delete();
+        return back()->with('flash.banner', 'Sub Service deleted successfully');
     }
 }

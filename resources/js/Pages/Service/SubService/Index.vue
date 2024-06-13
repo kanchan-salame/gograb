@@ -44,7 +44,7 @@ export default {
     },
     deleteCategory() {
       this.toggleCategoryForm.delete(
-        route("category.destroy", this.categoryBeingDeleted.id),
+        route("subService.destroy", this.categoryBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
@@ -121,24 +121,6 @@ export default {
                           scope="col"
                           class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Image Url
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Icon
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Icon Url
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
                           Actions
                         </th>
                       </tr>
@@ -163,19 +145,6 @@ export default {
                         </td>
                         <td class="whitespace-nowrap text-right">
                           <img :src="subService.imagepath" :alt="subService.imagepath" class="rounded-full h-20 w-20 object-cover" />
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <div class="text-sm text-gray-900">
-                            {{ subService.image }}
-                          </div>
-                        </td>
-                        <td class="whitespace-nowrap text-right">
-                          <img :src="subService.iconpath" :alt="subService.iconpath" class="rounded-full h-20 w-20 object-cover" />
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                          <div class="text-sm text-gray-900">
-                            {{ subService.icon }}
-                          </div>
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
