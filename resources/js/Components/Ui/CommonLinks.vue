@@ -299,6 +299,69 @@
               Bookings
             </jet-nav-link>
           </div>
+          <sidebar-dropdown @click="dropdown4()">
+            <CubeTransparentIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Products
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate6"
+              aria-hidden="true"
+              style="right: -40px; position: relative"
+            />
+          </sidebar-dropdown>
+          <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+            :class="{ hidden: this.isHidden6 }"
+          >
+            <jet-nav-link
+              :href="route('productCategory.index')"
+              :active="route().current('productCategory.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Categories
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('productSubCategory.index')"
+              :active="route().current('productSubCategory.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Sub Categories
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('product.index')"
+              :active="route().current('product.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Products
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Orders
+            </jet-nav-link>
+          </div>
           <sidebar-dropdown @click="dropdown5()">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
@@ -490,6 +553,7 @@ export default {
     const isHidden3 = ref(true);
     const isHidden4 = ref(true);
     const isHidden5 = ref(true);
+    const isHidden6 = ref(true);
     const isRotate = ref(true);
     // ...
     return {
@@ -498,6 +562,7 @@ export default {
       isHidden3,
       isHidden4,
       isHidden5,
+      isHidden6,
       isRotate,
     };
   },
@@ -553,6 +618,9 @@ export default {
     rotate5() {
       return this.isHidden5 ? "rotate-0" : "rotate-90";
     },
+    rotate6() {
+      return this.isHidden6 ? "rotate-0" : "rotate-90";
+    },
   },
   methods: {
     dropdown() {
@@ -569,6 +637,9 @@ export default {
     },
     dropdown5() {
       this.isHidden5 = !this.isHidden5;
+    },
+    dropdown6() {
+      this.isHidden6 = !this.isHidden6;
     },
   },
 };
