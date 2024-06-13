@@ -192,7 +192,7 @@ export default {
         form.post(route("service.store"), options);
       } else {
         // Existing Item
-        form.put(route("service.update", props.slider.id), options);
+        form.post(route("service.update", props.service.id), options);
       }
     }
 

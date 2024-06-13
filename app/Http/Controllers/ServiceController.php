@@ -75,7 +75,17 @@ class ServiceController extends Controller
      */
     public function update(SaveServiceFormRequest $request, Service $service)
     {
-        //
+        $service->name = $request['name'];
+        $service->service_category_id = $request['service_category_id'];
+        $service->service_sub_category_id = $request['service_sub_category_id'];
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/service/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $service->image = $categoryImagePath;
+        $service->update();
+        return redirect()->route('service.index')->with('flash.banner', 'Service Updated successfully');
     }
 
     /**
