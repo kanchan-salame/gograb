@@ -4,7 +4,7 @@
       <template #title> Basic Information </template>
 
       <template #description>
-        Provide basic information like Name, Image and image url for the Category.
+        Provide basic information like Image and image url for the Item.
       </template>
 
       <template #form>
@@ -22,33 +22,70 @@
             <jet-input-error :message="form.errors.name" class="mt-2" />
           </div>
         </div>
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="service" value="Service" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <input-select
+                id="service"
+                class="flex-1 block w-full rounded"
+                :options="servicesOptions"
+                v-model="form.service_id"
+                :empty="'Select Service'"
+              />
+            </div>
+            <jet-input-error :message="form.errors.service_id" class="mt-2" />
+          </div>
+        </div>
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="serviceCategory" value="Service Category" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <input-select
+                id="serviceCategory"
+                class="flex-1 block w-full rounded"
+                :options="serviceCategoriesOptions"
+                v-model="form.service_category_id"
+                :empty="'Select Category'"
+              />
+            </div>
+            <jet-input-error
+              :message="form.errors.service_category_id"
+              class="mt-2"
+            />
+          </div>
+        </div>
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="service" value="Service Sub Category" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <input-select
+                id="service"
+                class="flex-1 block w-full rounded"
+                :options="serviceSubCategoriesOptions"
+                v-model="form.service_sub_category_id"
+                :empty="'Select Sub Category'"
+              />
+            </div>
+            <jet-input-error
+              :message="form.errors.service_sub_category_id"
+              class="mt-2"
+            />
+          </div>
+        </div>
         <div
           class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
         >
           <jet-label for="image" value="Image" />
           <jet-input
-                id="image"
-                type="file"
-                ref="categoryImage"
-                @change="handleImageChange"
-                class="flex-1 block w-full rounded"
-                accept="image/*"
-              />
-            <jet-input-error :message="form.errors.image" class="mt-2" />
-        </div>
-        <div
-          class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
-        >
-          <jet-label for="icon" value="Icon" />
-          <jet-input
-                id="icon"
-                type="file"
-                ref="categoryIcon"
-                @change="handleIconChange"
-                class="flex-1 block w-full rounded"
-                accept="image/*"
-              />
-            <jet-input-error :message="form.errors.icon" class="mt-2" />
+            id="image"
+            type="file"
+            ref="sliderImage"
+            @change="handleFileChange"
+            class="flex-1 block w-full rounded"
+            accept="image/*"
+          />
+          <jet-input-error :message="form.errors.image" class="mt-2" />
         </div>
       </template>
     </jet-form-section>
@@ -58,7 +95,7 @@
 
       <jet-secondary-button
         class="text-sm px-10"
-        @click="$inertia.get(route('sliders.index'))"
+        @click="$inertia.get(route('subService.index'))"
       >
         Nevermind
       </jet-secondary-button>
@@ -67,9 +104,9 @@
         class="ml-2 text-sm px-10"
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"
-        @click="saveCategory"
+        @click="saveItem"
       >
-        {{ category ? "Update Category" : "Add Category" }}
+        {{ subService ? "Update Sub Service" : "Add Sub Service" }}
       </primary-button>
     </form-actions>
   </div>
@@ -89,7 +126,7 @@ import InputHelp from "@/Components/Form/InputHelp.vue";
 import InputSelect from "@/Components/Form/Select.vue";
 import FormActions from "@/Components/Form/Actions.vue";
 import axios from "axios";
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 import {
   CalculatorIcon,
@@ -98,8 +135,8 @@ import {
 } from "@heroicons/vue/outline";
 import { reactive, computed, watch, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   components: {
@@ -118,64 +155,75 @@ export default {
     AdjustmentsIcon,
     CalendarIcon,
     InputSelect,
-    PrimaryButton
+    PrimaryButton,
   },
-  props: ["category"],
+  props: ["services", "serviceCategories", "subService"],
   setup(props) {
     const form = useForm({
-        _method: props.category ? 'PUT' : 'POST',
-      name: props.category ? props.category.name : "",
-      image: props.category ? props.category.image : "",
-      icon: props.category ? props.category.icon : "",
+      _method: props.subService ? "PUT" : "POST",
+      name: props.subService ? props.subService.name : "",
+      image: props.subService ? props.subService.image : "",
+      service_category_id: props.subService
+        ? props.subService.service_category_id
+        : "",
+      service_sub_category_id: props.subService
+        ? props.subService.service_sub_category_id
+        : "",
+      service_id: props.subService ? props.subService.service_id : "",
     });
 
-    const handleImageChange = (event) => {
-        console.log(event.target.files[0]);
-            form.image = event.target.files[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(form.image);
-            reader.onload = (e) => {
-            // previewImage.value = e.target.result;
-        };
-    }
+    const servicesOptions = [];
+    const serviceCategoriesOptions = [];
+    const serviceSubCategoriesOptions = [];
 
-    const handleIconChange = (event) => {
-        console.log(event.target.files[0]);
-            form.icon = event.target.files[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(form.image);
-            reader.onload = (e) => {
-            // previewImage.value = e.target.result;
-        };
-    }
+    props.serviceCategories.forEach((element) => {
+      let option = { value: element.id, label: element.name };
+      serviceCategoriesOptions.push(option);
+    });
+
+    props.services.forEach((element) => {
+      let option = { value: element.id, label: element.name };
+      servicesOptions.push(option);
+    });
+
+    const handleFileChange = (event) => {
+      console.log(event.target.files[0]);
+      form.image = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(form.image);
+      reader.onload = (e) => {
+        // previewImage.value = e.target.result;
+      };
+    };
 
     // Save slider
-    function saveCategory() {
-        console.log(form);
+    function saveItem() {
       const options = {
-        errorBag: "saveCategory",
+        errorBag: "saveItem",
         preserveScroll: (page) => Object.keys(page.props.errors).length,
         onError: () => {
           toast.error("Please check form errors!", {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
         },
       };
 
-      if (!props.category) {
-        // New Category
-        form.post(route("category.store"), options);
+      if (!props.subService) {
+        // New Item
+        form.post(route("subService.store"), options);
       } else {
-        // Existing Category
-        form.post(route("category.update", props.category.id), options);
+        // Existing Item
+        form.post(route("subService.update", props.subService.id), options);
       }
     }
 
     return {
       form,
-      saveCategory,
-      handleImageChange,
-      handleIconChange
+      saveItem,
+      handleFileChange,
+      serviceCategoriesOptions,
+      serviceSubCategoriesOptions,
+      servicesOptions,
     };
   },
 };
