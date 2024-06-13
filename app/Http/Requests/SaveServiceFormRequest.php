@@ -24,7 +24,7 @@ class SaveServiceFormRequest extends FormRequest
         return [
             'name' => ['required'],
             'service_category_id' => ['required'],
-            'service_sub_category_id' => ['required'],
+            'service_sub_category_id' => ['nullable'],
             'image' => ['nullable', 'mimes:jpg,jpeg,png', 'max:10240'],
         ];
     }

@@ -37,9 +37,17 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaveServiceFormRequest $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/service/images');
+            } else {
+            $categoryImagePath = null;
+        }
+        $data['image'] = $categoryImagePath;
+        Service::create($data);
+        return redirect()->route('service.index')->with('flash.banner', 'Service added successfully');
     }
 
     /**
@@ -61,7 +69,7 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(SaveServiceFormRequest $request, Service $service)
     {
         //
     }

@@ -187,7 +187,7 @@ export default {
         },
       };
 
-      if (!props.slider) {
+      if (!props.service) {
         // New Item
         form.post(route("service.store"), options);
       } else {
