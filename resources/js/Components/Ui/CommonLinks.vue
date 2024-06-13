@@ -299,7 +299,7 @@
               Bookings
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown4()">
+          <sidebar-dropdown @click="dropdown6()">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
