@@ -29,7 +29,7 @@ export default {
     EmptyList,
     PrimaryButton,
   },
-  props: ["services"],
+  props: ["products"],
   data() {
     return {
       sliderBeingDeleted: null,
@@ -43,7 +43,7 @@ export default {
     },
     deleteSlider() {
       this.toggleSliderForm.delete(
-        route("service.destroy", this.sliderBeingDeleted.id),
+        route("product.destroy", this.sliderBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
@@ -60,18 +60,18 @@ export default {
 </script>
 
 <template>
-  <Head title="Slider" />
-  <AppLayout title="Slider">
+  <Head title="Products" />
+  <AppLayout title="Products">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Services</span>
+            <span class="text-gray-800">Products</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button :href="route('service.create')" icon="Plus">
-            Add Service
+          <primary-button :href="route('product.create')" icon="Plus">
+            Add Product
           </primary-button>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="services.data.length"
+                  v-if="products.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -126,26 +126,26 @@ export default {
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(service, index) in services.data"
-                        :key="`user-${service.id}`"
+                        v-for="(product, index) in products.data"
+                        :key="`user-${product.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ service.id }}
+                            {{ product.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ service.name }}
+                            {{ product.name }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
                           <img
-                            :src="service.imagepath"
-                            :alt="service.imagepath"
+                            :src="product.imagepath"
+                            :alt="product.imagepath"
                             class="rounded-full h-20 w-20 object-cover"
                           />
                         </td>
@@ -153,13 +153,13 @@ export default {
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <a :href="route('service.edit', service.id)">
+                            <a :href="route('product.edit', product.id)">
                               <pencil-alt-icon
                                 class="ml-1 h-5 w-5 text-primary hover:text-dark cursor-pointer"
                               />
                             </a>
                             <button
-                              @click.prevent="confirmSliderDelete(service)"
+                              @click.prevent="confirmSliderDelete(product)"
                             >
                               <TrashIcon
                                 class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
@@ -173,19 +173,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="services.links"
-                    :from="services.from"
-                    :to="services.to"
-                    :total="services.total"
+                    :links="products.links"
+                    :from="products.from"
+                    :to="products.to"
+                    :total="products.total"
                   />
                 </div>
                 <EmptyList
                   v-else
                   icon="ClockIcon"
-                  title="No Service"
-                  description="Service not found. Get started by adding a new Service."
-                  button-title="Add Service"
-                  :button-url="route('service.create')"
+                  title="No Product"
+                  description="Product not found. Get started by adding a new Product."
+                  button-title="Add Product"
+                  :button-url="route('product.create')"
                 />
               </div>
             </div>
