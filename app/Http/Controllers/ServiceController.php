@@ -55,7 +55,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        //
+
     }
 
     /**
@@ -63,7 +63,11 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        return Inertia::render('Service/Save',[
+            'service' => $service,
+            'serviceCategories' => fn() =>
+                QueryBuilder::for(ServiceCategory::class)->get(),
+            ]);
     }
 
     /**

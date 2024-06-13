@@ -7,10 +7,10 @@ import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/vue/outline";
 import JetConfirmationModal from "@/Components/Jetstream/ConfirmationModal.vue";
 import JetDangerButton from "@/Jetstream/DangerButton.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
-import JetButton from '@/Jetstream/Button.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import EmptyList from '@/Components/Ui/EmptyList.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import JetButton from "@/Jetstream/Button.vue";
+import { Head, Link } from "@inertiajs/vue3";
+import EmptyList from "@/Components/Ui/EmptyList.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 export default {
   components: {
@@ -27,7 +27,7 @@ export default {
     JetButton,
     Head,
     EmptyList,
-    PrimaryButton
+    PrimaryButton,
   },
   props: ["services"],
   data() {
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <template>
-<Head title="Slider" />
+  <Head title="Slider" />
   <AppLayout title="Slider">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
@@ -143,16 +143,28 @@ export default {
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                            <img :src="service.imagepath" :alt="service.imagepath" class="rounded-full h-20 w-20 object-cover">
+                          <img
+                            :src="service.imagepath"
+                            :alt="service.imagepath"
+                            class="rounded-full h-20 w-20 object-cover"
+                          />
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <TrashIcon
+                            <a :href="route('service.edit', service.id)">
+                              <pencil-alt-icon
+                                class="ml-1 h-5 w-5 text-primary hover:text-dark cursor-pointer"
+                              />
+                            </a>
+                            <button
                               @click.prevent="confirmSliderDelete(service)"
-                              class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
-                            />
+                            >
+                              <TrashIcon
+                                class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
+                              />
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -168,12 +180,12 @@ export default {
                   />
                 </div>
                 <EmptyList
-                    v-else
-                    icon="ClockIcon"
-                    title="No Service"
-                    description="Service not found. Get started by adding a new Service."
-                    button-title="Add Service"
-                    :button-url="route('service.create')"
+                  v-else
+                  icon="ClockIcon"
+                  title="No Service"
+                  description="Service not found. Get started by adding a new Service."
+                  button-title="Add Service"
+                  :button-url="route('service.create')"
                 />
               </div>
             </div>
@@ -183,32 +195,45 @@ export default {
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
-        <jet-confirmation-modal :show="sliderBeingToggled" @close="sliderBeingToggled = null">
-            <template #title>
-                {{ sliderBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
-            </template>
+    <jet-confirmation-modal
+      :show="sliderBeingToggled"
+      @close="sliderBeingToggled = null"
+    >
+      <template #title>
+        {{ sliderBeingToggled.activated_at ? "Deactivate" : "Activate" }} Client
+      </template>
 
-            <template #content>
-                Are you sure you would like to {{ sliderBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ sliderBeingToggled.id }}?
-            </template>
+      <template #content>
+        Are you sure you would like to
+        {{ sliderBeingToggled.activated_at ? "deactivate" : "activate" }}
+        {{ sliderBeingToggled.id }}?
+      </template>
 
-            <template #footer>
-                <jet-secondary-button @dblclick="sliderBeingToggled = null">
-                    Nevermind
-                </jet-secondary-button>
+      <template #footer>
+        <jet-secondary-button @dblclick="sliderBeingToggled = null">
+          Nevermind
+        </jet-secondary-button>
 
-                <jet-danger-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleSliderForm.processing }" :disabled="toggleSliderForm.processing"
-                    v-if="sliderBeingToggled.activated_at">
-                    Deactivate
-                </jet-danger-button>
-                <jet-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleSliderForm.processing }" :disabled="toggleSliderForm.processing"
-                    v-else>
-                    Activate
-                </jet-button>
-            </template>
-        </jet-confirmation-modal>
+        <jet-danger-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleSliderForm.processing }"
+          :disabled="toggleSliderForm.processing"
+          v-if="sliderBeingToggled.activated_at"
+        >
+          Deactivate
+        </jet-danger-button>
+        <jet-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleSliderForm.processing }"
+          :disabled="toggleSliderForm.processing"
+          v-else
+        >
+          Activate
+        </jet-button>
+      </template>
+    </jet-confirmation-modal>
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
       :show="sliderBeingDeleted"
