@@ -44,7 +44,7 @@
 
       <jet-secondary-button
         class="text-sm px-10"
-        @click="$inertia.get(route('serviceCategory.index'))"
+        @click="$inertia.get(route('productCategory.index'))"
       >
         Nevermind
       </jet-secondary-button>
@@ -55,7 +55,7 @@
         :disabled="form.processing"
         @click="saveServiceCategory"
       >
-        {{ serviceCategory ? "Update Service Category" : "Add Service Category" }}
+        {{ productCategory ? "Update Product Category" : "Add Product Category" }}
       </primary-button>
     </form-actions>
   </div>
@@ -106,12 +106,12 @@ export default {
     InputSelect,
     PrimaryButton
   },
-  props: ["serviceCategory"],
+  props: ["productCategory"],
   setup(props) {
     const form = useForm({
-        _method: props.serviceCategory ? 'PUT' : 'POST',
-      name: props.serviceCategory ? props.serviceCategory.name : "",
-      image: props.serviceCategory ? props.serviceCategory.image : "",
+        _method: props.productCategory ? 'PUT' : 'POST',
+      name: props.productCategory ? props.productCategory.name : "",
+      image: props.productCategory ? props.productCategory.image : "",
     });
 
     const handleImageChange = (event) => {
@@ -138,12 +138,12 @@ export default {
         },
       };
 
-      if (!props.serviceCategory) {
-        // New serviceCategory
-        form.post(route("serviceCategory.store"), options);
+      if (!props.productCategory) {
+        // New productCategory
+        form.post(route("productCategory.store"), options);
       } else {
-        // Existing serviceCategory
-        form.post(route("serviceCategory.update", props.serviceCategory.id), options);
+        // Existing productCategory
+        form.post(route("productCategory.update", props.productCategory.id), options);
       }
     }
 

@@ -30,7 +30,7 @@ export default {
     PrimaryButton,
     Link
   },
-  props: ["serviceCategories"],
+  props: ["productCategories"],
   data() {
     return {
       categoryBeingDeleted: null,
@@ -44,7 +44,7 @@ export default {
     },
     deleteCategory() {
       this.toggleCategoryForm.delete(
-        route("serviceCategory.destroy", this.categoryBeingDeleted.id),
+        route("productCategory.destroy", this.categoryBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
@@ -61,18 +61,18 @@ export default {
 </script>
 
 <template>
-  <Head title="Service Categories" />
-  <AppLayout title="Service Categories">
+  <Head title="Product Categories" />
+  <AppLayout title="Product Categories">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            <span class="text-gray-800">Service Categories</span>
+            <span class="text-gray-800">Product Categories</span>
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button :href="route('serviceCategory.create')" icon="Plus">
-            Add Service Category
+          <primary-button :href="route('productCategory.create')" icon="Plus">
+            Add Product Category
           </primary-button>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default {
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="serviceCategories.data.length"
+                  v-if="productCategories.data.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -127,36 +127,36 @@ export default {
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="(serviceCategory, index) in serviceCategories.data"
-                        :key="`user-${serviceCategory.id}`"
+                        v-for="(productCategory, index) in productCategories.data"
+                        :key="`user-${productCategory.id}`"
                       >
                         <td class="px-6 py-4 whitespace-nowrap">
                           {{ index }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ serviceCategory.id }}
+                            {{ productCategory.id }}
                           </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
-                            {{ serviceCategory.name }}
+                            {{ productCategory.name }}
                           </div>
                         </td>
                         <td class="whitespace-nowrap text-right">
-                          <img :src="serviceCategory.imagepath" :alt="serviceCategory.imagepath" class="rounded-full h-20 w-20 object-cover" />
+                          <img :src="productCategory.imagepath" :alt="productCategory.imagepath" class="rounded-full h-20 w-20 object-cover" />
                         </td>
                         <td
                           class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                         >
                           <div class="flex justify">
-                            <Link :href="route('serviceCategory.edit', serviceCategory.id)">
+                            <Link :href="route('productCategory.edit', productCategory.id)">
                               <pencil-alt-icon
                                 class="h-5 w-5 text-primary hover:text-dark"
                               />
                             </Link>
                             <button
-                              @click.prevent="confirmCategoryDelete(serviceCategory)"
+                              @click.prevent="confirmCategoryDelete(productCategory)"
                             >
                               <TrashIcon
                                 class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
@@ -170,19 +170,19 @@ export default {
                     </tbody>
                   </table>
                   <pagination
-                    :links="serviceCategories.links"
-                    :from="serviceCategories.from"
-                    :to="serviceCategories.to"
-                    :total="serviceCategories.total"
+                    :links="productCategories.links"
+                    :from="productCategories.from"
+                    :to="productCategories.to"
+                    :total="productCategories.total"
                   />
                 </div>
                 <EmptyList
                   v-else
                   icon="ClockIcon"
-                  title="No Service Categories"
-                  description="Service Categories not found. Get started by adding a new Service Category."
-                  button-title="Add Service Category"
-                  :button-url="route('serviceCategory.create')"
+                  title="No Product Categories"
+                  description="Product Categories not found. Get started by adding a new Product Category."
+                  button-title="Add Product Category"
+                  :button-url="route('productCategory.create')"
                 />
               </div>
             </div>
