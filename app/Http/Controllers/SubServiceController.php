@@ -58,7 +58,13 @@ class SubServiceController extends Controller
      */
     public function edit(SubService $subService)
     {
-        //
+        return Inertia::render('Service/SubService/Save',[
+            'subService' => $subService,
+            'serviceCategories' => fn() =>
+                QueryBuilder::for(ServiceCategory::class)->get(),
+                'services' => fn() =>
+                QueryBuilder::for(Service::class)->get(),
+            ]);
     }
 
     /**
