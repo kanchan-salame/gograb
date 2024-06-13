@@ -32,7 +32,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue"
 import SubNavLink from '@/Components/Ui/SubNavLink.vue'
-import ItemForm from '@/Pages/product/Categories/Form.vue'
+import ItemForm from '@/Pages/Product/Categories/Form.vue'
 import { Head, Link } from '@inertiajs/vue3';
 export default {
     components: {

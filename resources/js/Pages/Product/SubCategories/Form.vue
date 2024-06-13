@@ -4,7 +4,7 @@
       <template #title> Basic Information </template>
 
       <template #description>
-        Provide basic information like Name, Image and image url for the Service Sub Category.
+        Provide basic information like Name, Image and image url for the Product Sub Category.
       </template>
 
       <template #form>
@@ -25,17 +25,17 @@
 
         <div class="col-span-6 sm:col-span-4">
           <div>
-            <jet-label for="serviceCategory" value="Service Category" />
+            <jet-label for="serviceCategory" value="Product Category" />
             <div class="flex rounded-md shadow-sm mt-1">
               <input-select
                 id="serviceCategory"
                 class="flex-1 block w-full rounded"
                 :options="options"
-                v-model="form.service_category_id"
+                v-model="form.product_category_id"
                 :empty="'Select Category'"
               />
             </div>
-            <jet-input-error :message="form.errors.service_category_id" class="mt-2" />
+            <jet-input-error :message="form.errors.product_category_id" class="mt-2" />
           </div>
         </div>
         <div
@@ -122,7 +122,7 @@ export default {
     InputSelect,
     PrimaryButton
   },
-  props: ["serviceSubCategory","serviceCategories"],
+  props: ["productSubCategory","productCategories"],
 //   data() {
 //     return {
 //         options: []
@@ -137,15 +137,15 @@ export default {
 //   },
   setup(props) {
     const form = useForm({
-        _method: props.serviceSubCategory ? 'PUT' : 'POST',
-      name: props.serviceSubCategory ? props.serviceSubCategory.name : "",
-      image: props.serviceSubCategory ? props.serviceSubCategory.image : "",
-      service_category_id: props.serviceSubCategory ? props.serviceSubCategory.service_category_id : "",
+        _method: props.productSubCategory ? 'PUT' : 'POST',
+      name: props.productSubCategory ? props.productSubCategory.name : "",
+      image: props.productSubCategory ? props.productSubCategory.image : "",
+      product_category_id: props.productSubCategory ? props.productSubCategory.product_category_id : "",
     });
 
     const options = [];
 
-    props.serviceCategories.forEach(element => {
+    props.productCategories.forEach(element => {
         let option = { 'value': element.id, 'label': element.name}
         options.push(option)
     });
@@ -171,12 +171,12 @@ export default {
         },
       };
 
-      if (!props.serviceSubCategory) {
-        // New serviceSubCategory
-        form.post(route("serviceSubCategory.store"), options);
+      if (!props.productSubCategory) {
+        // New productSubCategory
+        form.post(route("productSubCategory.store"), options);
       } else {
-        // Existing serviceSubCategory
-        form.post(route("serviceSubCategory.update", props.serviceSubCategory.id), options);
+        // Existing productSubCategory
+        form.post(route("productSubCategory.update", props.productSubCategory.id), options);
       }
     }
 
