@@ -43,7 +43,7 @@ export default {
     },
     deleteSlider() {
       this.toggleSliderForm.delete(
-        route("sliders.destroy", this.sliderBeingDeleted.id),
+        route("service.destroy", this.sliderBeingDeleted.id),
         {
           preserveScroll: true,
           preserveState: true,
