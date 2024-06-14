@@ -5,10 +5,11 @@
         <jet-application-mark class="block h-9 w-auto" />
       </inertia-link>
     </div>
+
     <nav
       class="mt-5 flex-1 flex flex-col divide-y divide-gray-800 overflow-y-auto"
       aria-label="Sidebar"
-      v-if="this.$page.props.auth.user != null"
+        v-if="this.$page.props.auth.user != null"
     >
       <div class="px-2 space-y-1">
         <jet-nav-link
@@ -70,7 +71,7 @@
           >
             {{ $page.props.auth.user.current_team.name }}
           </div>
-          <sidebar-dropdown @click="dropdown()">
+          <sidebar-dropdown @click="dropdown()" v-if="this.$page.props.auth.user.role == 'admin'">
             <CakeIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -87,6 +88,7 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden }"
+            v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <jet-nav-link
               :href="route('restaurant.index')"
@@ -133,7 +135,7 @@
               Sliders
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown2()">
+          <sidebar-dropdown @click="dropdown2()" v-if="this.$page.props.auth.user.role == 'admin'">
             <ShoppingCartIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -150,6 +152,7 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden2 }"
+            v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <jet-nav-link
               :href="route('goodType.index')"
@@ -185,7 +188,7 @@
               Package Size
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown3()">
+          <sidebar-dropdown @click="dropdown3()" v-if="this.$page.props.auth.user.role == 'admin'">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -202,6 +205,7 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden3 }"
+            v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <jet-nav-link
               :href="route('users.index')"
@@ -226,7 +230,7 @@
               Trip Requests
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown4()">
+          <sidebar-dropdown @click="dropdown4()" v-if="this.$page.props.auth.user.role == 'admin'">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -243,6 +247,7 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden4 }"
+            v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <jet-nav-link
               :href="route('serviceCategory.index')"
@@ -300,7 +305,7 @@
               Bookings
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown6()">
+          <sidebar-dropdown @click="dropdown6()" v-if="this.$page.props.auth.user.role == 'admin'">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -317,6 +322,7 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden6 }"
+            v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <jet-nav-link
               :href="route('productCategory.index')"
@@ -363,7 +369,7 @@
               Orders
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown5()">
+          <sidebar-dropdown @click="dropdown5()" v-if="this.$page.props.auth.user.role == 'admin'">
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -380,6 +386,7 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden5 }"
+            v-if="this.$page.props.auth.user.role == 'admin'"
           >
             <jet-nav-link
               :href="route('users.index')"
@@ -480,8 +487,8 @@
     >
         <div class="px-2 space-y-1">
         <jet-nav-link
-          :href="route().current('/')"
-          :active="route().current('/') == ''"
+          :href="route('welcome.index')"
+          :active="route().current('welcome.index')"
         >
           <HomeIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
@@ -500,8 +507,8 @@
           Users
         </jet-nav-link>
         <jet-nav-link
-          :href="route('users.index')"
-          :active="route().current('users.index')"
+          :href="route('cart.index')"
+          :active="route().current('cart.index')"
         >
           <ShoppingCartIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"

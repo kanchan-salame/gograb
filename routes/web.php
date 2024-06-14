@@ -16,15 +16,10 @@ use App\Http\Controllers\SubServiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductSubCategoryController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\CartController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
 Route::middleware([
     'auth:sanctum',
@@ -37,6 +32,9 @@ Route::middleware([
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::resource('cart', CartController::class);
+
     Route::resource('users', UsersController::class);
     Route::resource('serviceCategory', ServiceCategoryController::class);
     Route::resource('serviceSubCategory', ServiceSubCategoryController::class);

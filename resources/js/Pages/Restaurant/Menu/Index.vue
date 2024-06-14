@@ -77,7 +77,7 @@ export default {
           </h2>
         </div>
         <div class="ml-4 flex-shrink-0">
-          <primary-button @click="$inertia.get(route('restaurant.create'))">
+          <primary-button @click="$inertia.get(route('restaurant.menu.create', restaurant.id))">
             Add Restaurant Menu
           </primary-button>
         </div>

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\RestaurantMenuItem;
+use App\Models\PackageSize;
 
 class Cart extends Model
 {
@@ -21,6 +23,15 @@ class Cart extends Model
         'quantity',
     ];
 
+    public function restaurantMenuItem()
+    {
+        return $this->belongsTo('App\Models\RestaurantMenuItem');
+    }
+
+    public function packageSize()
+    {
+        return $this->belongsTo('App\Models\PackageSize');
+    }
 
 
 }
