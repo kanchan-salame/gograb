@@ -480,14 +480,14 @@
     >
         <div class="px-2 space-y-1">
         <jet-nav-link
-          :href="route('dashboard')"
-          :active="route().current('dashboard')"
+          :href="route().current('/')"
+          :active="route().current('/') == ''"
         >
           <HomeIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
           />
-          Dashboard
+          Home
         </jet-nav-link>
         <jet-nav-link
           :href="route('users.index')"
@@ -503,28 +503,31 @@
           :href="route('users.index')"
           :active="route().current('users.index')"
         >
-          <AcademicCapIcon
+          <ShoppingCartIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
           />
-          Manage Restaurants
+          Cart
         </jet-nav-link>
         <jet-nav-link
-          :href="route('users.index')"
-          :active="route().current('users.index')"
+          :href="route('register')"
+          :active="route().current('register')"
         >
-          <TruckIcon
+          <SaveAsIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
           />
-          Manage Orders
+          Register
         </jet-nav-link>
-        <jet-nav-link>
-          <BellIcon
+        <jet-nav-link
+            :href="route('login')"
+            :active="route().current('login')"
+        >
+          <LoginIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
           />
-          Notifications
+          Login
         </jet-nav-link>
       </div>
     </nav>
@@ -553,6 +556,8 @@ import {
   TruckIcon,
   CakeIcon,
   CubeTransparentIcon,
+  SaveAsIcon,
+  LoginIcon,
 } from "@heroicons/vue/outline";
 import {
   CashIcon,
@@ -601,6 +606,9 @@ export default {
     MailIcon,
     CubeTransparentIcon,
     TruckIcon,
+    ShoppingCartIcon,
+    SaveAsIcon,
+    LoginIcon,
   },
 
   setup() {
