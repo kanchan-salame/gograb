@@ -1,12 +1,12 @@
 <template>
   <app-layout>
-    <Head title="Menu Item" />
+    <Head title="Package Size" />
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div>
           <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             <span class="text-gray-800">
-              {{ restaurantMenuItem ? "Update Restaurant Menu Item" : "Add Restaurant Menu Item" }}
+              {{ packageSize ? "Update Package Size" : "Add Package Size" }}
             </span>
           </h2>
         </div>
@@ -105,7 +105,7 @@
             :disabled="form.processing"
             @click="saveRestaurantMenuItem"
           >
-            {{ restaurantMenuItem ? "Update Restaurant Menu Item" : "Add Restaurant Menu Item" }}
+            {{ packageSize ? "Update Package Size" : "Add Package Size" }}
           </primary-button>
         </form-actions>
       </div>
@@ -164,14 +164,14 @@ export default {
     InputSelect,
     PrimaryButton,
   },
-  props: ["restaurantMenu", "restaurantMenuItem"],
+  props: ["packageSize"],
   setup(props) {
     const form = useForm({
-      _method: props.restaurantMenuItem ? "PUT" : "POST",
-      title: props.restaurantMenuItem ? props.restaurantMenuItem.title : "",
-      price: props.restaurantMenuItem ? props.restaurantMenuItem.price : "",
-      image: props.restaurantMenuItem ? props.restaurantMenuItem.image : "",
-      description: props.restaurantMenuItem ? props.restaurantMenuItem.description : "",
+      _method: props.packageSize ? "PUT" : "POST",
+      title: props.packageSize ? props.packageSize.title : "",
+      price: props.packageSize ? props.packageSize.price : "",
+      image: props.packageSize ? props.packageSize.image : "",
+      description: props.packageSize ? props.packageSize.description : "",
     });
 
     const handleFileChange = (event) => {
@@ -196,16 +196,14 @@ export default {
         },
       };
 
-      if (!props.restaurantMenuItem) {
+      if (!props.packageSize) {
         // New Item
-        form.post(route("restaurant.store.menu.item", props.restaurantMenu.id), options);
+        form.post(route("packageSize.store"), options);
       } else {
         // Existing Item
         form.post(
-          route("restaurant.update.menu.item", {
-            restaurantMenu: props.restaurantMenu.id,
-            restaurantMenuItem: props.restaurantMenuItem.id,
-          }),
+          route("packageSize.update",props.packageSize.id,
+          ),
           options
         );
       }

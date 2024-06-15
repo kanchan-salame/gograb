@@ -15,10 +15,16 @@ class PackageSize extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
         'title',
         'description',
         'image',
         'price',
     ];
+
+    protected $appends = ['imagepath'];
+
+    public function getImagePathAttribute()
+    {
+        return url('storage/'.$this->image);
+    }
 }

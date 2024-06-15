@@ -73,8 +73,46 @@
       <!-- Search bar -->
       <div class="flex-1 px-4 flex justify-end sm:px-6 lg:px-8">
         <div class="ml-4 flex items-center md:ml-6">
+            <!-- <div class="ml-3 relative" v-if="$page.props.auth.user.role != 'admin'"> -->
+                <div class="ml-3 relative" >
+            <jet-dropdown align="right" width="48">
+              <template #trigger>
+                <button
+                  v-if="$page.props.auth.user"
+                  class="flex items-center text-sm border-2 border-transparent rounded-full transition"
+                >
+                  <BellIcon
+                    class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 lg:block"
+                    aria-hidden="true"
+                  />
+                  <span id="notify-count" style="color: #fff;background-color: red;border-radius: 20px;width: 20px;position: relative;top: -15px;left: -20px;">{{ this.unreadNotifications.length > 0 ? this.unreadNotifications.length : 0 }}</span>
+                </button>
+              </template>
+
+              <template #content>
+                <!-- Account Management -->
+                <div class="block px-4 py-2 text-xs text-gray-900" v-if="this.unreadNotifications.length > 0">
+                  Manage Notifications
+
+                </div>
+                <div class="block px-4 py-2 text-xs text-gray-900" v-else>
+                  No New Notifications
+                </div>
+                <a href="" class="block px-4 py-2 text-xs text-gray-400" @click="markAllAsRead" v-show="this.unreadNotifications.length > 0">
+                        Mark all as read
+                    </a>
+                <div v-for="(notification, index) in this.unreadNotifications" :key="index" >
+                    <div @click="readNotification(notification)" class="block px-4 py-2 text-xs text-gray-400">
+                        <h4>{{ notification.data.comment }}</h4>
+                        <p class="block px-4 py-2 text-xs text-gray-700">{{ updateCurrentTime(notification.created_at) }}</p>
+                        <hr>
+                    </div>
+                </div>
+                <div class="border-t border-gray-100"></div>
+              </template>
+            </jet-dropdown>
+          </div>
           <div class="ml-3 relative">
-            <!-- <moon-icon @click="alert('hi')"></moon-icon> -->
             <MoonIcon
               @click="changeDarkLightMode"
               class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 lg:block"
@@ -269,6 +307,7 @@ import { ref } from "vue";
 import JetDropdown from "@/Jetstream/Dropdown.vue";
 import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
 import CommonLinks from "@/Components/Ui/CommonLinks.vue";
+import moment from 'moment';
 
 import {
   Dialog,
@@ -277,8 +316,10 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
-import { MenuAlt1Icon, XIcon, MoonIcon } from "@heroicons/vue/outline";
+import { MenuAlt1Icon, XIcon, MoonIcon, BellIcon } from "@heroicons/vue/outline";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
+import axios from 'axios';
+import { toast } from "vue3-toastify";
 
 export default {
   components: {
@@ -293,6 +334,7 @@ export default {
     TransitionRoot,
     XIcon,
     MoonIcon,
+    BellIcon
   },
 
   setup() {
@@ -302,8 +344,71 @@ export default {
       sidebarOpen,
     };
   },
+  mounted() {
+    this.getUnreadNotifications();
+
+    this.interval = setInterval(function(){
+        this.getUnreadNotifications();
+    }.bind(this), 500);
+  },
+
+  data() {
+    return {
+        unreadNotifications : {},
+        currentTime: null,
+    }
+  },
 
   methods: {
+
+    readNotification(notification) {
+        axios.post('showNotification/' + notification.id).then((response) => {
+            location.reload();
+            console.log(response);
+            toast.success("Notification mark as read!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+
+
+        }).catch((errors) => {
+            console.log(errors);
+            toast.error("Something went wrong!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        });
+    },
+
+    markAllAsRead() {
+        axios.get('markAllAsRead').then((response) => {
+            location.reload();
+            toast.success("Notifications mark all as read!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        }).catch((errors) => {
+            console.log(errors);
+            toast.error("Something went wrong!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        });
+    },
+    updateCurrentTime(time) {
+      return moment(time).fromNow();
+    },
+    created() {
+    this.currentTime = moment().format("LTS");
+    setInterval(() => this.updateCurrentTime(), 1000);
+  },
+
+    getUnreadNotifications() {
+        axios.get('unreadNotification').then((response) => {
+            this.unreadNotifications = response.data;
+        }).catch((errors) => {
+            console.log(errors);
+            toast.error("Something went wrong!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        });
+    },
     switchToTeam(team) {
       this.$inertia.put(
         route("current-team.update"),

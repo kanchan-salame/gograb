@@ -16,7 +16,10 @@ class PackageSizeController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('PackageSize/Index',[
+            'packageSizes' => fn() =>
+                QueryBuilder::for(PackageSize::class)->paginate(5),
+            ]);
     }
 
     /**
@@ -24,15 +27,25 @@ class PackageSizeController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('PackageSize/Save');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SavePackageSizeRequestForm $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/packagesize/images');
+            $categoryImagePath = str_replace('public/', '', $categoryImagePath);
+            } else {
+            $categoryImagePath = null;
+        }
+        $data['image'] = $categoryImagePath;
+
+        PackageSize::create($data);
+        return redirect()->route('packageSize.index')->with('flash.banner', 'Package Size added successfully');
     }
 
     /**
@@ -48,15 +61,29 @@ class PackageSizeController extends Controller
      */
     public function edit(PackageSize $packageSize)
     {
-        //
+        return Inertia::render('PackageSize/Save',
+            array_merge([
+                'packageSize' => $packageSize,
+            ]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PackageSize $packageSize)
+    public function update(SavePackageSizeRequestForm $request, PackageSize $packageSize)
     {
-        //
+        $packageSize->title = $request['title'];
+        $packageSize->description = $request['description'];
+        $packageSize->price = $request['price'];
+        if ($request->hasFile('image')) {
+            $categoryImagePath = $request->file('image')->store('uploads/packagesize/images');
+            $categoryImagePath = str_replace('public/', '', $categoryImagePath);
+            } else {
+            $categoryImagePath = null;
+        }
+        $packageSize->image = $categoryImagePath;
+        $packageSize->update();
+        return redirect()->route('packageSize.index')->with('flash.banner', 'Package Size Updated successfully');
     }
 
     /**
@@ -64,6 +91,7 @@ class PackageSizeController extends Controller
      */
     public function destroy(PackageSize $packageSize)
     {
-        //
+        $packageSize->delete();
+        return back()->with('flash.banner', 'Package Size deleted successfully');
     }
 }
