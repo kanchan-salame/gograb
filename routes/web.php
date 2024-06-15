@@ -22,6 +22,28 @@ use App\Http\Controllers\FoodOrderController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
+use App\Events\SendNotification;
+
+Route::get('/', function () {
+    event(new SendNotification('Broadcasting in Laravel using Pusher!'));
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+// Route::get('/', function () {
+
+//     $user = User::findOrFail(1);
+//     $user->notify(new PusherNotification($user->id , 'someone comment on your post'));
+
+//     dd('notification sent');
+// });
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -68,4 +90,13 @@ Route::middleware('auth')->group(function () {
     Route::get('restaurant-destroy-menu-item/{restaurantMenu}/{restaurantMenuItem}', [RestaurantController::class, 'destroyMenuItem'])->name('restaurant.destroy.menu.item');
     Route::post('restaurant-update-categories/{restaurant}', [RestaurantController::class, 'updateCategories'])->name('restaurant.update.categories');
     Route::post('restaurant-update-timing/{restaurant}', [RestaurantController::class, 'updateTiming'])->name('restaurant.update.timing');
+
+    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::post('/notification-send', [NotificationController::class, 'sendNotification'])->name('notification.sent');
+    Route::get('/unreadNotification', [NotificationController::class, 'unreadNotification'])->name('notification.unread');
+    Route::get('/markAllAsRead', [NotificationController::class, 'markAllAsRead'])->name('notification.read');
+    Route::post('/showNotification/{id}', [NotificationController::class, 'showNotification'])->name('notification.show');
+
+
+
 });
