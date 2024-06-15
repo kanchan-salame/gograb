@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\RestaurantMenu;
 
 class RestaurantMenuItem extends Model
 {
@@ -30,5 +31,15 @@ class RestaurantMenuItem extends Model
     public function getImagePathAttribute()
     {
         return url('storage/'.$this->image);
+    }
+
+    public function cart()
+    {
+        return $this->hasMany('Cart');
+    }
+
+    public function restaurantMenu()
+    {
+        return $this->belongsTo('App\Models\RestaurantMenu');
     }
 }

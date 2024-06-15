@@ -27,4 +27,9 @@ class PackageSize extends Model
     {
         return url('storage/'.$this->image);
     }
+
+    public function cart()
+    {
+        return $this->hasMany('Cart'); // links this->course_id to courses.id
+    }
 }

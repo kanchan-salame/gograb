@@ -6,7 +6,7 @@
       class="relative h-screen lg:flex lg:flex-shrink-0 bg-white overflow-hidden"
     >
       <!-- Static sidebar for desktop -->
-      <div class="hidden lg:flex lg:flex-shrink-0">
+      <div class="hidden lg:flex lg:flex-shrink-0" v-if="this.$page.props.auth.user != null">
         <div class="flex flex-col w-64">
           <div
             class="flex flex-col flex-grow lg:border-r lg:border-gray-200 lg:pb-4 lg:pt-5 lg:bg-gray-800 pt-5 pb-4 overflow-y-auto"
