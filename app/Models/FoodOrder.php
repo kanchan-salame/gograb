@@ -34,5 +34,20 @@ class FoodOrder extends Model
         'total',
     ];
 
+    public function restaurantMenuItem()
+    {
+        return $this->belongsTo('App\Models\RestaurantMenuItem');
+    }
+
+    public function restaurantMenu()
+    {
+        return $this->belongsTo('App\Models\RestaurantMenu');
+    }
+
+    public function restaurant()
+    {
+        return $this->belongsTo('App\Models\Restaurant');
+    }
+
 
 }

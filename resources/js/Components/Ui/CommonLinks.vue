@@ -9,7 +9,7 @@
     <nav
       class="mt-5 flex-1 flex flex-col divide-y divide-gray-800 overflow-y-auto"
       aria-label="Sidebar"
-        v-if="this.$page.props.auth.user != null"
+      v-if="this.$page.props.auth.user != null"
     >
       <div class="px-2 space-y-1">
         <jet-nav-link
@@ -71,7 +71,10 @@
           >
             {{ $page.props.auth.user.current_team.name }}
           </div>
-          <sidebar-dropdown @click="dropdown()" v-if="this.$page.props.auth.user.role == 'admin'">
+          <sidebar-dropdown
+            @click="dropdown()"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
             <CakeIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -102,8 +105,8 @@
               Restaurants
             </jet-nav-link>
             <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
+              :href="route('foodOrder.index')"
+              :active="route().current('foodOrder.index')"
               v-if="this.$page.props.auth.user.role == 'admin'"
             >
               <TruckIcon
@@ -135,7 +138,10 @@
               Sliders
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown2()" v-if="this.$page.props.auth.user.role == 'admin'">
+          <sidebar-dropdown
+            @click="dropdown2()"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
             <ShoppingCartIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -188,7 +194,10 @@
               Package Size
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown3()" v-if="this.$page.props.auth.user.role == 'admin'">
+          <sidebar-dropdown
+            @click="dropdown3()"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -230,7 +239,10 @@
               Trip Requests
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown4()" v-if="this.$page.props.auth.user.role == 'admin'">
+          <sidebar-dropdown
+            @click="dropdown4()"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -305,7 +317,10 @@
               Bookings
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown6()" v-if="this.$page.props.auth.user.role == 'admin'">
+          <sidebar-dropdown
+            @click="dropdown6()"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -369,7 +384,10 @@
               Orders
             </jet-nav-link>
           </div>
-          <sidebar-dropdown @click="dropdown5()" v-if="this.$page.props.auth.user.role == 'admin'">
+          <sidebar-dropdown
+            @click="dropdown5()"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
             <CubeTransparentIcon
               class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               aria-hidden="true"
@@ -485,7 +503,7 @@
       aria-label="Sidebar"
       v-else
     >
-        <div class="px-2 space-y-1">
+      <div class="px-2 space-y-1">
         <jet-nav-link
           :href="route('welcome.index')"
           :active="route().current('welcome.index')"
@@ -526,10 +544,7 @@
           />
           Register
         </jet-nav-link>
-        <jet-nav-link
-            :href="route('login')"
-            :active="route().current('login')"
-        >
+        <jet-nav-link :href="route('login')" :active="route().current('login')">
           <LoginIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"

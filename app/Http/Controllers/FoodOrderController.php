@@ -19,7 +19,14 @@ class FoodOrderController extends Controller
      */
     public function index()
     {
-        dd('order placed');
+        return Inertia::render('FoodOrder/Index',[
+            'foodOrders' => fn() =>
+                QueryBuilder::for(FoodOrder::class)
+                ->with(['restaurantMenuItem'])
+                ->with(['restaurantMenu'])
+                ->with(['restaurant'])
+                ->paginate(10),
+            ]);
     }
 
     /**

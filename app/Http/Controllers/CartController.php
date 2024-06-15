@@ -21,6 +21,7 @@ class CartController extends Controller
         return Inertia::render('Cart/Index',[
             'carts' => fn() =>
                 QueryBuilder::for(Cart::class)
+                ->where('user_id', auth()->user()->id)
                 ->with(['restaurantMenuItem'])
                 ->with(['restaurantMenu'])
                 ->get(),
