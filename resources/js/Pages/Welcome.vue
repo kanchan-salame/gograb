@@ -34,6 +34,8 @@ function handleImageError() {
 function addToCart(restaurantMenuItem) {
     const form = useForm({
       restaurant_menu_item_id: restaurantMenuItem.id,
+      restaurant_menu_id: restaurantMenuItem.restaurant_menu_id,
+      restaurant_id: restaurantMenuItem.restaurant_menu.restaurant_id,
       formtype: "restaurantMenuItem",
     });
 

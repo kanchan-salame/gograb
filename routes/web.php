@@ -18,6 +18,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FoodOrderController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
@@ -34,6 +35,7 @@ Route::middleware([
 Route::middleware('auth')->group(function () {
 
     Route::resource('cart', CartController::class);
+    Route::resource('foodOrder', FoodOrderController::class);
 
     Route::resource('users', UsersController::class);
     Route::resource('serviceCategory', ServiceCategoryController::class);

@@ -23,7 +23,7 @@ class WelcomeController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'restaurantMenuItems' => fn() =>
-                QueryBuilder::for(RestaurantMenuItem::class)->get(),
+                QueryBuilder::for(RestaurantMenuItem::class)->with('restaurantMenu')->get(),
             ]
         );
     }

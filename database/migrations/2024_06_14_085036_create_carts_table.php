@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('restaurant_menu_item_id')->nullable();
             $table->integer('package_size_id')->nullable();
             $table->integer('quantity');
+            $table->integer('restaurant_menu_id')->nullable();
+            $table->integer('restaurant_id')->nullable();
             $table->timestamps();
         });
     }

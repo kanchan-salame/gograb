@@ -20,7 +20,10 @@ class CartController extends Controller
         // dd($cart);
         return Inertia::render('Cart/Index',[
             'carts' => fn() =>
-                QueryBuilder::for(Cart::class)->with(['restaurantMenuItem'])->get(),
+                QueryBuilder::for(Cart::class)
+                ->with(['restaurantMenuItem'])
+                ->with(['restaurantMenu'])
+                ->get(),
             ]);
     }
 
@@ -37,16 +40,19 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         if ($request['formtype'] == 'restaurantMenuItem') {
             $data = [
                 'restaurant_menu_item_id' => $request['restaurant_menu_item_id'],
-                'user_id' => Auth::user()->id,
+                'user_id' => auth()->user()->id,
                 'quantity' => 1,
+                "restaurant_menu_id" => $request['restaurant_menu_id'],
+                "restaurant_id" => $request['restaurant_id'],
             ];
         } else {
             $data = [
                 'package_size_id' => $request['package_size_id'],
-                'user_id' => Auth::user()->id,
+                'user_id' => auth()->user()->id,
                 'quantity' => 1,
             ];
         }
