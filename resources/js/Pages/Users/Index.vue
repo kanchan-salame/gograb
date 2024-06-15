@@ -7,7 +7,8 @@ import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/vue/outline";
 import JetConfirmationModal from "@/Components/Jetstream/ConfirmationModal.vue";
 import JetDangerButton from "@/Jetstream/DangerButton.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
-import JetButton from '@/Jetstream/Button.vue';
+import JetButton from "@/Jetstream/Button.vue";
+import { Head, Link } from "@inertiajs/vue3";
 
 export default {
   components: {
@@ -22,7 +23,7 @@ export default {
     JetDangerButton,
     JetSecondaryButton,
     JetButton,
-
+    Head,
   },
   props: ["users"],
   data() {
@@ -71,6 +72,7 @@ export default {
 </script>
 
 <template>
+  <Head title="Users" />
   <AppLayout title="Users">
     <template #header>
       <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
@@ -207,32 +209,45 @@ export default {
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
-        <jet-confirmation-modal :show="userBeingToggled" @close="userBeingToggled = null">
-            <template #title>
-                {{ userBeingToggled.activated_at ?  'Deactivate' : 'Activate' }} Client
-            </template>
+    <jet-confirmation-modal
+      :show="userBeingToggled"
+      @close="userBeingToggled = null"
+    >
+      <template #title>
+        {{ userBeingToggled.activated_at ? "Deactivate" : "Activate" }} Client
+      </template>
 
-            <template #content>
-                Are you sure you would like to {{ userBeingToggled.activated_at ?  'deactivate' : 'activate' }} {{ userBeingToggled.name }}?
-            </template>
+      <template #content>
+        Are you sure you would like to
+        {{ userBeingToggled.activated_at ? "deactivate" : "activate" }}
+        {{ userBeingToggled.name }}?
+      </template>
 
-            <template #footer>
-                <jet-secondary-button @dblclick="userBeingToggled = null">
-                    Nevermind
-                </jet-secondary-button>
+      <template #footer>
+        <jet-secondary-button @dblclick="userBeingToggled = null">
+          Nevermind
+        </jet-secondary-button>
 
-                <jet-danger-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleUserForm.processing }" :disabled="toggleUserForm.processing"
-                    v-if="userBeingToggled.activated_at">
-                    Deactivate
-                </jet-danger-button>
-                <jet-button class="mr-2" @click="toggleClient"
-                    :class="{ 'opacity-25': toggleUserForm.processing }" :disabled="toggleUserForm.processing"
-                    v-else>
-                    Activate
-                </jet-button>
-            </template>
-        </jet-confirmation-modal>
+        <jet-danger-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleUserForm.processing }"
+          :disabled="toggleUserForm.processing"
+          v-if="userBeingToggled.activated_at"
+        >
+          Deactivate
+        </jet-danger-button>
+        <jet-button
+          class="mr-2"
+          @click="toggleClient"
+          :class="{ 'opacity-25': toggleUserForm.processing }"
+          :disabled="toggleUserForm.processing"
+          v-else
+        >
+          Activate
+        </jet-button>
+      </template>
+    </jet-confirmation-modal>
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
       :show="userBeingDeleted"

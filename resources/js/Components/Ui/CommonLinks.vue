@@ -54,7 +54,12 @@
           />
           Manage Orders
         </jet-nav-link>
+
         <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
+          <BellIcon
+        <jet-nav-link :href="route('notification.index')"
+          :active="route().current('notification.index')"
+          v-if="this.$page.props.auth.user.role == 'admin'">
           <BellIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
@@ -309,6 +314,16 @@
             <ChevronRightIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               :class="rotate6"
+          </div>
+          <sidebar-dropdown @click="dropdown2()">
+            <ShoppingCartIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Parcel Delivery
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate2"
               aria-hidden="true"
               style="right: -40px; position: relative"
             />
@@ -391,6 +406,15 @@
                 aria-hidden="true"
               />
               Website
+              :href="route('goodType.index')"
+              :active="route().current('goodType.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <PaperAirplaneIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Good Type
             </jet-nav-link>
             <jet-nav-link
               :href="route('users.index')"
@@ -404,6 +428,39 @@
               App
             </jet-nav-link>
             <jet-nav-link
+              Orders
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('packageSize.index')"
+              :active="route().current('packageSize.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <MailIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Package Size
+            </jet-nav-link>
+          </div>
+          <sidebar-dropdown @click="dropdown3()">
+            <CubeTransparentIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Ride Hailing
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate3"
+              aria-hidden="true"
+              style="right: -40px; position: relative"
+            />
+          </sidebar-dropdown>
+          <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+            :class="{ hidden: this.isHidden3 }"
+          >
+            <jet-nav-link
               :href="route('users.index')"
               :active="route().current('users.index')"
               v-if="this.$page.props.auth.user.role == 'admin'"
@@ -412,7 +469,7 @@
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
                 aria-hidden="true"
               />
-              Equipment
+              Trip
             </jet-nav-link>
             <jet-nav-link
               :href="route('users.index')"
@@ -470,6 +527,9 @@
             />
             Products
           </jet-nav-link>
+              Trip Requests
+            </jet-nav-link>
+          </div>
         </div>
       </div>
     </nav>
