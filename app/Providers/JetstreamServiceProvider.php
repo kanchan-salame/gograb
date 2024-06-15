@@ -56,21 +56,31 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('Editor users have the ability to manage users and orders.');
         Jetstream::role('user', 'User', [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('User users have the ability place and remove orders.');
         Jetstream::role('driver', 'Driver', [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('Driver dispatch orders.');
         Jetstream::role('vendor', 'Vendor', [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('Vendor users have the ability to read, create, and update.');
+        Jetstream::role('restaurant', 'Restaurant', [
+            'read',
+            'create',
+            'update',
+        ])->description('Restaurant users have the ability to read, create, and update the orders and users.');
+        Jetstream::role('customer', 'Customer', [
+            'read',
+            'create',
+            'update',
+        ])->description('Customer users have the ability buy products.');
     }
 }
