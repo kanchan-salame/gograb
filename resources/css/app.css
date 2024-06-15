@@ -1,40 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'style.css';
+/* @import 'style.css'; */
 
-.overflow-override .overflow-hidden {
-	overflow: visible;
-}
-
-/* primevue-dropdown styling */
-/* .p-dropdown.p-inputwrapper-focus {
-	@apply border-medium-blue ring ring-light-blue ring-opacity-50 rounded-md shadow-sm !important;
-} */
-/* .p-inputtext:enabled:focus{
-	@apply focus:border-medium-blue focus:ring focus:ring-light-blue focus:ring-opacity-50 rounded-md shadow-sm;
-} */
-.p-dropdown-panel .p-dropdown-header {
-	@apply bg-white !important;
-}
-.p-dropdown-label {
-	@apply text-sm text-gray-600 font-medium !important;
-}
-.p-dropdown-item {
-	@apply font-medium text-sm text-gray-700
-}
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
-	@apply bg-gray-100 !important;
-}
-.bg-danger {
-	background-color: #ff5252;
-}
-.bg-success {
-	background-color: #4caf50;
-}
-.opacity-08 {
-	opacity: 0.819746;
-}
-/* [x-cloak] {
+[x-cloak] {
     display: none;
-} */
+}

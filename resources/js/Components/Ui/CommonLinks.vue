@@ -8,6 +8,7 @@
     <nav
       class="mt-5 flex-1 flex flex-col divide-y divide-gray-800 overflow-y-auto"
       aria-label="Sidebar"
+      v-if="this.$page.props.auth.user != null"
     >
       <div class="px-2 space-y-1">
         <jet-nav-link
@@ -53,11 +54,13 @@
           />
           Manage Orders
         </jet-nav-link>
+
+        <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
+          <BellIcon
         <jet-nav-link :href="route('notification.index')"
           :active="route().current('notification.index')"
           v-if="this.$page.props.auth.user.role == 'admin'">
           <BellIcon
-
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
           />
@@ -228,7 +231,364 @@
               Trip Requests
             </jet-nav-link>
           </div>
+          <sidebar-dropdown @click="dropdown4()">
+            <CubeTransparentIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Services
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate4"
+              aria-hidden="true"
+              style="right: -40px; position: relative"
+            />
+          </sidebar-dropdown>
+          <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+            :class="{ hidden: this.isHidden4 }"
+          >
+            <jet-nav-link
+              :href="route('serviceCategory.index')"
+              :active="route().current('serviceCategory.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Categories
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('serviceSubCategory.index')"
+              :active="route().current('serviceSubCategory.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Sub Categories
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('service.index')"
+              :active="route().current('service.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Services
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('subService.index')"
+              :active="route().current('subService.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Sub Services
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Bookings
+            </jet-nav-link>
+          </div>
+          <sidebar-dropdown @click="dropdown6()">
+            <CubeTransparentIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Products
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate6"
+          </div>
+          <sidebar-dropdown @click="dropdown2()">
+            <ShoppingCartIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Parcel Delivery
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate2"
+              aria-hidden="true"
+              style="right: -40px; position: relative"
+            />
+          </sidebar-dropdown>
+          <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+            :class="{ hidden: this.isHidden6 }"
+          >
+            <jet-nav-link
+              :href="route('productCategory.index')"
+              :active="route().current('productCategory.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Categories
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('productSubCategory.index')"
+              :active="route().current('productSubCategory.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Sub Categories
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('product.index')"
+              :active="route().current('product.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Products
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Orders
+            </jet-nav-link>
+          </div>
+          <sidebar-dropdown @click="dropdown5()">
+            <CubeTransparentIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Predict Cost
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate5"
+              aria-hidden="true"
+              style="right: -40px; position: relative"
+            />
+          </sidebar-dropdown>
+          <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+            :class="{ hidden: this.isHidden5 }"
+          >
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Website
+              :href="route('goodType.index')"
+              :active="route().current('goodType.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <PaperAirplaneIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Good Type
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              App
+            </jet-nav-link>
+            <jet-nav-link
+              Orders
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('packageSize.index')"
+              :active="route().current('packageSize.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <MailIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Package Size
+            </jet-nav-link>
+          </div>
+          <sidebar-dropdown @click="dropdown3()">
+            <CubeTransparentIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Ride Hailing
+            <ChevronRightIcon
+              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              :class="rotate3"
+              aria-hidden="true"
+              style="right: -40px; position: relative"
+            />
+          </sidebar-dropdown>
+          <div
+            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
+            id="submenu"
+            :class="{ hidden: this.isHidden3 }"
+          >
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Trip
+            </jet-nav-link>
+            <jet-nav-link
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+              v-if="this.$page.props.auth.user.role == 'admin'"
+            >
+              <TruckIcon
+                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+                aria-hidden="true"
+              />
+              Installation
+            </jet-nav-link>
+          </div>
+          <jet-nav-link
+            :href="route('users.index')"
+            :active="route().current('users.index')"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
+            <TruckIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Book Now
+          </jet-nav-link>
+          <jet-nav-link
+            :href="route('users.index')"
+            :active="route().current('users.index')"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
+            <TruckIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Be Partner
+          </jet-nav-link>
+          <jet-nav-link
+            :href="route('users.index')"
+            :active="route().current('users.index')"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
+            <TruckIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Invest Now
+          </jet-nav-link>
+          <jet-nav-link
+            :href="route('users.index')"
+            :active="route().current('users.index')"
+            v-if="this.$page.props.auth.user.role == 'admin'"
+          >
+            <TruckIcon
+              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+              aria-hidden="true"
+            />
+            Products
+          </jet-nav-link>
+              Trip Requests
+            </jet-nav-link>
+          </div>
         </div>
+      </div>
+    </nav>
+    <nav
+      class="mt-5 flex-1 flex flex-col divide-y divide-gray-800 overflow-y-auto"
+      aria-label="Sidebar"
+      v-else
+    >
+        <div class="px-2 space-y-1">
+        <jet-nav-link
+          :href="route().current('/')"
+          :active="route().current('/') == ''"
+        >
+          <HomeIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Home
+        </jet-nav-link>
+        <jet-nav-link
+          :href="route('users.index')"
+          :active="route().current('users.index')"
+        >
+          <UsersIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Users
+        </jet-nav-link>
+        <jet-nav-link
+          :href="route('users.index')"
+          :active="route().current('users.index')"
+        >
+          <ShoppingCartIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Cart
+        </jet-nav-link>
+        <jet-nav-link
+          :href="route('register')"
+          :active="route().current('register')"
+        >
+          <SaveAsIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Register
+        </jet-nav-link>
+        <jet-nav-link
+            :href="route('login')"
+            :active="route().current('login')"
+        >
+          <LoginIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Login
+        </jet-nav-link>
       </div>
     </nav>
   </div>
@@ -256,6 +616,8 @@ import {
   TruckIcon,
   CakeIcon,
   CubeTransparentIcon,
+  SaveAsIcon,
+  LoginIcon,
 } from "@heroicons/vue/outline";
 import {
   CashIcon,
@@ -304,18 +666,27 @@ export default {
     MailIcon,
     CubeTransparentIcon,
     TruckIcon,
+    ShoppingCartIcon,
+    SaveAsIcon,
+    LoginIcon,
   },
 
   setup() {
     const isHidden = ref(true);
     const isHidden2 = ref(true);
     const isHidden3 = ref(true);
+    const isHidden4 = ref(true);
+    const isHidden5 = ref(true);
+    const isHidden6 = ref(true);
     const isRotate = ref(true);
     // ...
     return {
       isHidden,
       isHidden2,
       isHidden3,
+      isHidden4,
+      isHidden5,
+      isHidden6,
       isRotate,
     };
   },
@@ -365,6 +736,15 @@ export default {
     rotate3() {
       return this.isHidden3 ? "rotate-0" : "rotate-90";
     },
+    rotate4() {
+      return this.isHidden4 ? "rotate-0" : "rotate-90";
+    },
+    rotate5() {
+      return this.isHidden5 ? "rotate-0" : "rotate-90";
+    },
+    rotate6() {
+      return this.isHidden6 ? "rotate-0" : "rotate-90";
+    },
   },
   methods: {
     dropdown() {
@@ -375,6 +755,15 @@ export default {
     },
     dropdown3() {
       this.isHidden3 = !this.isHidden3;
+    },
+    dropdown4() {
+      this.isHidden4 = !this.isHidden4;
+    },
+    dropdown5() {
+      this.isHidden5 = !this.isHidden5;
+    },
+    dropdown6() {
+      this.isHidden6 = !this.isHidden6;
     },
   },
 };

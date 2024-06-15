@@ -15,7 +15,7 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-100" />
         </TransitionChild>
         <TransitionChild
           as="template"
@@ -119,7 +119,10 @@
               aria-hidden="true"
             />
           </div>
-          <div class="px-3 relative inline-block text-left">
+          <div
+            class="px-3 relative inline-block text-left"
+            v-if="$page.props.auth.user != null"
+          >
             <!-- Teams Dropdown -->
             <jet-dropdown
               align="right"
@@ -215,7 +218,7 @@
             </jet-dropdown>
           </div>
           <!-- Settings Dropdown -->
-          <div class="ml-3 relative">
+          <div class="ml-3 relative" v-if="$page.props.auth.user != null">
             <jet-dropdown align="right" width="48">
               <template #trigger>
                 <button
