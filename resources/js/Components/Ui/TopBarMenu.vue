@@ -90,6 +90,7 @@
               align="right"
               width="60"
               v-if="$page.props.jetstream.hasTeamFeatures"
+              v-show="$page.props.auth.user.role == 'admin'"
             >
               <template #trigger>
                 <span class="inline-flex rounded-md">
