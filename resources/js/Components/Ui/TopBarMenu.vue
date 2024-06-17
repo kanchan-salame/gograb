@@ -73,11 +73,22 @@
       <!-- Search bar -->
       <div class="flex-1 px-4 flex justify-end sm:px-6 lg:px-8">
         <div class="ml-4 flex items-center md:ml-6">
-          <div class="ml-3 relative">
-            <!-- <moon-icon @click="alert('hi')"></moon-icon> -->
+          <div class="ml-3 relative inline-block">
+            <Link :href="route('register')" @click="goToRegister" class="inline-block"
+                v-if="$page.props.canRegister"
+            >
+              Register
+            </Link>
+          </div>
+          <div class="ml-3 relative inline-block">
+            <Link :href="route('login')" class="inline-block" @click="goToLogin"
+                v-if="$page.props.canLogin"
+            > Login </Link>
+          </div>
+          <div class="ml-3 relative inline-block">
             <MoonIcon
               @click="changeDarkLightMode"
-              class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 lg:block"
+              class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 inline-block"
               aria-hidden="true"
             />
           </div>
@@ -281,7 +292,12 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
-import { MenuAlt1Icon, XIcon, MoonIcon } from "@heroicons/vue/outline";
+import {
+  MenuAlt1Icon,
+  XIcon,
+  MoonIcon,
+  LoginIcon,
+} from "@heroicons/vue/outline";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 
 export default {
@@ -297,6 +313,7 @@ export default {
     TransitionRoot,
     XIcon,
     MoonIcon,
+    LoginIcon,
   },
 
   setup() {
@@ -308,6 +325,14 @@ export default {
   },
 
   methods: {
+
+    goToLogin() {
+        this.$inertia.get(route("login"));
+    },
+
+    goToRegister() {
+        this.$inertia.get(route("register"));
+    },
     switchToTeam(team) {
       this.$inertia.put(
         route("current-team.update"),
