@@ -55,7 +55,10 @@
           />
           Manage Orders
         </jet-nav-link>
-        <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
+
+        <jet-nav-link :href="route('notification.index')"
+          :active="route().current('notification.index')"
+          v-if="this.$page.props.auth.user.role == 'admin'">
           <BellIcon
             class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
             aria-hidden="true"
@@ -418,37 +421,15 @@
               Website
             </jet-nav-link>
             <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
+              :href="route('packageSize.index')"
+              :active="route().current('packageSize.index')"
               v-if="this.$page.props.auth.user.role == 'admin'"
             >
-              <TruckIcon
+              <MailIcon
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
                 aria-hidden="true"
               />
-              App
-            </jet-nav-link>
-            <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
-            >
-              <TruckIcon
-                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-              Equipment
-            </jet-nav-link>
-            <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
-            >
-              <TruckIcon
-                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-              Installation
+              Package Size
             </jet-nav-link>
           </div>
           <jet-nav-link
@@ -495,8 +476,8 @@
             />
             Products
           </jet-nav-link>
+          </div>
         </div>
-      </div>
     </nav>
     <nav
       class="mt-5 flex-1 flex flex-col divide-y divide-gray-800 overflow-y-auto"

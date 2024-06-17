@@ -19,6 +19,9 @@ use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodOrderController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
+use App\Events\SendNotification;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
@@ -68,4 +71,13 @@ Route::middleware('auth')->group(function () {
     Route::get('restaurant-destroy-menu-item/{restaurantMenu}/{restaurantMenuItem}', [RestaurantController::class, 'destroyMenuItem'])->name('restaurant.destroy.menu.item');
     Route::post('restaurant-update-categories/{restaurant}', [RestaurantController::class, 'updateCategories'])->name('restaurant.update.categories');
     Route::post('restaurant-update-timing/{restaurant}', [RestaurantController::class, 'updateTiming'])->name('restaurant.update.timing');
+
+    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::post('/notification-send', [NotificationController::class, 'sendNotification'])->name('notification.sent');
+    Route::get('/unreadNotification', [NotificationController::class, 'unreadNotification'])->name('notification.unread');
+    Route::get('/markAllAsRead', [NotificationController::class, 'markAllAsRead'])->name('notification.read');
+    Route::post('/showNotification/{id}', [NotificationController::class, 'showNotification'])->name('notification.show');
+
+
+
 });
