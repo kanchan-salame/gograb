@@ -19,30 +19,11 @@ use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodOrderController;
-
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
-
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Events\SendNotification;
 
-Route::get('/', function () {
-    event(new SendNotification('Broadcasting in Laravel using Pusher!'));
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-// Route::get('/', function () {
-
-//     $user = User::findOrFail(1);
-//     $user->notify(new PusherNotification($user->id , 'someone comment on your post'));
-
-//     dd('notification sent');
-// });
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
 Route::middleware([
     'auth:sanctum',

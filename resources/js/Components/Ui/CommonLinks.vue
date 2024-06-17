@@ -56,8 +56,6 @@
           Manage Orders
         </jet-nav-link>
 
-        <jet-nav-link v-if="this.$page.props.auth.user.role == 'admin'">
-          <BellIcon
         <jet-nav-link :href="route('notification.index')"
           :active="route().current('notification.index')"
           v-if="this.$page.props.auth.user.role == 'admin'">
@@ -334,16 +332,6 @@
             <ChevronRightIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
               :class="rotate6"
-          </div>
-          <sidebar-dropdown @click="dropdown2()">
-            <ShoppingCartIcon
-              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-              aria-hidden="true"
-            />
-            Parcel Delivery
-            <ChevronRightIcon
-              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-              :class="rotate2"
               aria-hidden="true"
               style="right: -40px; position: relative"
             />
@@ -431,29 +419,6 @@
                 aria-hidden="true"
               />
               Website
-              :href="route('goodType.index')"
-              :active="route().current('goodType.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
-            >
-              <PaperAirplaneIcon
-                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-              Good Type
-            </jet-nav-link>
-            <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
-            >
-              <TruckIcon
-                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-              App
-            </jet-nav-link>
-            <jet-nav-link
-              Orders
             </jet-nav-link>
             <jet-nav-link
               :href="route('packageSize.index')"
@@ -465,47 +430,6 @@
                 aria-hidden="true"
               />
               Package Size
-            </jet-nav-link>
-          </div>
-          <sidebar-dropdown @click="dropdown3()">
-            <CubeTransparentIcon
-              class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-              aria-hidden="true"
-            />
-            Ride Hailing
-            <ChevronRightIcon
-              class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-              :class="rotate3"
-              aria-hidden="true"
-              style="right: -40px; position: relative"
-            />
-          </sidebar-dropdown>
-          <div
-            class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
-            id="submenu"
-            :class="{ hidden: this.isHidden3 }"
-          >
-            <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
-            >
-              <TruckIcon
-                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-              Trip
-            </jet-nav-link>
-            <jet-nav-link
-              :href="route('users.index')"
-              :active="route().current('users.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
-            >
-              <TruckIcon
-                class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-              Installation
             </jet-nav-link>
           </div>
           <jet-nav-link
@@ -552,11 +476,8 @@
             />
             Products
           </jet-nav-link>
-              Trip Requests
-            </jet-nav-link>
           </div>
         </div>
-      </div>
     </nav>
     <nav
       class="mt-5 flex-1 flex flex-col divide-y divide-gray-800 overflow-y-auto"
