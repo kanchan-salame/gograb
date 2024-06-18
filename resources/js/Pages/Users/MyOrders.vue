@@ -6,7 +6,8 @@ export default {
     AppLayout,
     Head,
     Link,
-  }
+  },
+  props: ["myOrders", "user_data"],
 }
 </script>
 <template>
@@ -57,17 +58,18 @@ export default {
           </p>
           <div
             class="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
+            v-for="(myOrder, index) in myOrders" :key="index"
           >
             <div class="pb-4 md:pb-8 w-full md:w-40">
               <img
                 class="w-full hidden md:block"
-                src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
-                alt="dress"
+                :src="myOrder.restaurant_menu_item.imagepath"
+                :alt="myOrder.restaurant_menu_item.name"
               />
               <img
                 class="w-full md:hidden"
-                src="https://i.ibb.co/L039qbN/Rectangle-10.png"
-                alt="dress"
+                :src="myOrder.restaurant_menu_item.imagepath"
+                :alt="myOrder.restaurant_menu_item.name"
               />
             </div>
             <div
@@ -79,7 +81,7 @@ export default {
                 <h3
                   class="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800"
                 >
-                  Premium Quaility Dress
+                  {{ myOrder.restaurant_menu_item.name }}
                 </h3>
                 <div class="flex justify-start items-start flex-col space-y-2">
                   <p class="text-sm dark:text-white leading-none text-gray-800">
@@ -102,79 +104,17 @@ export default {
               </div>
               <div class="flex justify-between space-x-8 items-start w-full">
                 <p class="text-base dark:text-white xl:text-lg leading-6">
-                  $36.00 <span class="text-red-300 line-through"> $45.00</span>
+                  {{myOrder.quantity * myOrder.restaurant_menu_item.price}} <span class="text-red-300 line-through"> {{(myOrder.quantity * myOrder.restaurant_menu_item.price) + 20}}</span>
                 </p>
                 <p
                   class="text-base dark:text-white xl:text-lg leading-6 text-gray-800"
                 >
-                  01
+                  {{myOrder.quantity}}
                 </p>
                 <p
                   class="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800"
                 >
-                  $36.00
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="mt-6 md:mt-0 flex justify-start flex-col md:flex-row items-start md:items-center space-y-4 md:space-x-6 xl:space-x-8 w-full"
-          >
-            <div class="w-full md:w-40">
-              <img
-                class="w-full hidden md:block"
-                src="https://i.ibb.co/s6snNx0/Rectangle-17.png"
-                alt="dress"
-              />
-              <img
-                class="w-full md:hidden"
-                src="https://i.ibb.co/BwYWJbJ/Rectangle-10.png"
-                alt="dress"
-              />
-            </div>
-            <div
-              class="flex justify-between items-start w-full flex-col md:flex-row space-y-4 md:space-y-0"
-            >
-              <div
-                class="w-full flex flex-col justify-start items-start space-y-8"
-              >
-                <h3
-                  class="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800"
-                >
-                  High Quaility Italic Dress
-                </h3>
-                <div class="flex justify-start items-start flex-col space-y-2">
-                  <p class="text-sm dark:text-white leading-none text-gray-800">
-                    <span class="dark:text-gray-400 text-gray-300"
-                      >Style:
-                    </span>
-                    Italic Minimal Design
-                  </p>
-                  <p class="text-sm dark:text-white leading-none text-gray-800">
-                    <span class="dark:text-gray-400 text-gray-300">Size: </span>
-                    Small
-                  </p>
-                  <p class="text-sm dark:text-white leading-none text-gray-800">
-                    <span class="dark:text-gray-400 text-gray-300"
-                      >Color:
-                    </span>
-                    Light Blue
-                  </p>
-                </div>
-              </div>
-              <div class="flex justify-between space-x-8 items-start w-full">
-                <p class="text-base dark:text-white xl:text-lg leading-6">
-                  $20.00 <span class="text-red-300 line-through"> $30.00</span>
-                </p>
-                <p
-                  class="text-base dark:text-white xl:text-lg leading-6 text-gray-800"
-                >
-                  01
-                </p>
-                <p
-                  class="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800"
-                >
-                  $20.00
+                  {{myOrder.quantity * myOrder.restaurant_menu_item.price}}
                 </p>
               </div>
             </div>
@@ -211,7 +151,7 @@ export default {
                   >
                 </p>
                 <p class="text-base dark:text-gray-300 leading-4 text-gray-600">
-                  -$28.00 (50%)
+                  00
                 </p>
               </div>
               <div class="flex justify-between items-center w-full">
@@ -219,7 +159,7 @@ export default {
                   Shipping
                 </p>
                 <p class="text-base dark:text-gray-300 leading-4 text-gray-600">
-                  $8.00
+                  00
                 </p>
               </div>
             </div>
@@ -270,11 +210,11 @@ export default {
               </p>
             </div>
             <div class="w-full flex justify-center items-center">
-              <button
+              <!-- <button
                 class="hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white"
               >
                 View Carrier Details
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
@@ -295,14 +235,14 @@ export default {
               class="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200"
             >
               <img
-                src="https://i.ibb.co/5TSg7f6/Rectangle-18.png"
-                alt="avatar"
+                :src="user_data.profile_photo_url"
+                :alt="user_data.name"
               />
               <div class="flex justify-start items-start flex-col space-y-2">
                 <p
                   class="text-base dark:text-white font-semibold leading-4 text-left text-gray-800"
                 >
-                  David Kent
+                  {{ user_data.name }}
                 </p>
                 <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">
                   10 Previous Orders
@@ -333,7 +273,7 @@ export default {
                   stroke-linejoin="round"
                 />
               </svg>
-              <p class="cursor-pointer text-sm leading-5">david89@gmail.com</p>
+              <p class="cursor-pointer text-sm leading-5">{{user_data.email}}</p>
             </div>
           </div>
           <div
@@ -374,11 +314,11 @@ export default {
             <div
               class="flex w-full justify-center items-center md:justify-start md:items-start"
             >
-              <button
+              <!-- <button
                 class="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
               >
                 Edit Details
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
