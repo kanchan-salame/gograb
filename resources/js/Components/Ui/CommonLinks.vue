@@ -23,6 +23,28 @@
           Dashboard
         </jet-nav-link>
         <jet-nav-link
+          :href="route('cart.index')"
+          :active="route().current('cart.index')"
+          v-if="this.$page.props.auth.user.role == 'user'"
+        >
+          <UsersIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Cart
+        </jet-nav-link>
+        <jet-nav-link
+          :href="route('user.myOrders')"
+          :active="route().current('user.myOrders')"
+          v-if="this.$page.props.auth.user.role == 'user'"
+        >
+          <UsersIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          My Orders
+        </jet-nav-link>
+        <jet-nav-link
           :href="route('users.index')"
           :active="route().current('users.index')"
           v-if="this.$page.props.auth.user.role == 'admin'"
