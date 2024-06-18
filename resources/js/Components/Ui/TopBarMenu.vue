@@ -457,7 +457,7 @@ export default {
       axios
         .get("markAllAsRead")
         .then((response) => {
-          location.reload();
+          location.reload(response);
           toast.success("Notifications mark all as read!", {
             position: toast.POSITION.BOTTOM_RIGHT,
           });

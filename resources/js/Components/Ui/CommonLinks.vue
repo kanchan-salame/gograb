@@ -576,7 +576,6 @@ import JetApplicationMark from "@/Jetstream/ApplicationMark.vue";
 import JetDropdown from "@/Jetstream/Dropdown.vue";
 import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
 import { ref } from "vue";
-// import { truncate } from '@/helpers'
 
 export default {
   components: {
@@ -635,41 +634,6 @@ export default {
   },
 
   computed: {
-    // isClientRoute() {
-    //     return route().current('client.index') || route().current('client.create')
-    //         || route().current('client.show') || route().current('client.edit')
-    //         || route().current('project.index') || route().current('project.create')
-    //         || route().current('project.show') || route().current('project.edit');
-    // },
-    // isTimelogRoute() {
-    //     return route().current('timelog.index') || route().current('timelog.create')
-    //         || route().current('timelog.show') || route().current('timelog.edit');
-    // },
-    // isInvoiceRoute() {
-    //     return route().current('invoice.index') || route().current('invoice.create')
-    //         || route().current('invoice.show') || route().current('invoice.edit');
-    // },
-    // isGstRateRoute() {
-    //     return route().current('gstRate.index') || route().current('gstRate.create')
-    //         || route().current('gstRate.show') || route().current('gstRate.edit');
-    // },
-    // isItemRoute(){
-    //     return route().current('item.index') || route().current('item.create')
-    //         || route().current('item.show') || route().current('item.edit');
-    // },
-    // isPaymentRoute() {
-    //     return route().current('paymentMethod.index') || route().current('paymentMethod.create')
-    //         || route().current('paymentMethod.edit');
-    // },
-    // canManageClients() {
-    //     return this.hasTeamPermission('clients:manage');
-    // },
-    // canManageInvoices() {
-    //     return this.hasTeamPermission('invoices:manage');
-    // },
-    // teamName() {
-    //     return truncate(this.$page.props.user.current_team.name, 20)
-    // }
     rotate() {
       return this.isHidden ? "rotate-0" : "rotate-90";
     },
