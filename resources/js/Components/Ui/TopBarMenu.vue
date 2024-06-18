@@ -144,9 +144,22 @@
             </jet-dropdown>
           </div>
           <div class="ml-3 relative">
+          <div class="ml-3 relative inline-block">
+            <Link :href="route('register')" @click="goToRegister" class="inline-block"
+                v-if="$page.props.canRegister"
+            >
+              Register
+            </Link>
+          </div>
+          <div class="ml-3 relative inline-block">
+            <Link :href="route('login')" class="inline-block" @click="goToLogin"
+                v-if="$page.props.canLogin"
+            > Login </Link>
+          </div>
+          <div class="ml-3 relative inline-block">
             <MoonIcon
               @click="changeDarkLightMode"
-              class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 lg:block"
+              class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 inline-block"
               aria-hidden="true"
             />
           </div>
@@ -159,6 +172,7 @@
               align="right"
               width="60"
               v-if="$page.props.jetstream.hasTeamFeatures"
+              v-show="$page.props.auth.user.role == 'admin'"
             >
               <template #trigger>
                 <span class="inline-flex rounded-md">
@@ -355,6 +369,7 @@ import {
   XIcon,
   MoonIcon,
   BellIcon,
+  LoginIcon,
 } from "@heroicons/vue/outline";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import axios from "axios";
@@ -374,6 +389,7 @@ export default {
     XIcon,
     MoonIcon,
     BellIcon,
+    LoginIcon,
   },
 
   setup() {
@@ -458,6 +474,13 @@ export default {
             });
           });
       }
+
+    goToLogin() {
+        this.$inertia.get(route("login"));
+    },
+
+    goToRegister() {
+        this.$inertia.get(route("register"));
     },
     switchToTeam(team) {
       this.$inertia.put(
