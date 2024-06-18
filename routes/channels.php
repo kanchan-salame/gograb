@@ -1,5 +1,5 @@
 <?php
 
-Broadcast::channel('my-channel', function ($user) {
-    return true;
-});
+// Broadcast::channel('my-channel', function ($user) {
+//     return true;
+// });
