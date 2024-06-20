@@ -486,9 +486,6 @@ export default {
           })
           .catch((errors) => {
             console.log(errors);
-            toast.error("Something went wrong!", {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
           });
       }
     },

@@ -49,7 +49,7 @@ class NotificationController extends Controller
         $notification = Notification::where('id', $id)->get();
 
         if ($id) {
-            Auth::user()->unreadNotifications->where('id', $id)->markAsRead();
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
         }
 
         return response()->json('success');
