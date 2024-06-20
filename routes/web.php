@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UsersController::class);
     Route::get('myOrders', [UsersController::class, 'myOrders'])->name('user.myOrders');
+    Route::get('restaurantOrders', [RestaurantController::class, 'restaurantOrders'])->name('restaurant.orders');
+
     Route::resource('serviceCategory', ServiceCategoryController::class);
     Route::resource('serviceSubCategory', ServiceSubCategoryController::class);
     Route::resource('service', ServiceController::class);

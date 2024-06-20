@@ -45,6 +45,17 @@
           My Orders
         </jet-nav-link>
         <jet-nav-link
+          :href="route('restaurant.orders')"
+          :active="route().current('restaurant.orders')"
+          v-if="this.$page.props.auth.user.role == 'restaurant'"
+        >
+          <UsersIcon
+            class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
+            aria-hidden="true"
+          />
+          Orders
+        </jet-nav-link>
+        <jet-nav-link
           :href="route('users.index')"
           :active="route().current('users.index')"
           v-if="this.$page.props.auth.user.role == 'admin'"
