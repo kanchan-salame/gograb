@@ -37,6 +37,8 @@ export default {
     const form = useForm({
         _method: 'POST',
       driver: "",
+      payment_status: "",
+      status: "",
     });
 
     const driversOption = [];
@@ -62,6 +64,7 @@ export default {
       userBeingDeleted: null,
       userBeingToggled: null,
       orderBeingAssigned: null,
+      statusBeingChanged: null,
       filterStatus: "",
       toggleUserForm: this.$inertia.form({}),
       toggleAssignDriverForm: this.$inertia.form({}),
@@ -105,6 +108,16 @@ export default {
           title: "Completed",
           value: "completed",
         },
+      ],
+      paymentOption: [
+            {
+          label: "Paid",
+          value: "paid",
+        },
+        {
+          label: "Not Paid",
+          value: "not paid",
+        }
       ]
     };
   },
@@ -115,6 +128,10 @@ export default {
     confirmAassignToDriver(client) {
       this.orderBeingAssigned = client;
     },
+    confirmChangeStatus(client) {
+      this.statusBeingChanged = client;
+    },
+
 
     sassignToDriver() {
         // Save slider
@@ -130,6 +147,20 @@ export default {
       };
         this.form.post(route("foodOrder.assignToDriver", this.orderBeingAssigned.id ), options);
 
+    },
+
+    changeStatus() {
+        const options = {
+        errorBag: "sassignToDriver",
+        preserveScroll: (page) => Object.keys(page.props.errors).length,
+        onSuccess: () => (this.statusBeingChanged = null),
+        onError: () => {
+          toast.error("Please check form errors!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        },
+      };
+        this.form.post(route("foodOrder.changeStatus", this.statusBeingChanged.id ), options);
     },
 
     deleteUser() {
@@ -289,7 +320,7 @@ export default {
                             />
                             <ShieldCheckIcon
                                 title="Change Status"
-                                @click.prevent="confirmAassignToDriver(user)"
+                                @click.prevent="confirmChangeStatus(user)"
                                 class="ml-1 h-5 w-5 text-red-500 cursor-pointer"
                             />
 
@@ -422,16 +453,16 @@ export default {
 
     <!-- User Delete  Confirmation Modal -->
     <jet-confirmation-modal
-      :show="orderBeingAssigned"
-      @close="orderBeingAssigned = null"
+      :show="statusBeingChanged"
+      @close="statusBeingChanged = null"
     >
       <template #title> Change Status </template>
 
       <template #content>
         Are you sure you would like to change status of order?
 
-        <div class="flex rounded-md shadow-sm mt-1">
-                <jet-label for="image" value="Change Status" />
+        <div class="rounded-md shadow-sm mt-1">
+                <jet-label for="image" value="Change Status" /> <br>
               <input-select
                 id="serviceCategory"
                 class="flex-1 block w-full rounded"
@@ -440,8 +471,18 @@ export default {
                 :empty="'Select Status'"
               />
             </div>
-            <div class="flex rounded-md shadow-sm mt-1">
-              <jet-label for="image" value="Status Reason" />
+            <div class="rounded-md shadow-sm mt-1">
+                <jet-label for="image" value="Change Payment Status" /><br>
+              <input-select
+                id="serviceCategory"
+                class="flex-1 block w-full rounded"
+                :options="paymentOption"
+                v-model="form.payment_status"
+                :empty="'Select Status'"
+              />
+            </div>
+            <div class="rounded-md shadow-sm mt-1">
+              <jet-label for="image" value="Status Reason" /><br>
               <textarea cols="30" rows="10"
                 class="flex-1 block w-full rounded"
                 v-model="form.status_reason"
@@ -451,13 +492,13 @@ export default {
 
       <template #footer>
         <jet-secondary-button
-          @click="orderBeingAssigned = null"
+          @click="statusBeingChanged = null"
           style="margin-right: 10px"
         >
           Nevermind
         </jet-secondary-button>
 
-        <jet-danger-button class="mr-2" @click="sassignToDriver">
+        <jet-danger-button class="mr-2" @click="changeStatus">
           Assign To Driver
         </jet-danger-button>
       </template>

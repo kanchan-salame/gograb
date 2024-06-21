@@ -130,6 +130,17 @@ class FoodOrderController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function changeStatus(Request $request, FoodOrder $foodOrder)
+    {
+        $foodOrder->driver_id = $request['driver'];
+        $foodOrder->status = 'dispatched';
+        $foodOrder->update();
+        return redirect()->route('foodOrder.index')->with('flash.banner', 'Order Assign To Driver!');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(FoodOrder $foodOrder)
