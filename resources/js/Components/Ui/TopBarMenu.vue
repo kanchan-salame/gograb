@@ -158,6 +158,41 @@
                       <hr />
                     </div>
                   </div>
+                </div>
+                <div class="border-t border-gray-100"></div>
+              </template>
+            </jet-dropdown>
+          </div>
+          <div class="ml-3 relative">
+          <div class="ml-3 relative inline-block">
+            <Link :href="route('register')" @click="goToRegister" class="inline-block"
+                v-if="$page.props.canRegister"
+            >
+              Register
+            </Link>
+          </div>
+          <div class="ml-3 relative inline-block">
+            <Link :href="route('login')" class="inline-block" @click="goToLogin"
+                v-if="$page.props.canLogin"
+            > Login </Link>
+          </div>
+          <div class="ml-3 relative inline-block">
+            <MoonIcon
+              @click="changeDarkLightMode"
+              class="hidden flex-shrink-0 ml-1 h-8 w-8 text-gray-400 inline-block"
+              aria-hidden="true"
+            />
+          </div>
+          <div
+            class="px-3 relative inline-block text-left"
+            v-if="$page.props.auth.user != null"
+          >
+            <!-- Teams Dropdown -->
+            <jet-dropdown
+              align="right"
+              width="60"
+              v-if="$page.props.jetstream.hasTeamFeatures"
+              v-show="$page.props.auth.user.role == 'admin'"
                   <div class="border-t border-gray-100"></div>
                 </template>
               </jet-dropdown>
@@ -381,6 +416,7 @@ import {
   MoonIcon,
   LoginIcon,
   BellIcon,
+  LoginIcon,
 } from "@heroicons/vue/outline";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import axios from "axios";
@@ -400,6 +436,7 @@ export default {
     XIcon,
     MoonIcon,
     BellIcon,
+    LoginIcon,
   },
 
   setup() {
@@ -488,6 +525,13 @@ export default {
             console.log(errors);
           });
       }
+
+    goToLogin() {
+        this.$inertia.get(route("login"));
+    },
+
+    goToRegister() {
+        this.$inertia.get(route("register"));
     },
     switchToTeam(team) {
       this.$inertia.put(
