@@ -16,6 +16,7 @@ class FoodOrder extends Model
      */
     protected $fillable = [
         'user_id',
+        'driver_id',
         'restaurant_id',
         'restaurant_menu_id',
         'restaurant_menu_item_id',

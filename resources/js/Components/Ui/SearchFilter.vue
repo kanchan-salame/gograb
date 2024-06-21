@@ -164,7 +164,7 @@ export default {
         onMounted(() => {
             const filter = route().params.hasOwnProperty("filter")
                 ? route().params.filter
-                : { role: "" };
+                : { role: "", id: "" };
             filterStatus.value =
                 typeof filter.role != "undefined" ? filter.role : "";
             searchTerm.value =

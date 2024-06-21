@@ -11,6 +11,10 @@ use Auth;
 use App\Models\RestaurantMenuItem;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\SaveFoodOrderFormRequest;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\ActiveFilter;
+use App\Filters\IdFilter;
+use App\Models\User;
 
 class FoodOrderController extends Controller
 {
@@ -19,6 +23,18 @@ class FoodOrderController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->role == 'driver') {
+            return Inertia::render('FoodOrder/Index',[
+                'foodOrders' => fn() =>
+                    QueryBuilder::for(FoodOrder::class)
+                    ->where('driver_id', auth()->user()->id)
+                    ->with(['restaurantMenuItem'])
+                    ->with(['restaurantMenu'])
+                    ->with(['restaurant'])
+                    ->paginate(10),
+                "drivers" => User::where('role', 'driver')->get(),
+                ]);
+        }
         return Inertia::render('FoodOrder/Index',[
             'foodOrders' => fn() =>
                 QueryBuilder::for(FoodOrder::class)
@@ -26,6 +42,7 @@ class FoodOrderController extends Controller
                 ->with(['restaurantMenu'])
                 ->with(['restaurant'])
                 ->paginate(10),
+            "drivers" => User::where('role', 'driver')->get(),
             ]);
     }
 
@@ -104,9 +121,12 @@ class FoodOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FoodOrder $foodOrder)
+    public function assignToDriver(Request $request, FoodOrder $foodOrder)
     {
-        //
+        $foodOrder->driver_id = $request['driver'];
+        $foodOrder->status = 'dispatched';
+        $foodOrder->update();
+        return redirect()->route('foodOrder.index')->with('flash.banner', 'Order Assign To Driver!');
     }
 
     /**
