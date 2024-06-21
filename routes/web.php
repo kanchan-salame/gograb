@@ -40,7 +40,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('cart', CartController::class);
     Route::resource('foodOrder', FoodOrderController::class);
 
+    Route::post('foodOrder/assignToDriver/{foodOrder}', [FoodOrderController::class, 'assignToDriver'])->name('foodOrder.assignToDriver');
+    Route::post('foodOrder/changeStatus/{foodOrder}', [FoodOrderController::class, 'changeStatus'])->name('foodOrder.changeStatus');
+
+
+
     Route::resource('users', UsersController::class);
+    Route::get('myOrders', [UsersController::class, 'myOrders'])->name('user.myOrders');
+    Route::get('restaurantOrders', [RestaurantController::class, 'restaurantOrders'])->name('restaurant.orders');
+
     Route::resource('serviceCategory', ServiceCategoryController::class);
     Route::resource('serviceSubCategory', ServiceSubCategoryController::class);
     Route::resource('service', ServiceController::class);

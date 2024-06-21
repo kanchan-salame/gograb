@@ -13,6 +13,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\ActiveFilter;
 use App\Filters\NameFilter;
+use App\Models\FoodOrder;
 
 class UsersController extends Controller
 {
@@ -37,9 +38,18 @@ class UsersController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function myOrders()
     {
-        //
+        return Inertia::render('Users/MyOrders',[
+            'myOrders' => fn() =>
+                QueryBuilder::for(FoodOrder::class)
+                ->where('user_id', auth()->user()->id)
+                ->with(['restaurantMenuItem'])
+                ->with(['restaurantMenu'])
+                ->with(['restaurant'])
+                ->get(),
+            'user_data' => auth()->user(),
+            ]);
     }
 
     /**

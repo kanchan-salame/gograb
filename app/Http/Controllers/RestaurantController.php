@@ -15,7 +15,7 @@ use App\Http\Requests\SaveRestaurantMenuFormRequest;
 use App\Http\Requests\SaveRestaurantMenuItemFormRequest;
 use App\Models\RestaurantMenu;
 use App\Models\RestaurantMenuItem;
-
+use App\Models\FoodOrder;
 class RestaurantController extends Controller
 {
     /**
@@ -50,7 +50,7 @@ class RestaurantController extends Controller
             $restaurantImagePath = null;
         }
         $data['image'] = $restaurantImagePath;
-        $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = auth()->user()->id;
 
         Restaurant::create($data);
         return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant added successfully');
@@ -59,9 +59,18 @@ class RestaurantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Restaurant $restaurant)
+    public function restaurantOrders()
     {
-        //
+        return Inertia::render('Restaurant/Order',[
+            'orders' => fn() =>
+                QueryBuilder::for(FoodOrder::class)
+                ->where('restaurant_id', auth()->user()->id)
+                ->with(['restaurantMenuItem'])
+                ->with(['restaurantMenu'])
+                ->with(['restaurant'])
+                ->paginate(10),
+            'user_data' => auth()->user(),
+            ]);
     }
 
     /**
@@ -81,7 +90,7 @@ class RestaurantController extends Controller
     public function update(SaveRestaurantFormRequest $request, Restaurant $restaurant)
     {
         $restaurant->name = $request['name'];
-        $restaurant->user_id = Auth::user()->id;
+        $restaurant->user_id = auth()->user()->id;
         $restaurant->latitude = $request['latitude'];
         $restaurant->longitude = $request['longitude'];
         $restaurant->min_order_price = $request['min_order_price'];
