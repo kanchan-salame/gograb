@@ -410,14 +410,14 @@ export default {
     };
   },
   mounted() {
-    this.getUnreadNotifications();
+    // this.getUnreadNotifications();
 
-    this.interval = setInterval(
-      function () {
-        this.getUnreadNotifications();
-      }.bind(this),
-      500
-    );
+    // this.interval = setInterval(
+    //   function () {
+    //     this.getUnreadNotifications();
+    //   }.bind(this),
+    //   500
+    // );
   },
 
   data() {

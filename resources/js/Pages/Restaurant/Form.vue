@@ -20,6 +20,20 @@
             <jet-input-error :message="form.errors.name" class="mt-2" />
           </div>
         </div>
+        <div class="col-span-6 sm:col-span-4">
+          <div>
+            <jet-label for="email" value="Email" />
+            <div class="flex rounded-md shadow-sm mt-1">
+              <jet-input
+                id="email"
+                type="text"
+                class="flex-1 block w-full rounded"
+                v-model="form.email"
+              />
+            </div>
+            <jet-input-error :message="form.errors.email" class="mt-2" />
+          </div>
+        </div>
         <div
           class="grid grid-cols-1 md:grid-cols-1 gap-2 col-span-6 sm:col-span-4"
         >
@@ -245,6 +259,7 @@ export default {
     const form = useForm({
         _method: props.restaurant ? 'PUT' : 'POST',
       name: props.restaurant ? props.restaurant.name : "",
+      email: props.restaurant ? props.restaurant.email : "",
       image: props.restaurant ? props.restaurant.image : "",
       latitude: props.restaurant ? props.restaurant.latitude : "",
       longitude: props.restaurant ? props.restaurant.longitude : "",
