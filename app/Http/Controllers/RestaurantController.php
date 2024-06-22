@@ -16,6 +16,7 @@ use App\Http\Requests\SaveRestaurantMenuItemFormRequest;
 use App\Models\RestaurantMenu;
 use App\Models\RestaurantMenuItem;
 use App\Models\FoodOrder;
+use App\Actions\Fortify\CreateNewUser;
 class RestaurantController extends Controller
 {
     /**
@@ -42,6 +43,17 @@ class RestaurantController extends Controller
      */
     public function store(SaveRestaurantFormRequest $request)
     {
+        $newUser = [
+            'name' => $request['name'],
+            'role' => 'restaurant',
+            'email' => $request['email'],
+            'password' => 'Pass@1234',
+            'password_confirmation' => 'Pass@1234',
+            'terms' => true,
+        ];
+
+        app(CreateNewUser::class)->create($newUser);
+
         $data = $request->all();
         if ($request->hasFile('image')) {
             $restaurantImagePath = $request->file('image')->store('uploads/restaurant/images');
