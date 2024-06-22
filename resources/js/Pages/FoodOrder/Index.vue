@@ -37,8 +37,13 @@ export default {
     const form = useForm({
         _method: 'POST',
       driver: "",
+    });
+
+    const statusForm = useForm({
+        _method: 'POST',
       payment_status: "",
       status: "",
+      status_reason: "",
     });
 
     const driversOption = [];
@@ -53,6 +58,7 @@ export default {
 
     return {
         form,
+        statusForm,
         driversOption,
         }
   },
@@ -160,7 +166,7 @@ export default {
             });
         },
       };
-        this.form.post(route("foodOrder.changeStatus", this.statusBeingChanged.id ), options);
+        this.statusForm.post(route("foodOrder.changeStatus", this.statusBeingChanged.id ), options);
     },
 
     deleteUser() {
@@ -462,30 +468,30 @@ export default {
         Are you sure you would like to change status of order?
 
         <div class="rounded-md shadow-sm mt-1">
-                <jet-label for="image" value="Change Status" /> <br>
+                 <br><jet-label for="image" value="Change Status" />
               <input-select
                 id="serviceCategory"
                 class="flex-1 block w-full rounded"
                 :options="statusOption"
-                v-model="form.status"
+                v-model="statusForm.status"
                 :empty="'Select Status'"
               />
             </div>
             <div class="rounded-md shadow-sm mt-1">
-                <jet-label for="image" value="Change Payment Status" /><br>
+                <br><jet-label for="image" value="Change Payment Status" />
               <input-select
                 id="serviceCategory"
                 class="flex-1 block w-full rounded"
                 :options="paymentOption"
-                v-model="form.payment_status"
+                v-model="statusForm.payment_status"
                 :empty="'Select Status'"
               />
             </div>
             <div class="rounded-md shadow-sm mt-1">
-              <jet-label for="image" value="Status Reason" /><br>
-              <textarea cols="30" rows="10"
+              <br><jet-label for="image" value="Status Reason" />
+              <textarea cols="30" rows="5"
                 class="flex-1 block w-full rounded"
-                v-model="form.status_reason"
+                v-model="statusForm.status_reason"
               ></textarea>
             </div>
       </template>

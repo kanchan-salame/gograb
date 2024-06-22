@@ -134,10 +134,11 @@ class FoodOrderController extends Controller
      */
     public function changeStatus(Request $request, FoodOrder $foodOrder)
     {
-        $foodOrder->driver_id = $request['driver'];
-        $foodOrder->status = 'dispatched';
+        $foodOrder->payment_status = $request['payment_status'];
+        $foodOrder->status = $request['status'];
+        $foodOrder->status_reason = $request['status_reason'];
         $foodOrder->update();
-        return redirect()->route('foodOrder.index')->with('flash.banner', 'Order Assign To Driver!');
+        return redirect()->route('foodOrder.index')->with('flash.banner', 'Changed Status!');
     }
 
     /**
