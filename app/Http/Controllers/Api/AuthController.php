@@ -109,7 +109,41 @@ public function logout(Request $request)
     $request->user()->tokens()->delete();
 
     return response()->json([
-    'message' => 'Successfully logged out'
+        'message' => 'Successfully logged out',
+        'status' => 200,
+    ]);
+
+}
+
+/**
+ * Update user profile (Revoke the token)
+*
+* @return [string] message
+*/
+public function updateProfile(Request $request)
+{
+    // $request->validate([
+    //     'name' => 'required|string',
+    //     'last_name' => 'required|string',
+    //     'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+    //     ]);
+
+    $user = $request->user();
+    $user->name = $request['name'];
+    $user->last_name = $request['last_name'];
+
+    if ($request->hasFile('image')) {
+        $profile_photo_path = $request->file('image')->store('profile-photos/');
+        } else {
+        $profile_photo_path = null;
+    }
+    $user->profile_photo_path = $profile_photo_path;
+
+    $user->update();
+
+    return response()->json([
+        'message' => 'Successfully updated profile.',
+        'status' => 200,
     ]);
 
 }
