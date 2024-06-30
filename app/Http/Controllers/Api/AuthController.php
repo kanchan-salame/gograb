@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Validator;
 use App\Http\Requests\UpdateProfileApiRequest;
+use App\Http\Requests\RegisterApiRequest;
+use App\Http\Requests\LoginApiRequest;
 
 class AuthController extends Controller
 {
@@ -20,15 +21,8 @@ class AuthController extends Controller
      * @param  [string] password_confirmation
      * @return [string] message
      */
-    public function register(Request $request)
+    public function register(RegisterApiRequest $request)
     {
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'email'=>'required|string|unique:users',
-        //     'password'=>'required|string',
-        //     'c_password' => 'required|same:password'
-        // ]);
-
         $user = new User([
             'name'  => $request->name,
             'email' => $request->email,
@@ -60,13 +54,8 @@ class AuthController extends Controller
      * @param  [boolean] remember_me
      */
 
-    public function login(Request $request)
+    public function login(LoginApiRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-            'remember_me' => 'boolean'
-        ]);
 
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
