@@ -1,17 +1,105 @@
-<script setup>
+<script>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import CircularChart from "@/Components/CircularChart.vue";
 
+import {
+  Chart3DComponent,
+  Chart3DSeriesCollectionDirective,
+  Chart3DSeriesDirective,
+  ColumnSeries3D,
+  Category3D,
+  DataLabel3D,
+  Tooltip3D,
+} from "@syncfusion/ej2-vue-charts";
+
+import { CircularChart3DComponent, CircularChart3DSeriesCollectionDirective, CircularChart3DSeriesDirective, PieSeries3D, CircularChartDataLabel3D, CircularChartLegend3D } from "@syncfusion/ej2-vue-charts";
+
+export default {
+  name: "App",
+  components: {
+    "ejs-chart3d": Chart3DComponent,
+    "e-chart3d-series-collection": Chart3DSeriesCollectionDirective,
+    "e-chart3d-series": Chart3DSeriesDirective,
+    ApplicationLogo,
+    CircularChart,
+  },
+  data() {
+    return {
+      seriesData: [
+        { month: "Jan", sales: 35 },
+        { month: "Feb", sales: 28 },
+        { month: "Mar", sales: 34 },
+        { month: "Apr", sales: 32 },
+        { month: "May", sales: 40 },
+        { month: "Jun", sales: 32 },
+        { month: "Jul", sales: 35 },
+        { month: "Aug", sales: 55 },
+        { month: "Sep", sales: 38 },
+        { month: "Oct", sales: 30 },
+        { month: "Nov", sales: 25 },
+        { month: "Dec", sales: 32 },
+      ],
+      primaryXAxis: {
+        valueType: "Category",
+      },
+      primaryYAxis: {
+        labelFormat: "${value}K",
+      },
+      dataLabel: {
+        visible: true,
+      },
+      tooltip: {
+        enable: true,
+      },
+      title: "Sales Analysis",
+    };
+  },
+  provide: {
+    chart3d: [ColumnSeries3D, Category3D, DataLabel3D, Tooltip3D],
+  },
+};
 </script>
 
+<style>
+#container {
+  height: 350px;
+}
+</style>
+
 <template>
-  <div class="mb-5 p-8" >
+  <div class="mb-5 p-8">
+    <h1>Welcome, {{ $page.props.auth.user.name }}</h1>
     <h1>
-        Welcome, {{ $page.props.auth.user.name }}
+      {{ new Date() }}
     </h1>
-    <h1>
-        {{ new Date() }}
-    </h1>
-    </div>
+  </div>
+
+  <div class="mb-5 p-8">
+    <ejs-chart3d
+      id="container"
+      :title="title"
+      :primaryXAxis="primaryXAxis"
+      :primaryYAxis="primaryYAxis"
+      :tooltip="tooltip"
+    >
+      <e-chart3d-series-collection>
+        <e-chart3d-series
+          :dataSource="seriesData"
+          type="Column"
+          xName="month"
+          yName="sales"
+          name="Sales"
+          :dataLabel="dataLabel"
+        >
+        </e-chart3d-series>
+      </e-chart3d-series-collection>
+    </ejs-chart3d>
+  </div>
+  <!-- <CircularChart /> -->
+
+  <!-- <div class="mb-5 p-8">
+
+  </div> -->
   <div class="flex items-center justify-center">
     <div
       class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
