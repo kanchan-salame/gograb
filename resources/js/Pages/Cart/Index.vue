@@ -83,6 +83,7 @@ export default {
   },
   data() {
     return {
+      scriptUrl: "https://checkout.razorpay.com/v1/checkout.js",
       userBeingDeleted: null,
       userBeingToggled: null,
       filterStatus: "",
@@ -106,11 +107,58 @@ export default {
   },
 
   methods: {
+    async loadRazorPay() {
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = this.scriptUrl;
+        script.onload = () => {
+          resolve(true);
+        };
+        script.onerror = (e) => {
+          console.log(e);
+          resolve(true);
+        };
+        document.body.appendChild(script);
+      });
+    },
+
+    async initiatePayment() {
+      try {
+        await this.loadRazorPay();
+
+        const option = {
+          key: "rzp_test_ehH0Nv9VRZXUeg",
+          amount: this.totalPrice() + "00",
+          currency: "INR",
+          name: "Go Grab",
+          description: "Make Payment",
+          image: "http://127.0.0.1:8000/images/logo.png",
+          handler: (response) => {
+            this.handlePaymentSuccess(response);
+          },
+          prefill: {
+            name: "Test Name",
+            email: "Test email",
+            contact: "Test contact",
+          },
+        };
+        const razorpayInstance = new window.Razorpay(option);
+        razorpayInstance.open();
+      } catch (error) {
+        alert(error);
+      }
+    },
+
+    handlePaymentSuccess() {
+      console.log("Payment Successfull: ", response);
+      alert("Payment Successfull");
+    },
+
     totalPrice() {
-      var price = 0;
+      var price = 0.0;
       this.$props.carts.forEach((element) => {
         console.log(element.restaurant_menu_item.price);
-        var calculatePrice = 0;
+        var calculatePrice = 0.0;
         calculatePrice = element.quantity * element.restaurant_menu_item.price;
         price += calculatePrice;
       });
@@ -159,8 +207,8 @@ export default {
     <div>
       <div class="sm:px-6 lg:px-8 pb-20">
         <div>
-          <div class="flex flex-col">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="flex flex-row">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-6">
               <div
                 class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
               >
@@ -280,151 +328,150 @@ export default {
                   button-title="Continue Shopping"
                   :button-url="route('welcome.index')"
                 />
-
-                <div>
-                  <span>Total Price: {{ totalPrice() }}</span> <br />
-
-                  <jet-form-section class="mt-10 sm:mt-0">
-                    <template #title> Address/Contact Information </template>
+              </div>
+            </div>
+            <div>
+              <jet-form-section class="mt-10 sm:mt-0">
+                <!-- <template #title> Address/Contact Information </template>
 
                     <template #description>
                       Provide Address and Contact details for place order.
-                    </template>
+                    </template> -->
 
-                    <template #form>
-                      <div class="col-span-6 sm:col-span-4">
-                        <div>
-                          <jet-label for="address" value="Address" />
-                          <div class="flex rounded-md shadow-sm mt-1">
-                            <jet-input
-                              id="address"
-                              type="text"
-                              class="flex-1 block w-full rounded"
-                              v-model="form.address"
-                            />
-                          </div>
-                          <jet-input-error
-                            :message="form.errors.address"
-                            class="mt-2"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-span-6 sm:col-span-4">
-                        <div>
-                          <jet-label for="city" value="City" />
-                          <div class="flex rounded-md shadow-sm mt-1">
-                            <jet-input
-                              id="city"
-                              type="text"
-                              class="flex-1 block w-full rounded"
-                              v-model="form.city"
-                            />
-                          </div>
-                          <jet-input-error
-                            :message="form.errors.city"
-                            class="mt-2"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-span-6 sm:col-span-4">
-                        <div>
-                          <jet-label for="state" value="State" />
-                          <div class="flex rounded-md shadow-sm mt-1">
-                            <jet-input
-                              id="state"
-                              type="text"
-                              class="flex-1 block w-full rounded"
-                              v-model="form.state"
-                            />
-                          </div>
-                          <jet-input-error
-                            :message="form.errors.state"
-                            class="mt-2"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-span-6 sm:col-span-4">
-                        <div>
-                          <jet-label for="country" value="Country" />
-                          <div class="flex rounded-md shadow-sm mt-1">
-                            <jet-input
-                              id="country"
-                              type="text"
-                              class="flex-1 block w-full rounded"
-                              v-model="form.country"
-                            />
-                          </div>
-                          <jet-input-error
-                            :message="form.errors.country"
-                            class="mt-2"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-span-6 sm:col-span-4">
-                        <div>
-                          <jet-label for="phone" value="Phone" />
-                          <div class="flex rounded-md shadow-sm mt-1">
-                            <jet-input
-                              id="phone"
-                              type="text"
-                              class="flex-1 block w-full rounded"
-                              v-model="form.phone"
-                            />
-                          </div>
-                          <jet-input-error
-                            :message="form.errors.phone"
-                            class="mt-2"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-span-6 sm:col-span-4">
-                        <div>
-                          <jet-label for="email" value="Email" />
-                          <div class="flex rounded-md shadow-sm mt-1">
-                            <jet-input
-                              id="email"
-                              type="text"
-                              class="flex-1 block w-full rounded"
-                              v-model="form.email"
-                            />
-                          </div>
-                          <jet-input-error
-                            :message="form.errors.email"
-                            class="mt-2"
-                          />
-                        </div>
-                      </div>
-                    </template>
-                  </jet-form-section>
-
-                  <form-actions>
-                    <jet-action-message class="mr-3">
-                      Added.
-                    </jet-action-message>
-
-                    <jet-secondary-button
-                      class="text-sm px-10"
-                      @click="$inertia.get(route('cart.index'))"
+                <template #form>
+                  <div class="col-span-6 sm:col-span-4">
+                    <span
+                      >Total Price: <b> {{ totalPrice() }} </b></span
                     >
-                      Nevermind
-                    </jet-secondary-button>
+                    <br />
+                    <div>
+                      <jet-label for="address" value="Address" />
+                      <div class="flex rounded-md shadow-sm mt-1">
+                        <jet-input
+                          id="address"
+                          type="text"
+                          class="flex-1 block w-full rounded"
+                          v-model="form.address"
+                        />
+                      </div>
+                      <jet-input-error
+                        :message="form.errors.address"
+                        class="mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-span-6 sm:col-span-4">
+                    <div>
+                      <jet-label for="city" value="City" />
+                      <div class="flex rounded-md shadow-sm mt-1">
+                        <jet-input
+                          id="city"
+                          type="text"
+                          class="flex-1 block w-full rounded"
+                          v-model="form.city"
+                        />
+                      </div>
+                      <jet-input-error
+                        :message="form.errors.city"
+                        class="mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-span-6 sm:col-span-4">
+                    <div>
+                      <jet-label for="state" value="State" />
+                      <div class="flex rounded-md shadow-sm mt-1">
+                        <jet-input
+                          id="state"
+                          type="text"
+                          class="flex-1 block w-full rounded"
+                          v-model="form.state"
+                        />
+                      </div>
+                      <jet-input-error
+                        :message="form.errors.state"
+                        class="mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-span-6 sm:col-span-4">
+                    <div>
+                      <jet-label for="country" value="Country" />
+                      <div class="flex rounded-md shadow-sm mt-1">
+                        <jet-input
+                          id="country"
+                          type="text"
+                          class="flex-1 block w-full rounded"
+                          v-model="form.country"
+                        />
+                      </div>
+                      <jet-input-error
+                        :message="form.errors.country"
+                        class="mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-span-6 sm:col-span-4">
+                    <div>
+                      <jet-label for="phone" value="Phone" />
+                      <div class="flex rounded-md shadow-sm mt-1">
+                        <jet-input
+                          id="phone"
+                          type="text"
+                          class="flex-1 block w-full rounded"
+                          v-model="form.phone"
+                        />
+                      </div>
+                      <jet-input-error
+                        :message="form.errors.phone"
+                        class="mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-span-6 sm:col-span-4">
+                    <div>
+                      <jet-label for="email" value="Email" />
+                      <div class="flex rounded-md shadow-sm mt-1">
+                        <jet-input
+                          id="email"
+                          type="text"
+                          class="flex-1 block w-full rounded"
+                          v-model="form.email"
+                        />
+                      </div>
+                      <jet-input-error
+                        :message="form.errors.email"
+                        class="mt-2"
+                      />
+                    </div>
+                  </div>
+                </template>
+              </jet-form-section>
 
-                    <primary-button
-                      class="ml-2 text-sm px-10"
-                      :class="{ 'opacity-25': form.processing }"
-                      :disabled="form.processing"
-                      @click="saveOrder"
-                    >
-                      Place Order
-                    </primary-button>
-                  </form-actions>
-                </div>
-              </div>
+              <form-actions>
+                <jet-action-message class="mr-3"> Added. </jet-action-message>
+
+                <jet-secondary-button
+                  class="text-sm px-10"
+                  @click="$inertia.get(route('cart.index'))"
+                >
+                  Nevermind
+                </jet-secondary-button>
+
+                <primary-button
+                  class="ml-2 text-sm px-10"
+                  :class="{ 'opacity-25': form.processing }"
+                  :disabled="form.processing"
+                  @click="initiatePayment"
+                >
+                  Place Order
+                </primary-button>
+              </form-actions>
             </div>
           </div>
         </div>
       </div>
-      <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8"></div>
+      <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-6"></div>
     </div>
     <!-- User Active toggle Confirmation Modal -->
     <jet-confirmation-modal

@@ -27,6 +27,7 @@ class FoodOrder extends Model
         'delivery_charge',
         'delivery_type',
         'payment_type',
+        'payment_id',
         'payment_status',
         'tax',
         'instructions',

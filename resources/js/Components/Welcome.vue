@@ -74,7 +74,7 @@ export default {
     </h1>
   </div>
 
-  <div class="mb-5 p-8">
+  <!-- <div class="mb-5 p-8">
     <ejs-chart3d
       id="container"
       :title="title"
@@ -94,7 +94,7 @@ export default {
         </e-chart3d-series>
       </e-chart3d-series-collection>
     </ejs-chart3d>
-  </div>
+  </div> -->
   <!-- <CircularChart /> -->
 
   <!-- <div class="mb-5 p-8">
