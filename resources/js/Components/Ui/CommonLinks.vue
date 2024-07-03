@@ -120,7 +120,7 @@
           </div>
           <sidebar-dropdown
             @click="dropdown()"
-            v-if="this.$page.props.auth.user.role == 'admin'"
+            v-if="this.$page.props.auth.user.role == 'admin' || this.$page.props.auth.user.role == 'restaurant'"
           >
             <CakeIcon
               class="flex mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
@@ -138,12 +138,12 @@
             class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
             :class="{ hidden: this.isHidden }"
-            v-if="this.$page.props.auth.user.role == 'admin'"
+
           >
             <jet-nav-link
               :href="route('restaurant.index')"
               :active="route().current('restaurant.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
+
             >
               <OfficeBuildingIcon
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
@@ -154,7 +154,7 @@
             <jet-nav-link
               :href="route('foodOrder.index')"
               :active="route().current('foodOrder.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
+
             >
               <TruckIcon
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
@@ -165,7 +165,7 @@
             <jet-nav-link
               :href="route('category.index')"
               :active="route().current('category.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
+
             >
               <ViewBoardsIcon
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
@@ -176,7 +176,7 @@
             <jet-nav-link
               :href="route('sliders.index')"
               :active="route().current('sliders.index')"
-              v-if="this.$page.props.auth.user.role == 'admin'"
+
             >
               <ColorSwatchIcon
                 class="mr-4 flex-shrink-0 h-6 w-6 group-hover:text-gray-700"
