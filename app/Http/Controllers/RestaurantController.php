@@ -17,6 +17,8 @@ use App\Models\RestaurantMenu;
 use App\Models\RestaurantMenuItem;
 use App\Models\FoodOrder;
 use App\Actions\Fortify\CreateNewUser;
+use App\Models\User;
+
 class RestaurantController extends Controller
 {
     /**
@@ -63,6 +65,7 @@ class RestaurantController extends Controller
         }
         $data['image'] = $restaurantImagePath;
         $data['user_id'] = auth()->user()->id;
+        $data['email'] = $request['email'];
 
         Restaurant::create($data);
         return redirect()->route('restaurant.index')->with('flash.banner', 'Restaurant added successfully');

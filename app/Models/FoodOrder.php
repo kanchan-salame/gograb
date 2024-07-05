@@ -20,6 +20,7 @@ class FoodOrder extends Model
         'restaurant_id',
         'restaurant_menu_id',
         'restaurant_menu_item_id',
+        'order_id',
         'status',
         'status_reason',
         'quantity',

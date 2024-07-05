@@ -99,7 +99,7 @@ class FoodOrderController extends Controller
                 'address_id' => $addressId,
             ];
 
-            OrderDetail::create($orderDetailData);
+            $orderDetailId = OrderDetail::create($orderDetailData)->id;
         }
         return redirect()->route('foodOrder.index')->with('flash.banner', 'Your Food order placed!');
     }

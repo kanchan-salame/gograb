@@ -22,6 +22,7 @@ import InputHelp from "@/Components/Form/InputHelp.vue";
 import InputSelect from "@/Components/Form/Select.vue";
 import FormActions from "@/Components/Form/Actions.vue";
 import axios from "axios";
+import { toast } from "vue3-toastify";
 
 export default {
   components: {
@@ -53,7 +54,6 @@ export default {
 
   setup(props) {
     const form = useForm({
-      cart_items: props.carts,
       address: "",
       city: "",
       state: "",
@@ -115,7 +115,6 @@ export default {
           resolve(true);
         };
         script.onerror = (e) => {
-          console.log(e);
           resolve(true);
         };
         document.body.appendChild(script);
@@ -137,27 +136,45 @@ export default {
             this.handlePaymentSuccess(response);
           },
           prefill: {
-            name: "Test Name",
-            email: "Test email",
-            contact: "Test contact",
+            name: this.$page.props.auth.user.name,
+            email: this.$page.props.auth.user.email,
+            contact: 8329808679,
           },
         };
         const razorpayInstance = new window.Razorpay(option);
         razorpayInstance.open();
       } catch (error) {
-        alert(error);
+        toast.error(error, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       }
     },
 
-    handlePaymentSuccess() {
-      console.log("Payment Successfull: ", response);
-      alert("Payment Successfull");
+    handlePaymentSuccess(response) {
+
+      var sendData = {};
+      sendData.payment = response;
+      sendData.carts = this.$page.props.carts;
+      sendData.address = {
+        address: "test address",
+        city: "Gondia",
+        state: "Maharashtra",
+        country: "India",
+        phone: "12345",
+        email: "test@dilus24.com",
+      };
+
+      const data = axios.post(route("razorpay.payment.store", sendData));
+      toast.success("Payment Successful, Please track your order.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+
+      location.reload();
     },
 
     totalPrice() {
       var price = 0.0;
       this.$props.carts.forEach((element) => {
-        console.log(element.restaurant_menu_item.price);
         var calculatePrice = 0.0;
         calculatePrice = element.quantity * element.restaurant_menu_item.price;
         price += calculatePrice;
@@ -207,14 +224,13 @@ export default {
     <div>
       <div class="sm:px-6 lg:px-8 pb-20">
         <div>
-          <div class="flex flex-row">
+          <div class="flex flex-row" v-if="carts.length">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-6">
               <div
                 class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
               >
                 <div
                   class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-                  v-if="carts.length"
                 >
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -320,14 +336,6 @@ export default {
                     </tbody>
                   </table>
                 </div>
-                <EmptyList
-                  v-else
-                  icon="ClockIcon"
-                  title="No Items"
-                  description="Items not found. Click on below button to continue shopping."
-                  button-title="Continue Shopping"
-                  :button-url="route('welcome.index')"
-                />
               </div>
             </div>
             <div>
@@ -340,6 +348,8 @@ export default {
 
                 <template #form>
                   <div class="col-span-6 sm:col-span-4">
+                    <h1>Shipping Address</h1>
+                    <br />
                     <span
                       >Total Price: <b> {{ totalPrice() }} </b></span
                     >
@@ -469,6 +479,14 @@ export default {
               </form-actions>
             </div>
           </div>
+          <EmptyList
+            v-else
+            icon="ClockIcon"
+            title="No Items"
+            description="Items not found. Click on below button to continue shopping."
+            button-title="Continue Shopping"
+            :button-url="route('welcome.index')"
+          />
         </div>
       </div>
       <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-6"></div>

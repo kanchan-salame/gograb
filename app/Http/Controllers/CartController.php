@@ -16,8 +16,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        // $cart = Cart::find(1);
-        // dd($cart);
         return Inertia::render('Cart/Index',[
             'carts' => fn() =>
                 QueryBuilder::for(Cart::class)
@@ -41,7 +39,6 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         if ($request['formtype'] == 'restaurantMenuItem') {
             $data = [
                 'restaurant_menu_item_id' => $request['restaurant_menu_item_id'],
