@@ -56,7 +56,7 @@ function addToCart(restaurantMenuItem) {
 
 <template>
   <Head title="Welcome" />
-  <AppLayout title="Dashboard">
+  <AppLayout>
     <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
       <img
         id="background"

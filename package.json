@@ -25,6 +25,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.22",
         "@heroicons/vue": "^1.0.6",
+        "@syncfusion/ej2-vue-charts": "^26.1.39",
         "moment": "^2.30.1",
         "vue-moment": "^4.1.0",
         "vue3-timepicker": "^1.0.0-beta.2",

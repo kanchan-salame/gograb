@@ -22,8 +22,19 @@ use App\Http\Controllers\FoodOrderController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Events\SendNotification;
+use App\Http\Controllers\StripePaymentController;
+use App\Http\Controllers\RazorpayPaymentController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
+
+Route::controller(StripePaymentController::class)->group(function(){
+    Route::get('stripe', 'stripe');
+    Route::post('stripe', 'stripePost')->name('stripe.post');
+});
+
+Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
+
+Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
 
 Route::middleware([
     'auth:sanctum',

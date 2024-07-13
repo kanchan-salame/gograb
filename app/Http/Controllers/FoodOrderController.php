@@ -59,6 +59,8 @@ class FoodOrderController extends Controller
      */
     public function store(SaveFoodOrderFormRequest $request)
     {
+
+
         $addressData = [
             'address' => $request['address'],
             'city' => $request['city'],
@@ -97,7 +99,7 @@ class FoodOrderController extends Controller
                 'address_id' => $addressId,
             ];
 
-            OrderDetail::create($orderDetailData);
+            $orderDetailId = OrderDetail::create($orderDetailData)->id;
         }
         return redirect()->route('foodOrder.index')->with('flash.banner', 'Your Food order placed!');
     }
